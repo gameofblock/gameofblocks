@@ -5,6 +5,17 @@ module.exports = {
     author: ``,
   },
   plugins: [
+    {
+      resolve: "gatsby-plugin-web-font-loader",
+      options: {
+        custom: {
+          families: ["IndusHtestCondensed", "IndusHtest"],
+        },
+        google: {
+          families: ["Open Sans Condensed:n7", "Open Sans:n4,n7"],
+        },
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,

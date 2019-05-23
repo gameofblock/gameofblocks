@@ -6,9 +6,9 @@ import Layout from "../components/Layout"
 import Introduction from "../components/Introduction"
 import MapDemo from "../components/MapDemo"
 import { mapDemo } from "../constants/mapDemo"
-import translations from '../translations/fr.json'
+import translations from '../translations/en.json'
 
-console.log(translations);
+import '../stylesheets/home.css'
 
 const IndexPage = () => {
   return (

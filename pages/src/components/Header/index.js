@@ -1,7 +1,7 @@
 import React from "react"
 
 import logo from '../../images/logo.png'
-import translations from '../../translations/fr.json'
+import translations from '../../translations/en.json'
 
 import './style.css'
 

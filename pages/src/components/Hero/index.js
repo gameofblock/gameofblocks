@@ -1,97 +1,56 @@
-import React, { Component } from 'react'
-import { isMobile } from 'react-device-detect'
+import React, { useEffect, useState } from "react"
+import { isMobile } from "react-device-detect"
 
-import { createNewsletterSubscription } from '../../services/firebase'
+import "./style.css"
 
-import './style.css'
-
-class Hero extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      emailSubmitted: false
-    }
-    this.submitAccountSubscription = this.submitAccountSubscription.bind(this)
-  }
-
-  getNextSpawnDate() {
-    let nextTick = new Date(
-      this.props.startTime.getTime() + 12 * 60 * 60 * 1000
-    )
-    while (new Date() > nextTick && nextTick < this.props.endTime) {
-      nextTick = new Date(nextTick.getTime() + 12 * 60 * 60 * 1000)
-    }
-    return nextTick
-  }
-
-  render() {
-
-    let heroContainerStyle = {}
-    let heroStyle = {}
-
-    if(typeof window !== 'undefined') {
-    const heroHeight = window.innerHeight
+const Hero = props => {
+  const [windowHeight, setWindowHeight] = useState()
+  useEffect(() => {
     if (!isMobile) {
-      heroStyle = {
-        height: heroHeight,
-        paddingTop: heroHeight / 2 - 200
-      }
-      heroContainerStyle = {
-        height: heroHeight
-      }
+      setWindowHeight(window.innerHeight);
     }
-  }
+  })
 
-    return (
-      
-        <div className="hero__container" style={heroContainerStyle}>
-          <div className="hero__background" />
-          <div className="hero" style={heroStyle}>
-            <div className="hero__column">
-              <div className="hero__throne" />
-            </div>
-            <div className="hero__column">
-              <h1 className="hero__title">
-                {this.props.translations.hero_title}
-              </h1>
-              <p className="hero__paragraph">
-                <b className="hero__subtitle" />
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: this.props.translations.hero_subtitle
-                  }}
-                />
-              </p>
+  return (
+    <div className="hero__container" style={{
+      height: windowHeight
+    }}>
+      <div className="hero__background" />
+      <div className="hero" style={{
+        height: windowHeight,
+        paddingTop: windowHeight / 2 - 200,
+      }}>
+        <div className="hero__column">
+          <div className="hero__throne" />
+        </div>
+        <div className="hero__column">
+          <h1 className="hero__title">{props.translations.hero_title}</h1>
+          <p className="hero__paragraph">
+            <b className="hero__subtitle" />
+            <span
+              dangerouslySetInnerHTML={{
+                __html: props.translations.hero_subtitle,
+              }}
+            />
+          </p>
 
-              <div>
-                <a className="button button--green button--large" href="/map">
-                  {this.props.translations.hero_subtitle_button}
-                </a>
-              </div>
-            </div>
-            <div id="scrolldown">
-              <div className="mouse">
-                <span>
-                  <p>.</p>
-                </span>
-              </div>
-            </div>
-            <div className="hero__background hero__background--left" />
+          <div>
+            <a className="button button--green button--large" href="/map">
+              {props.translations.hero_subtitle_button}
+            </a>
           </div>
         </div>
-
-    )
-  }
-
-  submitAccountSubscription(values, dispatch, props) {
-    if (global.window.ga) {
-      global.window.ga('send', 'event', 'Home', 'newsletter_subscription')
-    }
-
-    createNewsletterSubscription(values.email).then(() => {
-      this.setState({ emailSubmitted: true })
-    })
-  }
+        <div id="scrolldown">
+          <div className="mouse">
+            <span>
+              <p>.</p>
+            </span>
+          </div>
+        </div>
+        <div className="hero__background hero__background--left" />
+      </div>
+    </div>
+  )
 }
 
 export default Hero

@@ -1,0 +1,90 @@
+@font-face {
+    font-family: 'IndusHtestCondensed';
+    src: url('../../fonts/IndusHtest-HeavyCondensed.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-HeavyCondensed.woff') format('woff'),
+    url('../../fonts/IndusHtest-HeavyCondensed.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-HeavyCondensed.svg#IndusHtest-HeavyCondensed') format('svg');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IndusHtestCondensed';
+    src: url('../../fonts/IndusHtest-BlackCondensed.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-BlackCondensed.woff') format('woff'),
+    url('../../fonts/IndusHtest-BlackCondensed.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-BlackCondensed.svg#IndusHtest-BlackCondensed') format('svg');
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IndusHtest';
+    src: url('../../fonts/IndusHtest-Heavy.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-Heavy.woff') format('woff'),
+    url('../../fonts/IndusHtest-Heavy.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-Heavy.svg#IndusHtest-Heavy') format('svg');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IndusHtest';
+    src: url('../../fonts/IndusHtest-Black.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-Black.woff') format('woff'),
+    url('../../fonts/IndusHtest-Black.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-Black.svg#IndusHtest-Black') format('svg');
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IndusHtest';
+    src: url('../../fonts/IndusHtest-Extralight.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-Extralight.woff') format('woff'),
+    url('../../fonts/IndusHtest-Extralight.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-Extralight.svg#IndusHtest-Extralight') format('svg');
+    font-weight: 200;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IndusHtest';
+    src: url('../../fonts/IndusHtest-Bold.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-Bold.woff') format('woff'),
+    url('../../fonts/IndusHtest-Bold.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-Bold.svg#IndusHtest-Bold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IndusHtest';
+    src: url('../../fonts/IndusHtest-Regular.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-Regular.woff') format('woff'),
+    url('../../fonts/IndusHtest-Regular.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-Regular.svg#IndusHtest-Regular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IndusHtest';
+    src: url('../../fonts/IndusHtest-Demi.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-Demi.woff') format('woff'),
+    url('../../fonts/IndusHtest-Demi.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-Demi.svg#IndusHtest-Demi') format('svg');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+
+  @font-face {
+    font-family: 'IndusHtest';
+    src: url('../../fonts/IndusHtest-Light.woff2') format('woff2'),
+    url('../../fonts/IndusHtest-Light.woff') format('woff'),
+    url('../../fonts/IndusHtest-Light.ttf') format('truetype'),
+    url('../../fonts/IndusHtest-Light.svg#IndusHtest-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+  }
