@@ -13,7 +13,7 @@ import '../stylesheets/home.css'
 const IndexPage = () => {
   return (
     <Fragment>
-      <SEO title="Game of Blocks" />
+      <SEO title="Decentralized strategy game powered by Nebulas smart contracts" />
       <Layout translations={translations.home}>
         <div className="home">
           <Hero translations={translations.home} />
