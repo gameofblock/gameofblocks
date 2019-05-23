@@ -1,0 +1,323 @@
+.hero {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    padding: 0 20px;
+    padding-bottom: 30px;
+    margin: 0 auto;
+    lost-utility: clearfix;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .hero {
+      padding-right: 50px;
+      padding-bottom: 0;
+      padding-left: 50px;
+    }
+  }
+  
+  .hero__column {
+    lost-column: 1/2;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .hero__column {
+      lost-column: 1;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .hero__title {
+      font-size: 32px;
+    }
+  }
+  
+  .hero__paragraph {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .hero__paragraph {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.4;
+    }
+  }
+  
+  .hero__subtitle {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 23px;
+  }
+  
+  .hero__background {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 615px;
+    max-width: 100%;
+    height: 770px;
+    background: no-repeat bottom right url('../../images/hexagone-1-3.svg');
+    background-size: 1380px auto;
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .hero__background--left {
+      display: block;
+    }
+  }
+  
+  @media screen and (min-width: 1720px) {
+    .hero__background {
+      width: 620px;
+      height: 850px;
+    }
+  }
+  
+  @media screen and (min-width: 1980px) {
+    .hero__background {
+      width: 720px;
+      height: 950px;
+    }
+  }
+  
+  .hero__container {
+    position: relative;
+  }
+  
+  @media screen and (min-width: 1720px) {
+    .hero__background--left {
+      height: 450px;
+    }
+  }
+  
+  .hero__throne {
+    display: none;
+    width: auto;
+    height: 489px;
+    margin: 0 40px;
+    background: no-repeat bottom left url('../../images/throne-home.png');
+    background-size: 100%;
+  }
+  
+  @media screen and (min-width: 1680px) {
+    .hero__throne {
+      display: block;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .hero__column {
+      margin-top: 200px;
+    }
+  
+    .hero__background {
+      width: 100%;
+      height: 418px;
+      background-position: right bottom;
+      background-size: 780px;
+    }
+  }
+  
+  .hero__background--left {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    display: none;
+    width: 150px;
+    height: 160px;
+    background: no-repeat bottom right url('../../images/trees.png');
+    background-position: top right;
+    background-size: 100%;
+  }
+  
+  .hero__input {
+    width: 420px;
+    max-width: 100%;
+    height: 50px;
+    padding: 15px 20px;
+    border: none;
+    margin-top: 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    color: #9c9b9f;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+  }
+  
+  .hero__nebulas {
+    position: absolute;
+    top: 339px;
+    left: 350px;
+    width: 60px;
+    height: 50px;
+    transition: top 1s;
+  }
+  
+  .hero__nebulas--visible {
+    top: 305px;
+  }
+  
+  .hero__input:focus {
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+  }
+  
+  .hero__thank-you {
+    margin-top: 40px;
+    color: #1dcc87;
+    font-size: 20px;
+  }
+  
+  .hero__submit {
+    position: absolute;
+    bottom: 8px;
+    left: 378px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    background: #1dcc87;
+    border-radius: 50px;
+    box-shadow: none;
+    cursor: pointer;
+  }
+  
+  .hero__submit--disabled {
+    background: #5c5edc;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .hero__nebulas {
+      top: 231px;
+      right: 40px;
+      left: inherit;
+    }
+  
+    .hero__nebulas--visible {
+      top: 190px;
+    }
+  
+    .hero__submit {
+      right: 10px;
+      left: auto;
+    }
+  }
+  
+  .hero__form-container {
+    position: relative;
+  }
+  
+  .hero__submit .icon {
+    margin: 9px;
+    fill: white;
+  }
+  
+  .hero__timer {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 26px;
+    font-weight: 300;
+  }
+  
+  .hero__timer-container {
+    display: inline-block;
+    width: 100%;
+    margin-top: 8px;
+  }
+  
+  #scrolldown {
+    position: absolute;
+    z-index: 100;
+    bottom: 40px;
+    left: 50%;
+    display: none;
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    text-align: center;
+  }
+  
+  @media screen and (min-width: 1720px) {
+    #scrolldown {
+      display: block;
+    }
+  }
+  
+  #scrolldown p {
+    animation-duration: 2s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-name: scroll;
+    color: #5c5edc;
+    font: 700 0.7em/1em 'Avenir', sans-serif;
+  }
+  
+  #scrolldown > p {
+    text-indent: 3px;
+    text-transform: uppercase;
+  }
+  
+  .mouse {
+    position: absolute;
+    left: 50%;
+    display: block;
+    width: 26px;
+    height: 46px;
+    border: 2px solid #5c5edc;
+    margin: 10px 0 0 -13px;
+    border-radius: 13px;
+  }
+  
+  .mouse span {
+    display: block;
+    margin: 6px auto;
+    font-size: 1.5em;
+  }
+  
+  @keyframes scroll {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  
+    100% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+  
+  .social__links {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    width: 30px;
+    margin-top: -80px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .social__links {
+      top: 0;
+      margin-top: 215px;
+    }
+  }
+  
+  .social__link {
+    display: inline-block;
+    width: 30px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .social__links .svg-inline--fa {
+    color: #5c5edc;
+    font-size: 20px;
+  }
+  

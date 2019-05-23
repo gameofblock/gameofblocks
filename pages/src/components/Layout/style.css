@@ -1,0 +1,129 @@
+@reset-global pc;
+@reset-global mobile;
+
+
+body {
+  position: relative;
+  min-height: 100%;
+  background: #fff;
+  color: #5c5edc;
+}
+
+.page {
+  overflow: hidden;
+  min-height: 100%;
+  font-family: 'IndusHtest', 'Avenir Next W01';
+  font-style: normal;
+  font-weight: 600;
+}
+
+:root {
+  --white: white;
+  --mainColor: #5c5edc;
+  --f1: 2em;
+  --f2: 1.5em;
+  --f3: 1.2em;
+  --f4: 1em;
+  --f5: 0.8em;
+  --f7: 0.7em;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'IndusHtest', 'Avenir Next W01', sans-serif;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+b {
+  font-weight: 700;
+}
+
+a:focus {
+  outline: none !important;
+}
+
+a:visited {
+  color: #5c5edc;
+}
+
+a:hover {
+  opacity: 0.6;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+.icons {
+  padding: 100px 100px 100px 180px;
+}
+
+.icons__title {
+  padding-left: 50px;
+  margin-bottom: 50px;
+}
+
+.icons .icon {
+  margin: 50px;
+}
+
+/* p {
+  font-family: 'IndusHtest', 'Avenir Next W01';
+} */
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+canvas {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+#root {
+  min-height: 100%;
+}
+
+.cf:after {
+  display: block;
+  height: 0;
+  clear: both;
+  content: ' ';
+  font-size: 0;
+  visibility: hidden;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  margin: 10px;
+  fill: #050b19;
+}
+
+.icon--green {
+  fill: #1dcc87;
+}
+
+.icon--red {
+  fill: #fe8500;
+}
+

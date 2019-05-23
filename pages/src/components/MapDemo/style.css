@@ -1,0 +1,59 @@
+.map-demo {
+    position: relative;
+    overflow: hidden;
+    background: #06122e;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .map-demo {
+      height: 907px !important;
+    }
+  }
+  
+  .map-demo__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+  
+  .map-demo__image {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+  }
+  
+  .map-demo__image-container {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+  }
+  
+  .map-demo__image--frozen {
+    z-index: 20;
+  }
+  
+  .map-demo__image-title {
+    position: absolute;
+    z-index: 10;
+    top: 100px;
+    width: 100%;
+    color: white;
+    font-family: 'IndusHtestCondensed', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  
+  .map-demo__image-price {
+    position: absolute;
+    z-index: 10;
+    top: 132px;
+    width: 100%;
+    color: white;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  
