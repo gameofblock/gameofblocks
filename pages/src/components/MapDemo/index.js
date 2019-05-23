@@ -12,12 +12,12 @@ import iced from '../../images/tileIced.png'
 import './style.css'
 
 const MapDemo = props => {
-  const mapHeight = window.innerHeight
+
   const containerWidth = 15 * DEFAULT_BLOCK_X_SPACE + DEFAULT_BLOCK_X_SPACE
   const containerHeight = 10 * DEFAULT_BLOCK_Y_SPACE
 
   const mapStyle = {
-    height: mapHeight
+    height: typeof window != "undefined" ? window.innerHeight : 0
   }
 
   const mapContentStyle = {

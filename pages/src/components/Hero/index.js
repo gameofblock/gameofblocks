@@ -25,9 +25,12 @@ class Hero extends Component {
   }
 
   render() {
+
+    let heroContainerStyle = {}
+    let heroStyle = {}
+
+    if(typeof window !== 'undefined') {
     const heroHeight = window.innerHeight
-    let heroStyle
-    let heroContainerStyle
     if (!isMobile) {
       heroStyle = {
         height: heroHeight,
@@ -37,6 +40,8 @@ class Hero extends Component {
         height: heroHeight
       }
     }
+  }
+
     return (
       
         <div className="hero__container" style={heroContainerStyle}>

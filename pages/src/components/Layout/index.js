@@ -5,9 +5,9 @@ import Header from "../Header"
 
 import "./style.css"
 
-const Layout = ({ children, translations }) => (
+const Layout = ({ children }) => (
   <div className="page">
-    <Header translations={translations} />
+    <Header />
     {/* <div
           style={{
             margin: `0 auto`,

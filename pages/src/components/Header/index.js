@@ -1,10 +1,11 @@
 import React from "react"
 
 import logo from '../../images/logo.png'
+import translations from '../../translations/fr.json'
 
 import './style.css'
 
-const Header = ({ language, translations }) => (
+const Header = ({ language }) => (
   <header className="page-header">
         <nav className="page-header__nav page-header__nav--left">
           <a className="page-header__logo" href="/">
@@ -51,7 +52,7 @@ const Header = ({ language, translations }) => (
           {language !== 'en' && <a href="/?lang=en">EN</a>}
 
           <a className="page-header__button button button--green" href="/map">
-            {translations.menu_play}
+            {translations.menu.menu_play}
           </a>
         </nav>
       </header>
