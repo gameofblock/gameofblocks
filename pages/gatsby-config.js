@@ -5,6 +5,7 @@ module.exports = {
     author: ``,
   },
   plugins: [
+    `gatsby-plugin-web-font-loader`,
     {
       resolve: "gatsby-plugin-web-font-loader",
       options: {
