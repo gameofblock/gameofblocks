@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Flex, Card, Text, Box } from "rebass"
+import { Heading, Flex, Card, Text, Box } from "rebass"
 import { isMobile } from "react-device-detect"
 
 import BackgroundImg from "../../images/hexagone-1-3.svg"
@@ -24,9 +24,9 @@ const Hero = props => {
       <Box pr={200} width={1 / 2} style={{ height: windowHeight }}>
         <Box pt={windowHeight / 2 - 200}>
           <Box>
-            <Text as="h1" fontSize={[50]}>
+            <Heading as="h1" fontSize={[50]}>
               {props.translations.hero_title}
-            </Text>
+            </Heading>
             <Box as="p" mt={[20]} mb={[20]}>
               <b className="hero__subtitle" />
               <Text

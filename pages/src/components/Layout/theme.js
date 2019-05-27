@@ -1,9 +1,10 @@
+import { theme } from 'rebass'
+
 export default {
   buttons: {
     primary: {
       color: "#ffffff",
-      backgroundColor: "#1dcc87",
-      radii: 50,
+      backgroundColor: "#1dcc87"
     },
   },
 }
