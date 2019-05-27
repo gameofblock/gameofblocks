@@ -1,61 +1,32 @@
 import React from "react"
+import { Image, Flex, Box, Button } from "rebass"
+import { Link } from "gatsby"
+import styled from 'styled-components'
 
-import logo from '../../images/logo.png'
-import translations from '../../translations/en.json'
+import translations from "../../translations/en.json"
+import { HeaderWrapper, Nav } from "./style"
+import Logo from "../../images/logo_full.png"
 
-import './style.css'
+import "./style.css"
 
 const Header = ({ language }) => (
-  <header className="page-header">
-        <nav className="page-header__nav page-header__nav--left">
-          <a className="page-header__logo" href="/">
-            <img alt="game of blocks" src={logo} />
-            {/* <svg className="page-header__logo-sigle" viewBox="0 0 100 100">
-            <use href="./icon.svg#icon" />
-          </svg>
-          <svg className="page-header__logo-image" viewBox="0 0 1200 100">
-            <use href="./logo2.svg#logo" />
-          </svg> */}
-          </a>
+  <HeaderWrapper>
+    <Flex p={50} alignItems='center' justifyContent='end'>
+      <Box width={1 / 2} color="magenta">
+        <Image width={[1, 1 / 2]} src={Logo} />
+      </Box>
+      {/* <Nav as="nav" width={1 / 2}>
+        {language !== "en" && <Link to="/?lang=en">EN</Link>}
 
-          {/* <a
-          rel="noopener noreferrer"
-          className="page-header__link"
-          target="_blank"
-          href="https://discord.gg/WqRWWDp"
-        >
-          Join our Discord
-        </a> */}
-        </nav>
-
-        <nav className="page-header__nav page-header__nav--right">
-          {language !== 'zh' && <a href="/?lang=zh">中</a>}
-          {/* {props.language !== 'de' && (
-            <a href="/?lang=de">
-              <img
-                alt="German version"
-                className="page-header__flag"
-                src={GermanyFlag}
-              />
-            </a>
-          )}
-          {props.language !== 'fr' && (
-            <a href="/?lang=fr">
-              <img
-                alt="French version"
-                className="page-header__flag"
-                src={FranceFlag}
-              />
-            </a>
-          )} */}
-
-          {language !== 'en' && <a href="/?lang=en">EN</a>}
-
-          <a className="page-header__button button button--green" href="/map">
+        <Link to="/map">
+          <Button variant='primary'>
             {translations.menu.menu_play}
-          </a>
-        </nav>
-      </header>
+          </Button>
+        </Link>
+
+      </Nav> */}
+    </Flex>
+  </HeaderWrapper>
 )
 
 export default Header

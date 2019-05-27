@@ -1,11 +1,4 @@
-.page-header {
-    position: absolute;
-    z-index: 100;
-    width: 100%;
-    padding: 25px;
-    margin: 0 auto;
-  }
-  
+
   .page-header__flag {
     position: relative;
     top: 8px;
