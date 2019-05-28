@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import MapDemoNavigation from './MapDemoNavigation'
 import MapDemoModals from './MapDemoModals'
@@ -12,12 +12,16 @@ import iced from '../../images/tileIced.png'
 import './style.css'
 
 const MapDemo = props => {
+  const [windowHeight, setWindowHeight] = useState(1024)
+  useEffect(() => {
+      setWindowHeight(window.innerHeight)
+  })
 
   const containerWidth = 15 * DEFAULT_BLOCK_X_SPACE + DEFAULT_BLOCK_X_SPACE
   const containerHeight = 10 * DEFAULT_BLOCK_Y_SPACE
 
   const mapStyle = {
-    height: typeof window != "undefined" ? window.innerHeight : 0
+    height: windowHeight
   }
 
   const mapContentStyle = {
