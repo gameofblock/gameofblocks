@@ -37,3 +37,5 @@ npm-debug.log
 
 .cache
 packages/pages/public
+
+ethereum/build

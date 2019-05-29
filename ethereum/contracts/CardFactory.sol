@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 import "./ownership/Ownable.sol";
 import "./Factory.sol";
 import "./Card.sol";
-// import "./CreatureLootBox.sol";
+import "./CardLootBox.sol";
 import "./Strings.sol";
 
 contract CardFactory is Factory, Ownable {
@@ -31,7 +31,7 @@ contract CardFactory is Factory, Ownable {
   constructor(address _proxyRegistryAddress, address _nftAddress) public {
     proxyRegistryAddress = _proxyRegistryAddress;
     nftAddress = _nftAddress;
-    lootBoxNftAddress = address(new CreatureLootBox(_proxyRegistryAddress, address(this)));
+    lootBoxNftAddress = address(new CardLootBox(_proxyRegistryAddress, address(this)));
   }
 
   function name() external view returns (string memory) {
@@ -56,16 +56,16 @@ contract CardFactory is Factory, Ownable {
     assert(address(proxyRegistry.proxies(owner())) == msg.sender || owner() == msg.sender || msg.sender == lootBoxNftAddress);
     require(canMint(_optionId));
 
-    Creature openSeaCreature = Creature(nftAddress);
+    Card card = Card(nftAddress);
     if (_optionId == SINGLE_CREATURE_OPTION) {
-      openSeaCreature.mintTo(_toAddress);
+      card.mintTo(_toAddress);
     } else if (_optionId == MULTIPLE_CREATURE_OPTION) {
       for (uint256 i = 0; i < NUM_CREATURES_IN_MULTIPLE_CREATURE_OPTION; i++) {
-        openSeaCreature.mintTo(_toAddress);
+        card.mintTo(_toAddress);
       }
     } else if (_optionId == LOOTBOX_OPTION) {
-      CreatureLootBox openSeaCreatureLootBox = CreatureLootBox(lootBoxNftAddress);
-      openSeaCreatureLootBox.mintTo(_toAddress);
+      CardLootBox cardLootBox = CardLootBox(lootBoxNftAddress);
+      cardLootBox.mintTo(_toAddress);
     } 
   }
 
@@ -74,8 +74,8 @@ contract CardFactory is Factory, Ownable {
       return false;
     }
 
-    Creature openSeaCreature = Creature(nftAddress);
-    uint256 creatureSupply = openSeaCreature.totalSupply();
+    Card card = Card(nftAddress);
+    uint256 creatureSupply = card.totalSupply();
 
     uint256 numItemsAllocated = 0;
     if (_optionId == SINGLE_CREATURE_OPTION) {
@@ -83,8 +83,8 @@ contract CardFactory is Factory, Ownable {
     } else if (_optionId == MULTIPLE_CREATURE_OPTION) {
       numItemsAllocated = NUM_CREATURES_IN_MULTIPLE_CREATURE_OPTION;
     } else if (_optionId == LOOTBOX_OPTION) {
-      CreatureLootBox openSeaCreatureLootBox = CreatureLootBox(lootBoxNftAddress);
-      numItemsAllocated = openSeaCreatureLootBox.itemsPerLootbox();
+      CardLootBox cardLootBox = CardLootBox(lootBoxNftAddress);
+      numItemsAllocated = cardLootBox.itemsPerLootbox();
     }
     return creatureSupply < (CREATURE_SUPPLY - numItemsAllocated);
   }
