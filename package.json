@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/game-of-blocks/gameofblocks/issues"
   },
-  "homepage": "https://github.com/game-of-blocks/gameofblocks#readme"
+  "homepage": "https://github.com/game-of-blocks/gameofblocks#readme",
+  "dependencies": {
+    "truffle-hdwallet-provider": "^1.0.9"
+  }
 }

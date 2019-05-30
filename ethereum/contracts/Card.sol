@@ -11,6 +11,6 @@ contract Card is TradeableERC721Token {
   constructor(address _proxyRegistryAddress) TradeableERC721Token("Card", "GOB", _proxyRegistryAddress) public {  }
 
   function baseTokenURI() public view returns (string memory) {
-    return "https://opensea-creatures-api.herokuapp.com/api/creature/";
+    return "https://us-central1-gameofblocks-staging.cloudfunctions.net/cards/";
   }
 }

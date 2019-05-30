@@ -12,21 +12,21 @@ contract CardFactory is Factory, Ownable {
   address public proxyRegistryAddress;
   address public nftAddress;
   address public lootBoxNftAddress;
-  string public baseURI = "https://opensea-creatures-api.herokuapp.com/api/factory/";
+  string public baseURI = "https://us-central1-gameofblocks-staging.cloudfunctions.net/factory/";
 
   /**
-   * Enforce the existence of only 100 OpenSea creatures.
+   * Enforce the existence of only 100 cards.
    */
-  uint256 CREATURE_SUPPLY = 100;
+  uint256 CARD_SUPPLY = 100;
 
   /**
-   * Three different options for minting Creatures (basic, premium, and gold).
+   * Three different options for minting Cards (basic, premium, and gold).
    */
   uint256 NUM_OPTIONS = 3;
-  uint256 SINGLE_CREATURE_OPTION = 0;
-  uint256 MULTIPLE_CREATURE_OPTION = 1;
+  uint256 SINGLE_CARD_OPTION = 0;
+  uint256 MULTIPLE_CARD_OPTION = 1;
   uint256 LOOTBOX_OPTION = 2;
-  uint256 NUM_CREATURES_IN_MULTIPLE_CREATURE_OPTION = 4;
+  uint256 NUM_CARDS_IN_MULTIPLE_CARD_OPTION = 4;
 
   constructor(address _proxyRegistryAddress, address _nftAddress) public {
     proxyRegistryAddress = _proxyRegistryAddress;
@@ -35,11 +35,11 @@ contract CardFactory is Factory, Ownable {
   }
 
   function name() external view returns (string memory) {
-    return "OpenSeaCreature Item Sale";
+    return "Game of Blocks card sale";
   }
 
   function symbol() external view returns (string memory) {
-    return "CPF";
+    return "GOB";
   }
 
   function supportsFactoryInterface() public view returns (bool) {
@@ -57,16 +57,16 @@ contract CardFactory is Factory, Ownable {
     require(canMint(_optionId));
 
     Card card = Card(nftAddress);
-    if (_optionId == SINGLE_CREATURE_OPTION) {
+    if (_optionId == SINGLE_CARD_OPTION) {
       card.mintTo(_toAddress);
-    } else if (_optionId == MULTIPLE_CREATURE_OPTION) {
-      for (uint256 i = 0; i < NUM_CREATURES_IN_MULTIPLE_CREATURE_OPTION; i++) {
+    } else if (_optionId == MULTIPLE_CARD_OPTION) {
+      for (uint256 i = 0; i < NUM_CARDS_IN_MULTIPLE_CARD_OPTION; i++) {
         card.mintTo(_toAddress);
       }
     } else if (_optionId == LOOTBOX_OPTION) {
       CardLootBox cardLootBox = CardLootBox(lootBoxNftAddress);
       cardLootBox.mintTo(_toAddress);
-    } 
+    }
   }
 
   function canMint(uint256 _optionId) public view returns (bool) {
@@ -78,15 +78,15 @@ contract CardFactory is Factory, Ownable {
     uint256 creatureSupply = card.totalSupply();
 
     uint256 numItemsAllocated = 0;
-    if (_optionId == SINGLE_CREATURE_OPTION) {
+    if (_optionId == SINGLE_CARD_OPTION) {
       numItemsAllocated = 1;
-    } else if (_optionId == MULTIPLE_CREATURE_OPTION) {
-      numItemsAllocated = NUM_CREATURES_IN_MULTIPLE_CREATURE_OPTION;
+    } else if (_optionId == MULTIPLE_CARD_OPTION) {
+      numItemsAllocated = NUM_CARDS_IN_MULTIPLE_CARD_OPTION;
     } else if (_optionId == LOOTBOX_OPTION) {
       CardLootBox cardLootBox = CardLootBox(lootBoxNftAddress);
       numItemsAllocated = cardLootBox.itemsPerLootbox();
     }
-    return creatureSupply < (CREATURE_SUPPLY - numItemsAllocated);
+    return creatureSupply < (CARD_SUPPLY - numItemsAllocated);
   }
   
   function tokenURI(uint256 _optionId) external view returns (string memory) {

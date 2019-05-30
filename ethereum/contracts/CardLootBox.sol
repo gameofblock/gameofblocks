@@ -6,7 +6,7 @@ import "./Factory.sol";
 import "./ownership/Ownable.sol";
 
 contract CardLootBox is TradeableERC721Token {
-    uint256 NUM_CREATURES_PER_BOX = 3;
+    uint256 NUM_CARDS_PER_BOX = 3;
     uint256 OPTION_ID = 0;
     address factoryAddress;
 
@@ -18,7 +18,7 @@ contract CardLootBox is TradeableERC721Token {
         require(ownerOf(_tokenId) == msg.sender);
 
         // Insert custom logic for configuring the item here.
-        for (uint256 i = 0; i < NUM_CREATURES_PER_BOX; i++) {
+        for (uint256 i = 0; i < NUM_CARDS_PER_BOX; i++) {
             // Mint the ERC721 item(s).
             Factory factory = Factory(factoryAddress);
             factory.mint(OPTION_ID, msg.sender);
@@ -29,10 +29,10 @@ contract CardLootBox is TradeableERC721Token {
     }
 
     function baseTokenURI() public view returns (string memory) {
-        return "https://opensea-creatures-api.herokuapp.com/api/box/";
+        return "https://us-central1-gameofblocks-staging.cloudfunctions.net/box/";
     }
 
     function itemsPerLootbox() public view returns (uint256) {
-        return NUM_CREATURES_PER_BOX;
+        return NUM_CARDS_PER_BOX;
     }
 }
