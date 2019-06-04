@@ -1,0 +1,42 @@
+.block__text {
+  position: absolute;
+  z-index: 10;
+  top: 80px;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
+
+.block__text-title {
+  overflow: hidden;
+  max-width: 177px;
+  margin-left: 11px;
+  font-family: 'IndusHtestCondensed', 'Avenir Next W01', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.block__text-price {
+  font-family: 'IndusHtest', 'Avenir Next W01', sans-serif;
+  font-size: 16px;
+  fontweight: 600;
+  text-align: 'center';
+}
+
+.block__text-level {
+  display: inline-block;
+  padding: 3px 9px;
+  margin-top: 6px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  color: #333;
+  font-family: 'IndusHtest', 'Avenir Next W01', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}

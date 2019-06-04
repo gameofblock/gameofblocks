@@ -1,0 +1,10 @@
+.block__emblem-image {
+  position: absolute;
+  z-index: 10;
+  top: 155px;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  margin-left: -20px;
+}

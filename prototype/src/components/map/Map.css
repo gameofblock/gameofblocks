@@ -1,0 +1,68 @@
+.map-beta {
+  position: absolute;
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  background: #06122e;
+  -webkit-overflow-scrolling: touch;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -ms-perspective: 1000;
+  perspective: 1000;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.map__content {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-overflow-scrolling: touch;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -ms-perspective: 1000;
+  perspective: 1000;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.map-beta__container {
+  position: relative;
+  background: url('../../images/background.png');
+  background-position: 11px -217px;
+  background-size: 364px 316px;
+}
+
+@media (min-width: 640px) {
+  .isMap {
+    overflow: hidden;
+    background: #06122e;
+  }
+}
+
+.editor__loader {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-color: #06122e;
+}
+
+.editor__loader .loader {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  padding: 0;
+  margin-top: -30px;
+}

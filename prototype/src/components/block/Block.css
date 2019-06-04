@@ -1,0 +1,13 @@
+.block {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+}
+
+.map-demo__image {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+}
