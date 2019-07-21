@@ -16,7 +16,7 @@ yarn
 
 # Create your own .env file with given .env.sample
 
-# you sample keys or generate the RSA keys
+# add your sample keys, generate the RSA keys in the packages/api folder
 openssl genrsa -out private.pem 2048
 openssl rsa -in private.pem -pubout > public.pem
 
