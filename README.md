@@ -6,10 +6,10 @@ App with koa knex objection passport jwt and ethereum smart contract
 
 ```
 # Clone the repo
-git clone https://github.com/kwiss/hasura-node-starter
+git clone git@github.com:game-of-blocks/gameofblocks.git
 
 # Change directory
-cd hasura-node-knex
+cd gameofblocks
 
 # Install NPM dependencies
 yarn
@@ -26,7 +26,7 @@ docker-compose up
 
 # Apply migrations
 # (Note) this step creates tables "users", "roles" and "user_roles" in the database
-yarn workspace @hnk/api db:migrate:latest
+yarn workspace @gameofblocks/api db:migrate:latest
 
 # Then simply start your app
 yarn dev

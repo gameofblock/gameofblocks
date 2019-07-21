@@ -15,7 +15,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - hnk-pgdata:/var/lib/postgresql/data
+      - gameofblocks-pgdata:/var/lib/postgresql/data
 
   graphql-engine:
     image: hasura/graphql-engine:v1.0.0-beta.3
@@ -31,4 +31,4 @@ services:
       HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256","jwk_url": "$DOCKER_HOST_URL:$API_PORT/jwk"}'
 
 volumes:
-  hnk-pgdata:
+  gameofblocks-pgdata:
