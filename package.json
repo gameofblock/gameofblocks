@@ -1,23 +1,31 @@
 {
-  "name": "gameofblocks",
+  "private": true,
+  "name": "hasura-node-knex",
   "version": "1.0.0",
-  "description": "",
+  "workspaces": [
+    "packages/*"
+  ],
+  "description": "hasura nodejs server with knex migration, objection, postgresql and passport jwt handling hasura roles",
   "main": "index.js",
   "scripts": {
-    "start-pages": "node ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/game-of-blocks/gameofblocks.git"
+    "dev": "lerna run dev --parallel",
+    "lint": "lerna run lint --parallel",
+    "install": "node node_modules/husky/lib/installer/bin install"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/game-of-blocks/gameofblocks/issues"
+  "devDependencies": {
+    "husky": "^3.0.0"
   },
-  "homepage": "https://github.com/game-of-blocks/gameofblocks#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "dependencies": {
-    "truffle-hdwallet-provider": "^1.0.9"
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "lerna": "^3.15.0"
   }
 }
