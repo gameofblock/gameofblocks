@@ -51,7 +51,7 @@ typings/
 .npm
 
 # Private keys
-.pem
+*.pem
 
 # Optional eslint cache
 .eslintcache
