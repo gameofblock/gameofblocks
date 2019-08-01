@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@babel/plugin-syntax-import-meta": "^7.2.0",
+    "@koa/cors": "^3.0.0",
+    "apollo-server-koa": "^2.7.0",
     "babel-eslint": "^10.0.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.0.0",
@@ -25,6 +27,7 @@
     "koa-redis": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-session": "^5.12.2",
+    "lodash": "^4.17.15",
     "nodemon": "^1.19.1",
     "objection": "^1.2.6",
     "objection-db-errors": "^1.1.1",
