@@ -1,12 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import { render } from "react-dom";
+import { Router } from "@reach/router";
+import { ThemeProvider } from "theme-ui";
+import preset from "@rebass/preset";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import Layout from "./components/Layout";
+import Home from "./components/Home";
+import NotFound from "./components/NotFound";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+render(
+  <ThemeProvider theme={preset}>
+    <Layout>
+      <Router>
+        <Home path="/" />
+        <NotFound default />
+      </Router>
+    </Layout>
+  </ThemeProvider>,
+  document.getElementById("root")
+);

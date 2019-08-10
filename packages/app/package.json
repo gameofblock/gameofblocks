@@ -3,16 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.15",
+    "@emotion/styled": "^10.0.15",
+    "@mdx-js/react": "^1.2.2",
     "@reach/router": "^1.2.1",
-    "formik": "^1.5.8",
+    "@rebass/preset": "^4.0.2",
     "apollo-boost": "^0.4.3",
+    "faker": "^4.1.0",
+    "formik": "^1.5.8",
     "graphql": "^14.4.2",
+    "honeycomb-grid": "^3.0.0",
     "react": "^16.8.6",
     "react-apollo": "^2.5.8",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.9.0",
     "react-scripts": "3.0.1",
-    "rebass": "^3.1.2",
-    "styled-components": "^4.3.2"
+    "react-use": "^10.5.0",
+    "rebass": "^4.0.2",
+    "theme-ui": "^0.2.31"
   },
   "scripts": {
     "dev": "react-scripts start",
