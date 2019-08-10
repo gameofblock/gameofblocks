@@ -1,33 +1,55 @@
 import Koa from "koa";
-import RedisStore from "koa-redis";
+import cors from "@koa/cors";
 import bodyParser from "koa-bodyparser";
-import session from "koa-session";
 import pino from "pino";
+import apolloServerKoa from "apollo-server-koa";
 
 import passport from "./config/passport";
 import authRoutes from "./routes/auth";
+import resolvers from "./graphql/resolvers";
+import typeDefs from "./graphql/schemas";
+
+import AuthAPI from "./graphql/datasources/auth";
+
+const API_PORT = process.env.API_PORT || 1337;
 
 const logger = pino();
-const store = new RedisStore();
 const app = new Koa();
-const PORT = process.env.PORT || 1337;
 
-// sessions
-app.keys = ["super-secret-key"];
-app.use(session({ store }, app));
+// The GraphQL datasources schema
+const dataSources = () => ({
+  authAPI: new AuthAPI()
+});
+
+// Apollo server
+const server = new apolloServerKoa.ApolloServer({
+  typeDefs,
+  resolvers,
+  dataSources
+});
 
 // body parser
 app.use(bodyParser());
 
+const koaOptions = {
+  origin: true,
+  credentials: true
+};
+app.use(cors(koaOptions));
+
+// Graphql Middleware
+server.applyMiddleware({ app });
+
 // authentication
 app.use(passport.initialize());
-// app.use(passport.session());
 
 // routes
 app.use(authRoutes.routes());
 
 // server
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  logger.info(`Server listening on port: ${PORT}`);
+app.listen(API_PORT, () => {
+  logger.info(`Server listening on port: ${API_PORT}`);
+  logger.info(
+    `🚀 Graphql Server ready at http://localhost:${API_PORT}${server.graphqlPath}`
+  );
 });

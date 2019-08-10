@@ -14,7 +14,7 @@ const router = new Router();
  * GET /jwk
  * Sends the JWT key set
  */
-router.get("/jwk", async ctx => {
+router.get("/auth/jwk", async ctx => {
   const jwk = {
     ...rasha.importSync({ pem: jwtConfig.publicKey }),
     alg: "RS256",
@@ -46,7 +46,7 @@ const authenticate = (ctx, user, err, status, info) => {
  * POST /login
  * Sign in using username and password and returns JWT
  */
-router.post("/login", async ctx => {
+router.post("/auth/login", async ctx => {
   return passport.authenticate("local", (err, user, info, status) => {
     authenticate(ctx, user, err, status, info);
   })(ctx);
@@ -56,7 +56,7 @@ router.post("/login", async ctx => {
  * POST /signup
  * Create a new local account
  */
-router.post("/signup", async ctx => {
+router.post("/auth/signup", async ctx => {
   try {
     await User.query()
       .allowInsert("[username, password]")
