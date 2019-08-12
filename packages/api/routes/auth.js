@@ -1,5 +1,4 @@
 import Router from "koa-router";
-import pino from "pino";
 import rasha from "rasha";
 
 import errorHandler from "../db/errors";
@@ -7,7 +6,6 @@ import passport from "../config/passport";
 import { User } from "../db/schema";
 import * as jwtConfig from "../config/jwt";
 
-const logger = pino();
 const router = new Router();
 
 /**
@@ -30,7 +28,7 @@ router.get("/auth/jwk", async ctx => {
 
 const authenticate = (ctx, user, err, status, info) => {
   if (!user) {
-    logger.error(err, status, info);
+    ctx.log.error(err, status, info);
     ctx.status = 401;
     ctx.body = {
       error: err
