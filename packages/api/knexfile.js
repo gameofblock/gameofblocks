@@ -16,6 +16,9 @@ const connection = {
   connection: connectionUrl,
   migrations: {
     directory: join(__dirname, "db/migrations")
+  },
+  seeds: {
+    directory: "db/seeds"
   }
 };
 
