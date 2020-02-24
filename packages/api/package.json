@@ -6,9 +6,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "lint": "eslint index.js knexfile.js db routes utils config",
+    "lint": "eslint index.js knexfile.cjs db routes utils config",
     "db:migrate:latest": "babel-node node_modules/.bin/knex migrate:latest",
-    "dev": "nodemon --inspect --experimental-modules --es-module-specifier-resolution=node index.js"
+    "dev": "nodemon --inspect --experimental-modules --experimental-specifier-resolution=node index.js"
   },
   "dependencies": {
     "@babel/plugin-syntax-import-meta": "^7.2.0",
@@ -31,7 +31,7 @@
     "koa-router": "^7.4.0",
     "koa-session": "^5.12.2",
     "lodash": "^4.17.15",
-    "nodemon": "^1.19.1",
+    "nodemon": "^2.0.2",
     "objection": "^1.2.6",
     "objection-db-errors": "^1.1.1",
     "passport-http-bearer": "^1.0.1",

@@ -7,7 +7,7 @@ import { createRequire } from "module";
 import * as jwtConfig from "../config/jwt";
 
 const require = createRequire(import.meta.url);
-const connection = require("../knexfile");
+const connection = require("../knexfile.cjs");
 
 const knexConnection = Knex(connection);
 const { Model } = Objection;
