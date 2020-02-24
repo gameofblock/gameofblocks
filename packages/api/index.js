@@ -26,3 +26,6 @@ app.use(passport.initialize());
 
 // routes
 app.use(authRoutes.routes());
+
+const port = process.env.API_PORT || 4000;
+app.listen(port);

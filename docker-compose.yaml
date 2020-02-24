@@ -17,10 +17,10 @@ services:
     volumes:
       - gameofblocks-pgdata:/var/lib/postgresql/data
 
-  graphql-engine:
-    image: hasura/graphql-engine:v1.0.0-beta.3
+  hasura:
+    image: hasura/graphql-engine:v1.1.0
     ports:
-      - 8080:8080
+      - 5000:8080
     depends_on:
       - db
     restart: always
