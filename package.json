@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "husky": "^3.0.0"
+    "husky": "3.1.0"
   },
   "husky": {
     "hooks": {
@@ -24,8 +24,8 @@
     }
   },
   "dependencies": {
-    "@commitlint/cli": "^8.0.0",
-    "@commitlint/config-conventional": "^8.1.0",
-    "lerna": "^3.15.0"
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
+    "lerna": "3.20.2"
   }
 }
