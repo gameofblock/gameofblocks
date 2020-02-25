@@ -1,7 +1,2 @@
-<<<<<<< HEAD
 endpoint: http://localhost:5000
 admin_secret: secret
-=======
-endpoint: http://localhost:8080
-secret: secret
->>>>>>> feat(signin): create signin form
