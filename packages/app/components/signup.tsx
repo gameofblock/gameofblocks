@@ -1,14 +1,19 @@
 import React from 'react';
 import { Box, Button } from 'rebass';
-import { Label, Input, Select, Textarea, Radio, Checkbox } from '@rebass/forms';
+import { Label, Input } from '@rebass/forms';
 import { Formik } from 'formik';
+
+import { login } from '../util/auth';
+
+// TODO
+const url = `http://localhost:1337/auth/signup`;
 
 const Signup = () => {
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       onSubmit={async values => {
-        const response = await fetch(`http://localhost:1337/auth/signup`, {
+        const response = await fetch(url, {
           body: JSON.stringify({
             password: values.password,
             username: values.username
@@ -19,20 +24,15 @@ const Signup = () => {
           method: 'POST'
         });
 
-        console.log('=> response', response);
+        if (response.ok) {
+          const { user } = await response.json();
+          if (user && user.token) {
+            login(user.token);
+          }
+        }
       }}
     >
-      {({
-        values,
-        touched,
-        errors,
-        dirty,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        handleReset
-      }) => {
+      {({ values, handleChange, handleBlur, handleSubmit }) => {
         return (
           <Box as='form' onSubmit={handleSubmit} py={3}>
             <Label htmlFor='email'>Username</Label>
