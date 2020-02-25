@@ -1,0 +1,19 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE EXTENSION IF NOT EXISTS pgcrypto;
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."game"("id" uuid NOT NULL DEFAULT gen_random_uuid(),
+      "created_at" timestamptz NOT NULL DEFAULT now(), "start_date" date, "end_date"
+      date, "x_size" integer NOT NULL, "y_size" integer NOT NULL, "turn_number" integer
+      NOT NULL, "prize" numeric NOT NULL DEFAULT 0, "entry_prize" numeric NOT NULL
+      DEFAULT 0, "max_players" integer NOT NULL DEFAULT 10, PRIMARY KEY ("id") , UNIQUE
+      ("id"));
+  type: run_sql
+- args:
+    name: game
+    schema: public
+  type: add_existing_table_or_view

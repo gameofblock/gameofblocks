@@ -1,4 +1,3 @@
-const { join } = require("path");
 require("dotenv").config({ path: `${__dirname}/../../.env` });
 
 const databaseName = process.env.POSTGRES_DB;
@@ -13,13 +12,7 @@ const connectionUrl = process.env.DATABASE_URL || {
 
 const connection = {
   client: "postgresql",
-  connection: connectionUrl,
-  migrations: {
-    directory: join(__dirname, "db/migrations")
-  },
-  seeds: {
-    directory: "db/seeds"
-  }
+  connection: connectionUrl
 };
 
 module.exports = connection;
