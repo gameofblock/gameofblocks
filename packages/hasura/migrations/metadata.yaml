@@ -1,0 +1,14 @@
+version: 2
+tables:
+- table:
+    schema: public
+    name: block
+- table:
+    schema: public
+    name: card
+- table:
+    schema: public
+    name: game
+- table:
+    schema: public
+    name: user
