@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import Knex from "knex";
 import Objection from "objection";
 import bcrypt from "bcryptjs";
