@@ -13,7 +13,7 @@
   "dependencies": {
     "@babel/plugin-syntax-import-meta": "^7.2.0",
     "@koa/cors": "^3.0.0",
-    "apollo-datasource-rest": "^0.6.1",
+    "apollo-datasource-rest": "^0.7.0",
     "apollo-server-koa": "^2.7.0",
     "babel-eslint": "^10.0.2",
     "bcryptjs": "^2.4.3",
