@@ -7,10 +7,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@rebass/forms": "^4.0.6",
+    "@rebass/preset": "^4.0.5",
+    "formik": "^2.1.4",
     "next": "9.2.2",
     "react": "16.12.0",
     "react-dom": "16.12.0",
-    "theme-ui": "0.3.1"
+    "rebass": "^4.0.7",
+    "theme-ui": "0.3.1",
+    "unfetch": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "13.7.4",
