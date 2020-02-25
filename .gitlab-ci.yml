@@ -1,4 +1,4 @@
-image: node:12-alpine
+image: node:latest
 
 cache:
   paths:
@@ -7,6 +7,10 @@ cache:
 stages:
   - setup
 
-setup:
+install_dependencies:
   stage: setup
-  script: yarn
+  script:
+    - yarn --frozen-lockfile
+  artifacts:
+    paths:
+      - node_modules/
