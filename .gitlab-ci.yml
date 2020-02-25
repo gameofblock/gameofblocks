@@ -9,4 +9,4 @@ stages:
 
 setup:
   stage: setup
-  script: yarn --frozen-lockfile
+  script: yarn
