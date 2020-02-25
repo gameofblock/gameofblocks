@@ -1,0 +1,17 @@
+variables:
+ K8S_NAMESPACE: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG
+
+stages:
+  - deploy
+
+deploy-k8s:
+  image: dtzar/helm-kubectl
+  stage: deploy
+  before_script:
+    - apk add -u gettext
+    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
+  environment: 
+    name: test
+    url: test.yourapp.com
+  script:
+    - VERSION="${CI_COMMIT_TAG:-none}" envsubst < k8s.yml | kubectl apply -f -
