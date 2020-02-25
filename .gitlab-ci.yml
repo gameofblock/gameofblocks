@@ -1,0 +1,12 @@
+image: node:12-alpine
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - setup
+
+setup:
+  stage: setup
+  script: yarn --frozen-lockfile
