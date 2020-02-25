@@ -4,9 +4,9 @@ import getConfig from 'next/config';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 
-// import { UserProvider } from '../src/components/UserContext';
+import { Provider as UserProvider } from '../components/UserContext';
 import withApolloClient from '../apollo/with-apollo-client';
-// import { formatUserFromToken } from '../src/util/formatUserFromToken';
+import { formatUserFromToken } from '../util';
 
 interface ComponentProps {
   apolloClient?: any;
@@ -36,18 +36,17 @@ class MyApp extends App<ComponentProps> {
     const { token } = pageProps;
     const currentUser = token ? jwtDecode(token) : null;
 
-    // const data = { currentUser: formatUserFromToken(currentUser) };
-    // const user = formatUserFromToken(currentUser);
-    // apolloClient.cache.writeData({ data });
+    const data = { currentUser: formatUserFromToken(currentUser) };
+    const user = formatUserFromToken(currentUser);
+    apolloClient.cache.writeData({ data });
 
     return (
       <ApolloProvider client={apolloClient}>
-         <Component {...pageProps} />
-        {/* <ThemeProvider theme={theme}>
+        {/* <ThemeProvider theme={theme}> */
           <UserProvider user={user}>
             <Component {...pageProps} />
           </UserProvider>
-        </ThemeProvider> */}
+       /* </ThemeProvider> */}
       </ApolloProvider>
     );
   }
