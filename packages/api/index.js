@@ -15,11 +15,7 @@ app.use(pino);
 // body parser
 app.use(bodyParser());
 
-const koaOptions = {
-  origin: true,
-  credentials: true
-};
-app.use(cors(koaOptions));
+app.use(cors());
 
 // authentication
 app.use(passport.initialize());

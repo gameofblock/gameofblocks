@@ -1,10 +1,11 @@
 import jwtDecode from 'jwt-decode';
 import App from 'next/app';
-import getConfig from 'next/config';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
+import ThemeProvider from 'theme-ui';
+import theme from '@rebass/preset';
 
-import { Provider as UserProvider } from '../components/UserContext';
+import { Provider as UserProvider } from '../components/user-context';
 import withApolloClient from '../apollo/with-apollo-client';
 import { formatUserFromToken } from '../util';
 
@@ -42,11 +43,11 @@ class MyApp extends App<ComponentProps> {
 
     return (
       <ApolloProvider client={apolloClient}>
-        {/* <ThemeProvider theme={theme}> */
+        <ThemeProvider theme={theme}>
           <UserProvider user={user}>
             <Component {...pageProps} />
           </UserProvider>
-       /* </ThemeProvider> */}
+        </ThemeProvider>
       </ApolloProvider>
     );
   }
