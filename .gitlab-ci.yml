@@ -23,7 +23,7 @@ stages:
   interruptible: true
   script:
     - "[[ type jq ]] || apk add jq=~1"
-    - apk add --no-cache .gyp make python gcc postgresql-dev g++
+    - apk add --no-cache --virtual .gyp make python gcc postgresql-dev g++
     - "{ rm package.json; jq 'del(.dependencies) | del(.devDependencies)' > package.json; } < package.json"
 
     - yarn config set cache-folder $CI_PROJECT_DIR/.yarn
