@@ -1,0 +1,18 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - created_at
+      - email
+      - id
+      - username
+      computed_fields: []
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      limit: null
+    role: user
+    table:
+      name: user
+      schema: public
+  type: create_select_permission
