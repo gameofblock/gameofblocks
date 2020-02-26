@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Box, Flex, Text } from 'rebass';
-import { useQuery } from 'react-apollo';
+import { useQuery, useMutation } from 'react-apollo';
 
 import { GAMES } from '../../queries/game';
 import { QueryProps } from './types';

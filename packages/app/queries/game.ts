@@ -8,3 +8,12 @@ export const GAMES = gql`
     }
   }
 `;
+
+export const GAME = gql`
+  query GetGame($id: uuid!) {
+    game(where: { id: { _eq: $id } }) {
+      id
+      max_players
+    }
+  }
+`;
