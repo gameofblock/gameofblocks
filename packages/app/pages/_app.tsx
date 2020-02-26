@@ -35,7 +35,7 @@ class MyApp extends App<ComponentProps> {
   render() {
     const { Component, pageProps, apolloClient } = this.props;
     const { token } = pageProps;
-
+    
     const currentUser = token ? jwtDecode(token) : null;
     const data = { currentUser: formatUserFromToken(currentUser) };
     const user = formatUserFromToken(currentUser);

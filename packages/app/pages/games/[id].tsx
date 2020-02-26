@@ -7,7 +7,7 @@ import { GAME } from '../../queries/game';
 
 interface QueryProps {
   game: {
-    id;
+    id: string;
   };
 }
 

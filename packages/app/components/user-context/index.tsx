@@ -8,19 +8,21 @@ export const Context = createContext({});
 
 const UserProvider: FunctionComponent<UserIdentifier> = props => {
   const { role, userId, children } = props;
-  const { data } = useQuery(CURRENT_USER, {
+
+  const { data, error } = useQuery(CURRENT_USER, {
     variables: {
       userId
-    }
+    },
+    fetchPolicy: 'network-only'
   });
 
   if (!data) {
     return <Fragment>loading</Fragment>;
   }
 
-  const [currentUser] = data.users;
+  const [currentUser] = data.user;
 
-  return <Context.Provider value={currentUser}>{children}</Context.Provider>;
+  return <Context.Provider value={null}>{children}</Context.Provider>;
 };
 
 export const Provider: FunctionComponent<{
