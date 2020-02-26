@@ -13,10 +13,24 @@ stages:
 - "Prepare"
 - "Build Image"
 
-Install app:
-  interruptible: true
-  image: node:12-alpine
+.prepare_stage:
+  extends: .base_stage
   stage: "Prepare"
+  dependencies: []
+
+.base_yarn_workspace_install:
+  extends: .prepare_stage
+  image: node:12-alpine
+  interruptible: true
+  script:
+    - "[[ type jq ]] || apk add jq=~1"
+    - "{ rm package.json; jq 'del(.dependencies) | del(.devDependencies)' > package.json; } < package.json"
+
+    - yarn config set cache-folder $CI_PROJECT_DIR/.yarn
+    - yarn --frozen-lockfile
+
+Install app:
+  extends: .base_yarn_workspace_install
   variables:
     CONTEXT: app
   artifacts:
@@ -24,8 +38,6 @@ Install app:
     paths:
       - node_modules
       - packages/app/node_modules
-  script:
-    - yarn --frozen-lockfile
 
 Build @gameofblocks/app:
   stage: "Build Image"
