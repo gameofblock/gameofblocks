@@ -6,7 +6,7 @@ import ThemeProvider from 'theme-ui';
 import theme from '@rebass/preset';
 
 import { Provider as UserProvider } from '../components/user-context';
-import withApolloClient from '../apollo/with-apollo-client';
+import withApolloClient from '../components/hocs/with-apollo-client';
 import { formatUserFromToken } from '../util';
 
 interface ComponentProps {
@@ -35,10 +35,11 @@ class MyApp extends App<ComponentProps> {
   render() {
     const { Component, pageProps, apolloClient } = this.props;
     const { token } = pageProps;
-    const currentUser = token ? jwtDecode(token) : null;
 
+    const currentUser = token ? jwtDecode(token) : null;
     const data = { currentUser: formatUserFromToken(currentUser) };
     const user = formatUserFromToken(currentUser);
+
     apolloClient.cache.writeData({ data });
 
     return (

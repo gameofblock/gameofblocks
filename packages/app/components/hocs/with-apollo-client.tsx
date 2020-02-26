@@ -4,7 +4,7 @@ import React from 'react';
 import { getDataFromTree } from 'react-apollo';
 import { ApolloClient, NormalizedCacheObject } from 'apollo-boost';
 
-import initApollo from './init-apollo';
+import initApollo from '../../util/init-apollo';
 
 const withApolloClient = (Page: NextPage<any>) => {
   return class Apollo extends React.Component {
