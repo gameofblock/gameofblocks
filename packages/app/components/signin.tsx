@@ -4,6 +4,8 @@ import { Box, Text, Button } from 'rebass';
 import { Label, Input, Select, Textarea, Radio, Checkbox } from '@rebass/forms';
 import { Formik } from 'formik';
 
+import { login } from '../util/auth'
+
 const Signin = () => {
   return (
     <Formik
@@ -18,7 +20,14 @@ const Signin = () => {
             'Content-Type': 'application/json'
           },
           method: 'POST'
-        });        
+        });
+        
+        if (response.ok) {
+          const { user } = await response.json();
+          if (user && user.token) {
+            login(user.token);
+          }
+        }
       }}
     >
       {({

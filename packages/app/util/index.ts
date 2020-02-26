@@ -8,9 +8,7 @@ export const formatUserFromToken = currentUser => {
       __typename: 'CurrentUser',
       id: currentUser['https://hasura.io/jwt/claims']['x-hasura-user-id'],
       role:
-        currentUser['https://hasura.io/jwt/claims']['x-hasura-default-role'],
-      serviceId:
-        currentUser['https://hasura.io/jwt/claims']['x-hasura-service-id']
+        currentUser['https://hasura.io/jwt/claims']['x-hasura-default-role']
     };
   } else {
     return null;

@@ -1,0 +1,60 @@
+- args:
+    relationship: card
+    table:
+      name: block
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: game
+    table:
+      name: block
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: user
+    table:
+      name: block
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: blocks
+    table:
+      name: card
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: blocks
+    table:
+      name: game
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: user_roles
+    table:
+      name: role
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: blocks
+    table:
+      name: user
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: user_roles
+    table:
+      name: user
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: role
+    table:
+      name: user_role
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: user
+    table:
+      name: user_role
+      schema: public
+  type: drop_relationship

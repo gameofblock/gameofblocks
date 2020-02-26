@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import App from 'next/app';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
-import ThemeProvider from 'theme-ui';
+import { ThemeProvider } from 'theme-ui';
 import theme from '@rebass/preset';
 
 import { Provider as UserProvider } from '../components/user-context';
@@ -35,7 +35,7 @@ class MyApp extends App<ComponentProps> {
   render() {
     const { Component, pageProps, apolloClient } = this.props;
     const { token } = pageProps;
-
+    
     const currentUser = token ? jwtDecode(token) : null;
     const data = { currentUser: formatUserFromToken(currentUser) };
     const user = formatUserFromToken(currentUser);

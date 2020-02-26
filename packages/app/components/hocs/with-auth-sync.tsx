@@ -1,10 +1,12 @@
 import { Component } from 'react';
-import Router from "next/router";
-import nextCookie from "next-cookies";
+import Router from 'next/router';
+import nextCookie from 'next-cookies';
+import { NextPage } from 'next/types';
 
-const getDisplayName = Component => Component.displayName || Component.name || "Component";
+const getDisplayName = Component =>
+  Component.displayName || Component.name || 'Component';
 
-export const withAuthSync = (WrappedComponent) =>
+export const withAuthSync = (WrappedComponent: NextPage) =>
   class extends Component {
     static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`;
 
@@ -45,5 +47,3 @@ export const withAuthSync = (WrappedComponent) =>
   };
 
 export default withAuthSync;
-
-

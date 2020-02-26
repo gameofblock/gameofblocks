@@ -4,14 +4,14 @@ import { Box } from 'rebass';
 
 import Signup from '../components/signup';
 
-const Home = () => (
+const SignupPage = () => (
   <div className='container'>
     <Head>
-      <title>Create Next App</title>
+      <title>Sign-up</title>
       <link rel='icon' href='/favicon.ico' />
     </Head>
     <Box as='main'>
-      <Box mt={60} mx="auto" width={300}>
+      <Box mt={60} mx='auto' width={300}>
         <Signup />
       </Box>
     </Box>
@@ -19,4 +19,4 @@ const Home = () => (
   </div>
 );
 
-export default Home;
+export default SignupPage;
