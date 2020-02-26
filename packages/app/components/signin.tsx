@@ -18,31 +18,7 @@ const Signin = () => {
             'Content-Type': 'application/json'
           },
           method: 'POST'
-        });
-
-        console.log('=> reponse', response);
-
-        // const checkStatus = async (response, setSubmitting, setStatus) => {
-        //   let json = null;
-        //   setSubmitting(false);
-        //   try {
-        //     json = await response.json();
-        //   } catch (errors) {
-        //     setStatus({ errorMsg: errors.msg });
-        //   }
-        //   if (!response.ok) {
-        //     ReactPiwik.push(["trackEvent", "login", "error"]);
-        //     setStatus({ errorMsg: json.errors.msg });
-        //     return json;
-        //   }
-        
-        //   login({ token: json.token });
-        //   Router.push(json.url);
-        //   ReactPiwik.push(["trackEvent", "login", "success"]);
-        //   trackUser();
-        //   return json;
-        // };
-        
+        });        
       }}
     >
       {({

@@ -45,7 +45,6 @@ const authenticate = (ctx, user, err, status, info) => {
  * Sign in using username and password and returns JWT
  */
 router.post("/auth/login", async ctx => {
-  console.log("=> /auth/login");
   return passport.authenticate("local", (err, user, info, status) => {
     authenticate(ctx, user, err, status, info);
   })(ctx);
