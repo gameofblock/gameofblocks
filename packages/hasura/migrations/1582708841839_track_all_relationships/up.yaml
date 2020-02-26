@@ -1,0 +1,100 @@
+- args:
+    name: card
+    table:
+      name: block
+      schema: public
+    using:
+      foreign_key_constraint_on: card_id
+  type: create_object_relationship
+- args:
+    name: game
+    table:
+      name: block
+      schema: public
+    using:
+      foreign_key_constraint_on: game_id
+  type: create_object_relationship
+- args:
+    name: user
+    table:
+      name: block
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: blocks
+    table:
+      name: card
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: card_id
+        table:
+          name: block
+          schema: public
+  type: create_array_relationship
+- args:
+    name: blocks
+    table:
+      name: game
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: game_id
+        table:
+          name: block
+          schema: public
+  type: create_array_relationship
+- args:
+    name: user_roles
+    table:
+      name: role
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: role_id
+        table:
+          name: user_role
+          schema: public
+  type: create_array_relationship
+- args:
+    name: blocks
+    table:
+      name: user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: block
+          schema: public
+  type: create_array_relationship
+- args:
+    name: user_roles
+    table:
+      name: user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: user_role
+          schema: public
+  type: create_array_relationship
+- args:
+    name: role
+    table:
+      name: user_role
+      schema: public
+    using:
+      foreign_key_constraint_on: role_id
+  type: create_object_relationship
+- args:
+    name: user
+    table:
+      name: user_role
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship

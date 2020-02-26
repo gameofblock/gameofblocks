@@ -1,0 +1,22 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - created_at
+      - end_date
+      - entry_prize
+      - id
+      - max_players
+      - prize
+      - start_date
+      - turn_number
+      - x_size
+      - y_size
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: game
+      schema: public
+  type: create_select_permission
