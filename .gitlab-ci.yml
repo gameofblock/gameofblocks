@@ -23,7 +23,7 @@ stages:
   interruptible: true
   script:
     - "[[ type jq ]] || apk add jq=~1"
-    - apk add python
+    - apk add --no-cache python make g++
     - "{ rm package.json; jq 'del(.dependencies) | del(.devDependencies)' > package.json; } < package.json"
 
     - yarn config set cache-folder $CI_PROJECT_DIR/.yarn
