@@ -1,31 +1,31 @@
 {
   "private": true,
-  "name": "hasura-node-knex",
+  "name": "gameofblocks",
   "version": "1.0.0",
+  "author": "",
+  "license": "ISC",
   "workspaces": [
     "packages/*"
   ],
-  "description": "hasura nodejs server with knex migration, objection, postgresql and passport jwt handling hasura roles",
+  "description": "gameofblocks",
   "main": "index.js",
   "scripts": {
+    "build": "lerna run build",
     "dev": "lerna run dev --parallel",
-    "lint": "lerna run lint --parallel",
-    "install": "node node_modules/husky/lib/installer/bin install"
+    "start": "lerna run start --parallel"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "husky": "3.1.0"
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "husky": "^3.1.0"
+  },
+  "dependencies": {
+    "lerna": "3.20.2"
   },
   "husky": {
     "hooks": {
       "pre-commit": "yarn lint",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  },
-  "dependencies": {
-    "@commitlint/cli": "8.3.5",
-    "@commitlint/config-conventional": "8.3.4",
-    "lerna": "3.20.2"
   }
 }
