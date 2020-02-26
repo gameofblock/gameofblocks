@@ -19,7 +19,7 @@ stages:
 
 .base_yarn_workspace_install:
   extends: .prepare_stage
-  image: node:13.8
+  image: node:13-alpine
   interruptible: true
   script:
     - "[[ type jq ]] || apk add jq=~1"
