@@ -15,7 +15,7 @@ stages:
 
 Install app:
   interruptible: true
-  image: node:12-alpine
+  image: node:13-alpine
   stage: "Prepare"
   variables:
     CONTEXT: app
