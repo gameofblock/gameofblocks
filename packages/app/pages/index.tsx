@@ -1,16 +1,22 @@
 import Head from 'next/head';
+import Link from 'next/link';
+import { Box } from 'rebass';
 
-const Home = () => {
-  return (
-    <div className='container'>
-      <Head>
-        <title>Create Next App</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <main></main>
-      <footer></footer>
-    </div>
-  );
-};
+import Signup from '../components/signup';
+
+const Home = () => (
+  <div className='container'>
+    <Head>
+      <title>Create Next App</title>
+      <link rel='icon' href='/favicon.ico' />
+    </Head>
+    <Box as='main'>
+      <Box mt={60} mx="auto" width={300}>
+        <Signup />
+      </Box>
+    </Box>
+    <footer></footer>
+  </div>
+);
 
 export default Home;

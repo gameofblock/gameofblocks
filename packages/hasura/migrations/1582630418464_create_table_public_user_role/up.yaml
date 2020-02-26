@@ -1,0 +1,12 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."user_role"("user_id" uuid NOT NULL, "role_id" uuid
+      NOT NULL, PRIMARY KEY ("user_id","role_id") , FOREIGN KEY ("role_id") REFERENCES
+      "public"."role"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("user_id")
+      REFERENCES "public"."user"("id") ON UPDATE cascade ON DELETE cascade);
+  type: run_sql
+- args:
+    name: user_role
+    schema: public
+  type: add_existing_table_or_view
