@@ -1,21 +1,20 @@
 import passport from "koa-passport";
 import LocalStrategy from "passport-local";
-import { User } from "../db/schema";
+import bcrypt from "bcryptjs";
+
+import { findById, findByUsername } from "../db/user";
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  return User.query()
-    .where({ id })
-    .first()
-    .then(user => {
-      done(null, user);
-    })
-    .catch(err => {
-      done(err, null);
-    });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 passport.use(
@@ -24,32 +23,25 @@ passport.use(
       usernameField: "username",
       passwordField: "password"
     },
-    (username, password, done) => {
-      User.query()
-        .where("username", username)
-        .first()
-        .eager("roles")
-        // eslint-disable-next-line consistent-return
-        .then(user => {
-          if (!user) {
-            return done("Unknown user");
-          }
-          if (!user.active) {
-            return done("User is inactive");
-          }
-          user.verifyPassword(password, (err, passwordCorrect) => {
+    async (username, password, done) => {
+      try {
+        const user = await findByUsername(username);
+        if (!user) {
+          done("Unknown user");
+        } else {
+          bcrypt.compare(password, user.password, (err, passwordCorrect) => {
             if (err) {
-              return done(err);
+              done(err);
+            } else if (!passwordCorrect) {
+              done("Invalid password");
+            } else {
+              done(null, user);
             }
-            if (!passwordCorrect) {
-              return done("Invalid password");
-            }
-            return done(null, user);
           });
-        })
-        .catch(err => {
-          done(err);
-        });
+        }
+      } catch (err) {
+        done(err);
+      }
     }
   )
 );

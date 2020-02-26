@@ -1,10 +1,36 @@
 import Router from "koa-router";
 import rasha from "rasha";
 
-import errorHandler from "../db/errors";
+import * as userRepository from "../db/user";
 import passport from "../config/passport";
-import { User } from "../db/schema";
 import * as jwtConfig from "../config/jwt";
+import { generateToken } from "../utils/hasura";
+
+const authenticate = (ctx, user, err, status, info) => {
+  if (!user) {
+    ctx.log.error(err, status, info);
+    ctx.status = 401;
+    ctx.body = {
+      error: err
+    };
+  } else {
+    const roles = ["user"]; // this.roles.map(el => el.name).concat("user")
+    const token = generateToken(user.id, user.username, roles);
+
+    ctx.body = {
+      success: true,
+      user: {
+        id: user.id,
+        username: user.username,
+        roles,
+        token
+      }
+    };
+
+    return ctx.login(user);
+  }
+  return undefined;
+};
 
 const router = new Router();
 
@@ -26,20 +52,6 @@ router.get("/auth/jwk", async ctx => {
   ctx.response.body = `${JSON.stringify(jwks, null, 2)}`;
 });
 
-const authenticate = (ctx, user, err, status, info) => {
-  if (!user) {
-    ctx.log.error(err, status, info);
-    ctx.status = 401;
-    ctx.body = {
-      error: err
-    };
-  } else {
-    ctx.body = { success: true, user: user.getUser() };
-    return ctx.login(user);
-  }
-  return undefined;
-};
-
 /**
  * POST /login
  * Sign in using username and password and returns JWT
@@ -56,24 +68,18 @@ router.post("/auth/login", async ctx => {
  */
 router.post("/auth/signup", async ctx => {
   try {
-    await User.query()
-      .allowInsert("[username, password]")
-      .insert({
-        username: ctx.request.body.username,
-        password: ctx.request.body.password
-      })
-      .then(() => {
-        return passport.authenticate("local", (err, user, info, status) => {
-          authenticate(ctx, user, err, status, info);
-        })(ctx);
-      });
+    const { username, password } = ctx.request.body;
+    await userRepository.create(username, password);
+
+    return passport.authenticate("local", (err, user, info, status) =>
+      authenticate(ctx, user, err, status, info)
+    )(ctx);
   } catch (err) {
-    errorHandler(err, ctx);
     ctx.status = 400;
     ctx.body = {
-      error: err
+      code: err.code,
+      detail: err.detail // TODO: only for dev mode
     };
-    return err;
   }
   return ctx;
 });
