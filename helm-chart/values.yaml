@@ -1,0 +1,75 @@
+# Default values for nodejs.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+image:
+  repository: node
+  tag: lts-alpine
+  pullPolicy: IfNotPresent
+
+# Global labels
+labels: {}
+  # owner: default # where the project is in the cluster
+  # team: helm-charts # the github "team" or repo name
+
+deployment:
+
+  annotations: {}
+  # app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+  # app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+
+  replicaCount: 1
+  imagePullSecrets: []
+
+  port: 80
+
+  livenessProbe:
+    initialDelaySeconds: 5
+    path: /
+    port: 80
+    periodSeconds: 3
+    failureThreshold: 3
+    timeoutSeconds: 5
+  readinessProbe:
+    initialDelaySeconds: 5
+    path: /
+    port: 80
+    periodSeconds: 3
+    failureThreshold: 3
+    timeoutSeconds: 5
+  resources:
+    limits:
+      cpu: 50m
+      memory: 32Mi
+    requests:
+      cpu: 5m
+      memory: 16Mi
+
+  env:
+    - name: PORT
+      value: "80"
+    - name: NODE_ENV
+      value: "production"
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  initContainers: []
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts: []
+  tls: []
+
+fullnameOverride: ""
+nameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: http

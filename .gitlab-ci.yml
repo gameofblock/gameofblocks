@@ -139,5 +139,16 @@ Register app image:
 
 ############### Deploy APP ###############################
 
-# .deploy_app_stage:
-#   stage: Deploy
+.deploy_app_stage:
+  stage: Deploy
+  extends: .base_deploy_nodejs_chart_stage
+  variables:
+    CONTEXT: app
+    IMAGE_TAG: $CI_COMMIT_SHA
+    PORT: 80
+    VALUES_FILE: ./packages/app/.k8s.values.yml
+  before_script:
+    - source ./.gitlab-ci/env.sh
+    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+  script:
+    - helm install helm-chart --generate-name

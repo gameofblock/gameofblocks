@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "nodejs.fullname" . }}-test-connection"
+  labels:
+{{ include "nodejs.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget-the-service
+      image: busybox
+      command:
+        - wget
+      args:
+        - {{ include "nodejs.fullname" . }}:{{ .Values.service.port }}
+      resources:
+        limits:
+          cpu: 50m
+          memory: 16Mi
+        requests:
+          cpu: 5m
+          memory: 16Mi
+
+    - name: wget-ingress
+      image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/curl:0.10.0
+      command:
+        - curl
+      args:
+        -  -k
+        - test.nodejs.chart.dev.fabrique.social.gouv.fr/email
+      resources:
+        limits:
+          cpu: 50m
+          memory: 16Mi
+        requests:
+          cpu: 5m
+          memory: 16Mi
+  restartPolicy: Never
