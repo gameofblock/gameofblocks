@@ -1,10 +1,12 @@
 import Router from "koa-router";
 import rasha from "rasha";
+import uuid from "uuid-random";
 
 import * as userRepository from "../db/user";
 import passport from "../config/passport";
 import * as jwtConfig from "../config/jwt";
 import { generateToken } from "../utils/hasura";
+import { sendPasswordRecoveryEmail } from "../services/mail";
 
 const authenticate = (ctx, user, err, status, info) => {
   if (!user) {
@@ -33,6 +35,36 @@ const authenticate = (ctx, user, err, status, info) => {
 };
 
 const router = new Router();
+
+function manageErrors(err, ctx) {
+  ctx.status = 400;
+  const body = {
+    code: err.code
+  };
+
+  if (process.env.NODE_ENV === "development" && err.detail) {
+    body.detail = err.detail;
+  }
+
+  ctx.body = body;
+}
+
+router.post("/auth/forgot-password", async ctx => {
+  const { email } = ctx.request.body;
+  ctx.set("Content-Type", "application/json");
+
+  const token = uuid();
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  try {
+    await userRepository.updateResetPassword(email, token, tomorrow);
+    await sendPasswordRecoveryEmail(email, token);
+    ctx.status = 200;
+  } catch (err) {
+    manageErrors(err, ctx);
+  }
+});
 
 /**
  * GET /jwk
@@ -75,11 +107,7 @@ router.post("/auth/signup", async ctx => {
       authenticate(ctx, user, err, status, info)
     )(ctx);
   } catch (err) {
-    ctx.status = 400;
-    ctx.body = {
-      code: err.code,
-      detail: err.detail // TODO: only for dev mode
-    };
+    manageErrors(err, ctx);
   }
   return ctx;
 });

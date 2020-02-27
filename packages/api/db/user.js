@@ -31,3 +31,12 @@ export async function findById(id) {
   const [user] = response.rows;
   return user;
 }
+
+export async function updateResetPassword(email, token, expires) {
+  const text = `
+  UPDATE public.user
+  SET reset_password_token = $2, reset_password_expires = $3
+  WHERE email = $1
+`;
+  await query(text, [email, token, expires]);
+}
