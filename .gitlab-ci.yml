@@ -17,6 +17,7 @@ stages:
 - "Prepare"
 - "Build Image"
 - "Registration"
+- "Deploy"
 
 .prepare_stage:
   stage: "Prepare"
