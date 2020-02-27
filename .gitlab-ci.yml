@@ -140,7 +140,7 @@ Register app image:
 
 ############### Deploy APP ###############################
 
-.deploy_app_stage:
+Deploy app:
   stage: "Deploy"
   variables:
     CONTEXT: app
