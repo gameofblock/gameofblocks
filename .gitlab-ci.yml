@@ -141,7 +141,7 @@ Register app image:
 ############### Deploy APP ###############################
 
 .deploy_app_stage:
-  stage: Deploy
+  stage: "Deploy"
   variables:
     CONTEXT: app
     IMAGE_TAG: $CI_COMMIT_SHA
