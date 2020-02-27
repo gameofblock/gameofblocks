@@ -4,8 +4,8 @@
 
 
 image:
-  repository: node
-  tag: lts-alpine
+  repository: registry.gitlab.com/gameofblock/gameofblocks/app
+  tag: ${IMAGE_TAG}
   pullPolicy: IfNotPresent
 
 # Global labels
@@ -40,17 +40,15 @@ deployment:
     timeoutSeconds: 5
   resources:
     limits:
-      cpu: 50m
-      memory: 32Mi
+      cpu: 250m
+      memory: 768Mi
     requests:
-      cpu: 5m
-      memory: 16Mi
+      cpu: 10m
+      memory: 512Mi
 
   env:
-    - name: PORT
-      value: "80"
-    - name: NODE_ENV
-      value: "production"
+  - name: PORT
+    value: "80"
 
   nodeSelector: {}
 
@@ -61,15 +59,24 @@ deployment:
   initContainers: []
 
 ingress:
-  enabled: false
-  annotations: {}
-  hosts: []
-  tls: []
+  enabled: true
+  annotations:
+  hosts:
+    - host: dev.gameofblocks.io
+      paths:
+        - path: /
+          servicePort: ${PORT}
+  tls:
+    - hosts:
+        - dev.gameofblocks.io
+      secretName: app-certificate
+
 
 fullnameOverride: ""
 nameOverride: ""
 
 service:
   type: ClusterIP
-  port: 80
-  targetPort: http
+  port: ${PORT}
+  targetPort: ${PORT}
+
