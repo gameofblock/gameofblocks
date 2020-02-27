@@ -13,4 +13,4 @@ RUN yarn --production --frozen-lockfile --no-cache
 COPY ./public/ /app/public
 COPY .next /app/.next
 
-ENTRYPOINT ["yarn", "build"]
+ENTRYPOINT ["yarn", "start"]
