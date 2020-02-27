@@ -142,6 +142,9 @@ Register app image:
 
 Deploy app:
   stage: "Deploy"
+  image: google/cloud-sdk
+  services:
+  - docker:dind
   variables:
     CONTEXT: app
     IMAGE_TAG: $CI_COMMIT_SHA
