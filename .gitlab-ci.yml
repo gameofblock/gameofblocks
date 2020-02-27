@@ -150,7 +150,7 @@ Deploy app:
     IMAGE_TAG: $CI_COMMIT_SHA
     PORT: 80
   before_script:
-    - source ./.gitlab-ci/env.sh
+    - source ./.gitlab/env.sh
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
     - HOST=${FRONTEND_HOST}
   script:
