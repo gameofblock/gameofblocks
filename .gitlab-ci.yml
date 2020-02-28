@@ -149,8 +149,6 @@ deploy-k8s:
   environment: 
     name: gameofblocks-app
     url: test.dev.gameofblocks.io
-  only:
-    - tags
   before_script:
     - apk add -u gettext
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -        
