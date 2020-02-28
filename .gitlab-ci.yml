@@ -151,14 +151,14 @@ deploy-k8s:
   except:
     - tags
   environment: 
-    name: gameofblocks-app-${CI_ENVIRONMENT_SLUG}
-    url: https://$CI_ENVIRONMENT_SLUG-.dev.gameofblocks.io
+    name: gameofblocks-app-${CI_ENVIRONMENT_NAME}
+    url: https://$CI_ENVIRONMENT_NAME-.dev.gameofblocks.io
   before_script:
     - apk add -u gettext
   script:
     - kubectl version
     - cd .k8s/
-    - echo "${CI_ENVIRONMENT_SLUG}"
+    - echo "${CI_ENVIRONMENT_NAME}"
     - echo "${CI_REGISTRY_IMAGE}"
     - echo "${CI_COMMIT_REF_NAME}"
     - envsubst < deployment.yaml > ci-deployment.yaml
@@ -168,4 +168,4 @@ deploy-k8s:
     - kubectl apply -f ci-service.yaml
     - kubectl apply -f ci-ingress.yaml
     - kubectl rollout status -f deployment.yaml
-    - kubectl get all,ing -l ref=${CI_ENVIRONMENT_SLUG}
+    - kubectl get all,ing -l ref=${CI_ENVIRONMENT_NAME}

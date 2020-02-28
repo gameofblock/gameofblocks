@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gameofblocks-app-${CI_ENVIRONMENT_SLUG}
+  name: gameofblocks-app-${CI_ENVIRONMENT_NAME}
   labels:
     app: gameofblocks-app
-    ref: ${CI_ENVIRONMENT_SLUG}
+    ref: ${CI_ENVIRONMENT_NAME}
     track: stable
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: gameofblocks-app
-      ref: ${CI_ENVIRONMENT_SLUG}
+      ref: ${CI_ENVIRONMENT_NAME}
   template:
     metadata:
       labels:
         app: gameofblocks-app
-        ref: ${CI_ENVIRONMENT_SLUG}
+        ref: ${CI_ENVIRONMENT_NAME}
         track: stable
     spec:
       containers:
