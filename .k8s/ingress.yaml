@@ -18,7 +18,7 @@ spec:
     # use your own or comment this out
     secretName: tls-wildcard-demo
   rules:
-  - host: __CI_ENVIRONMENT_SLUG__-.dev.gameofblocks.io
+  - host: __CI_ENVIRONMENT_SLUG__.dev.gameofblocks.io
     http:
       paths:
       - path: /
