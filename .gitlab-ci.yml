@@ -142,7 +142,7 @@ Register app image:
 
 Deploy app:
   stage: "Deploy"
-  image: google/cloud-sdk
+  image: alpine/helm
   services:
   - docker:dind
   variables:
