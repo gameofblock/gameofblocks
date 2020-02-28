@@ -161,6 +161,7 @@ deploy:
   image: alpine/helm:latest
   script:
     - helm version
+    - helm repo update
     - helm install pg-test stable/postgresql
     # - helm init --client-only
     # - helm --namespace $NAMESPACE upgrade -i $REPO_NAME --set image.tag=$TAG,env=$ENV,image.repository=$REPO_REGISTRY_URL $PATH_TO_VALUES
