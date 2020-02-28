@@ -7,8 +7,6 @@ image:
   repository: registry.gitlab.com/gameofblock/gameofblocks/app
   tag: ${IMAGE_TAG}
   pullPolicy: IfNotPresent
-  imagePullSecrets:
-    - name: regcred
 
 spec:
   replicas: 1
@@ -20,6 +18,8 @@ spec:
       labels:
         app: gameofblocks-app
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
         - name: app
           image: ${IMAGE_TAG}
