@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: gameofblocks-__CI_ENVIRONMENT_SLUG__
-  namespace: gameofblocks
+  namespace: __CI_ENVIRONMENT_SLUG__
   labels:
     app: gameofblocks
     ref: __CI_ENVIRONMENT_SLUG__
