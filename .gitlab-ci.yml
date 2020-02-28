@@ -153,7 +153,7 @@ deploy-k8s:
     - kubectl version
     - cd .k8s/
     - sed -i "s~__CI_REGISTRY_IMAGE__~${CI_REGISTRY_IMAGE}~" deployment.yaml
-    - sed -i "/~__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s~__CI_ENVIRONMENT_SLUG__~${CI_ENVIRONMENT_SLUG}~" deployment.yaml ingress.yaml service.yaml
     - sed -i "s~__VERSION__~${CI_COMMIT_REF_NAME}~" deployment.yaml ingress.yaml service.yaml
     - kubectl apply -f deployment.yaml
     - kubectl apply -f service.yaml
