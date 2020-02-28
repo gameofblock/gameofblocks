@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gameofblocks-app-${K8S_NAMESPACE}
+  name: gameofblocks-app-gameofblocks
   labels:
     app: gameofblocks-app
-    ref: ${K8S_NAMESPACE}
+    ref: gameofblocks
     track: stable
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: gameofblocks-app
-      ref: ${K8S_NAMESPACE}
+      ref: gameofblocks
   template:
     metadata:
       labels:
         app: gameofblocks-app
-        ref: ${K8S_NAMESPACE}
+        ref: gameofblocks
         track: stable
     spec:
       containers:
