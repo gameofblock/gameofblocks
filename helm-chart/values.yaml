@@ -1,77 +1,68 @@
-# Default values for nodejs.
+# Default values for helm-chart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+replicaCount: 1
 
 image:
-  repository: registry.gitlab.com/gameofblock/gameofblocks/app
-  tag: ${IMAGE_TAG}
+  repository: nginx
   pullPolicy: IfNotPresent
 
-# Global labels
-labels: {}
-  # owner: default # where the project is in the cluster
-  # team: helm-charts # the github "team" or repo name
-
-deployment:
-
-  annotations: {}
-  # app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
-  # app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
-
-  replicaCount: 1
-  imagePullSecrets: []
-
-  port: 80
-
-  livenessProbe:
-    initialDelaySeconds: 5
-    path: /
-    port: 80
-    periodSeconds: 3
-    failureThreshold: 3
-    timeoutSeconds: 5
-  readinessProbe:
-    initialDelaySeconds: 5
-    path: /
-    port: 80
-    periodSeconds: 3
-    failureThreshold: 3
-    timeoutSeconds: 5
-  resources:
-    limits:
-      cpu: 250m
-      memory: 768Mi
-    requests:
-      cpu: 10m
-      memory: 512Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  initContainers: []
-
-ingress:
-  enabled: true
-  annotations:
-  hosts:
-    - host: dev.gameofblocks.io
-      paths:
-        - path: /
-          servicePort: 80
-    - hosts:
-        - dev.gameofblocks.io
-      secretName: app-certificate
-
-
-fullnameOverride: ""
+imagePullSecrets: []
 nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 service:
   type: ClusterIP
   port: 80
-  targetPort: 80
 
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
