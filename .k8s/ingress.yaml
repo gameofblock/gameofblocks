@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: gameofblocks-app-__CI_BUILD_REF_SLUG__
-  namespace: gameofblocks-app
+  namespace: gameofblocks
   labels:
     app: __CI_BUILD_REF_SLUG__
   annotations:

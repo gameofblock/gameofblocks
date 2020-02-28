@@ -147,7 +147,7 @@ deploy-k8s:
     entrypoint: ["/bin/sh", "-c"]
   stage: "Deploy"
   environment: 
-    name: gameofblocks-app
+    name: gameofblocks-app-${CI_ENVIRONMENT_SLUG}
     url: test.dev.gameofblocks.io
   before_script:
     - apk add -u gettext
