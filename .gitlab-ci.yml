@@ -151,7 +151,7 @@ Deploy app:
     PORT: 80
   before_script:
     - source ./.gitlab/env.sh
-    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+    - kubectl config set-context --current --namespace="test"
     - HOST=${FRONTEND_HOST}
   script:
     - helm install helm-chart --generate-name
