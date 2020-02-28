@@ -153,4 +153,5 @@ Deploy app:
     - source ./.gitlab/env.sh
     - HOST=${FRONTEND_HOST}
   script:
+    - helm init --upgrade
     - helm install helm-chart --generate-name

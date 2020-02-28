@@ -48,7 +48,7 @@ deployment:
 
   env:
   - name: PORT
-    value: "80"
+    value: 80
 
   nodeSelector: {}
 
