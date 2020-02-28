@@ -152,11 +152,14 @@ deploy-k8s:
   script:
     - kubectl version
     - cd .k8s/
-    - sed -i "s~__CI_REGISTRY_IMAGE__~${CI_REGISTRY_IMAGE}~" deployment.yaml
-    - sed -i "s~__CI_ENVIRONMENT_SLUG__~${CI_ENVIRONMENT_SLUG}~" deployment.yaml ingress.yaml service.yaml
-    - sed -i "s~__VERSION__~${CI_COMMIT_REF_NAME}~" deployment.yaml ingress.yaml service.yaml
-    - kubectl apply -f deployment.yaml
-    - kubectl apply -f service.yaml
-    - kubectl apply -f ingress.yaml
+    - envsubst < .k8s/deployment.yaml > .k8s/ci-deployment.yaml
+    - envsubst < .k8s/service.yaml > .k8s/ci-service.yaml
+    - envsubst < .k8s/ingress.yaml > .k8s/ci-ingress.yaml
+    # - sed -i "s~__CI_REGISTRY_IMAGE__~${CI_REGISTRY_IMAGE}~" deployment.yaml
+    # - sed -i "s~__CI_ENVIRONMENT_SLUG__~${CI_ENVIRONMENT_SLUG}~" deployment.yaml ingress.yaml service.yaml
+    # - sed -i "s~__VERSION__~${CI_COMMIT_REF_NAME}~" deployment.yaml ingress.yaml service.yaml
+    - kubectl apply -f ci-deployment.yaml
+    - kubectl apply -f ci-service.yaml
+    - kubectl apply -f ci-ingress.yaml
     - kubectl rollout status -f deployment.yaml
     - kubectl get all,ing -l ref=${CI_ENVIRONMENT_SLUG}
