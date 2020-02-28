@@ -8,7 +8,6 @@ variables:
   DOCKER_TLS_CERTDIR: ''
   GIT_STRATEGY: fetch
   GIT_DEPTH: 5
-  K8S_NAMESPACE: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG
   
   # Globals
   DOCKER_VERSION: "18"
@@ -151,14 +150,15 @@ deploy-k8s:
   except:
     - tags
   environment: 
-    name: gameofblocks-app-${CI_ENVIRONMENT_SLUG}
-    url: https://$CI_ENVIRONMENT_SLUG-.dev.gameofblocks.io
+    name: gameofblocks-app-${K8S_NAMESPACE}
+    url: https://$K8S_NAMESPACE-.dev.gameofblocks.io
   before_script:
     - apk add -u gettext
+    - source ./.gitlab/ci/env.sh
   script:
     - kubectl version
     - cd .k8s/
-    - echo "${CI_ENVIRONMENT_SLUG}"
+    - echo "${K8S_NAMESPACE}"
     - echo "${CI_REGISTRY_IMAGE}"
     - echo "${CI_COMMIT_REF_NAME}"
     - envsubst < deployment.yaml > ci-deployment.yaml
@@ -168,4 +168,4 @@ deploy-k8s:
     - kubectl apply -f ci-service.yaml
     - kubectl apply -f ci-ingress.yaml
     - kubectl rollout status -f deployment.yaml
-    - kubectl get all,ing -l ref=${CI_ENVIRONMENT_SLUG}
+    - kubectl get all,ing -l ref=${K8S_NAMESPACE}
