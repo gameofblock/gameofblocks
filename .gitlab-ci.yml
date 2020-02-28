@@ -155,8 +155,11 @@ deploy-k8s:
     - kubectl version
     - cd .k8s/
     - envsubst < deployment.yaml > ci-deployment.yaml
+    - cat ci-deployment.yaml
     - envsubst < service.yaml > ci-service.yaml
+    - cat ci-service.yaml
     - envsubst < ingress.yaml > ci-ingress.yaml
+    - cat ci-ingress.yaml
     - kubectl apply -f ci-deployment.yaml
     - kubectl apply -f ci-service.yaml
     - kubectl apply -f ci-ingress.yaml
