@@ -19,12 +19,12 @@ spec:
         ref: __CI_ENVIRONMENT_SLUG__
         track: stable
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
       - name: app
         image: __CI_REGISTRY_IMAGE__:__VERSION__
         imagePullPolicy: Always
-        imagePullSecrets:
-          - name: regcred
         ports:
         - name: http-metrics
           protocol: TCP
