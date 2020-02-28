@@ -8,6 +8,7 @@ variables:
   DOCKER_TLS_CERTDIR: ''
   GIT_STRATEGY: fetch
   GIT_DEPTH: 5
+  K8S_NAMESPACE: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG
   
   # Globals
   DOCKER_VERSION: "18"
@@ -140,29 +141,14 @@ Register app image:
 
 ############### Deploy APP ###############################
 
-# Deploy app:
-#   stage: "Deploy"
-#   image: alpine/helm
-#   services:
-#   - docker:dind
-#   variables:
-#     CONTEXT: app
-#     IMAGE_TAG: $CI_COMMIT_SHA
-#     PORT: 80
-#   before_script:
-#     - source ./.gitlab/env.sh
-#     - HOST=${FRONTEND_HOST}
-#   script:
-#     - helm install helm-chart --generate-name
-
-# Deployment step
-deploy:
+deploy-k8s:
+  image: dtzar/helm-kubectl
   stage: "Deploy"
-  image: alpine/helm:latest
+  before_script:
+    - apk add -u gettext
+    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
+  environment: 
+    name: gameofblocks-app
+    url: test.dev.gameofblocks.io
   script:
-    - helm version
-    - helm repo add stable https://kubernetes-charts.storage.googleapis.com
-    - helm repo update
-    - helm install pg-test stable/postgresql
-    # - helm init --client-only
-    # - helm --namespace $NAMESPACE upgrade -i $REPO_NAME --set image.tag=$TAG,env=$ENV,image.repository=$REPO_REGISTRY_URL $PATH_TO_VALUES
+    - VERSION="${CI_COMMIT_TAG:-none}" envsubst < .k8s/k8s.yaml | kubectl apply -f -
