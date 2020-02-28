@@ -46,10 +46,6 @@ deployment:
       cpu: 10m
       memory: 512Mi
 
-  env:
-  - name: PORT
-    value: 80
-
   nodeSelector: {}
 
   tolerations: []
@@ -65,8 +61,7 @@ ingress:
     - host: dev.gameofblocks.io
       paths:
         - path: /
-          servicePort: ${PORT}
-  tls:
+          servicePort: 80
     - hosts:
         - dev.gameofblocks.io
       secretName: app-certificate
@@ -77,6 +72,6 @@ nameOverride: ""
 
 service:
   type: ClusterIP
-  port: ${PORT}
-  targetPort: ${PORT}
+  port: 80
+  targetPort: 80
 
