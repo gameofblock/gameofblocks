@@ -140,7 +140,42 @@ Register app image:
 
 ############### Deploy APP ###############################
 
-deploy-k8s:
+# deploy-k8s:
+#   image:
+#     name: lachlanevenson/k8s-kubectl:latest
+#     entrypoint: ["/bin/sh", "-c"]
+#   stage: "Deploy"
+#   only:
+#     - branches
+#   except:
+#     - tags
+#   environment: 
+#     name: gameofblocks-app-${K8S_NAMESPACE}
+#     url: https://$K8S_NAMESPACE-.dev.gameofblocks.io
+#   before_script:
+#     - apk add -u gettext
+#     - source ./.gitlab/ci/env.sh
+#   script:
+#     - kubectl version
+#     - cd .k8s/
+#     - echo "${K8S_NAMESPACE}"
+#     - echo "${CI_REGISTRY_IMAGE}"
+#     - echo "${CI_COMMIT_REF_NAME}"
+    
+#     - echo "${KUBECONFIG}"
+#     - echo "${KUBE_NAMESPACE}"
+#     - echo "${KUBE_TOKEN}"
+
+#     - envsubst < deployment.yaml > ci-deployment.yaml
+#     - envsubst < service.yaml > ci-service.yaml
+#     - envsubst < ingress.yaml > ci-ingress.yaml
+#     - kubectl apply -f ci-deployment.yaml
+#     - kubectl apply -f ci-service.yaml
+#     - kubectl apply -f ci-ingress.yaml
+#     - kubectl rollout status -f deployment.yaml
+#     - kubectl get all,ing -l ref=${K8S_NAMESPACE}
+
+deploy_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
@@ -149,28 +184,23 @@ deploy-k8s:
     - branches
   except:
     - tags
-  environment: 
-    name: gameofblocks-app-${K8S_NAMESPACE}
-    url: https://$K8S_NAMESPACE-.dev.gameofblocks.io
-  before_script:
-    - apk add -u gettext
-    - source ./.gitlab/ci/env.sh
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
   script:
     - kubectl version
-    - cd .k8s/
-    - echo "${K8S_NAMESPACE}"
-    - echo "${CI_REGISTRY_IMAGE}"
-    - echo "${CI_COMMIT_REF_NAME}"
-    
-    - echo "${KUBECONFIG}"
-    - echo "${KUBE_NAMESPACE}"
-    - echo "${KUBE_TOKEN}"
-
-    - envsubst < deployment.yaml > ci-deployment.yaml
-    - envsubst < service.yaml > ci-service.yaml
-    - envsubst < ingress.yaml > ci-ingress.yaml
-    - kubectl apply -f ci-deployment.yaml
-    - kubectl apply -f ci-service.yaml
-    - kubectl apply -f ci-ingress.yaml
+    - cd manifests/
+    - sed -i "s~__CI_REGISTRY_IMAGE__~${CI_REGISTRY_IMAGE}~" deployment.yaml
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress.yaml service.yaml
+    - |
+      if kubectl apply -f deployment.yaml | grep -q unchanged; then
+          echo "=> Patching deployment to force image update."
+          kubectl patch -f deployment.yaml -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"ci-last-updated\":\"$(date +'%s')\"}}}}}"
+      else
+          echo "=> Deployment apply has changed the object, no need to force image update."
+      fi
+    - kubectl apply -f service.yaml || true
+    - kubectl apply -f ingress.yaml
     - kubectl rollout status -f deployment.yaml
-    - kubectl get all,ing -l ref=${K8S_NAMESPACE}
+    - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"

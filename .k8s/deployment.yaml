@@ -1,27 +1,28 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gameofblocks-app-${K8S_NAMESPACE}
+  name: gameofblocks-__CI_ENVIRONMENT_SLUG__
   labels:
-    app: gameofblocks-app
-    ref: ${K8S_NAMESPACE}
+    app: gameofblocks
+    ref: __CI_ENVIRONMENT_SLUG__
     track: stable
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gameofblocks-app
-      ref: ${K8S_NAMESPACE}
+      app: gameofblocks
+      ref: __CI_ENVIRONMENT_SLUG__
   template:
     metadata:
       labels:
-        app: gameofblocks-app
-        ref: ${K8S_NAMESPACE}
+        app: gameofblocks
+        ref: __CI_ENVIRONMENT_SLUG__
         track: stable
     spec:
       containers:
       - name: app
-        image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
+        image: __CI_REGISTRY_IMAGE__:__VERSION__
         imagePullPolicy: Always
         ports:
         - name: http-metrics
