@@ -146,9 +146,13 @@ deploy-k8s:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
   stage: "Deploy"
+  only:
+    - branches
+  except:
+    - tags
   environment: 
     name: gameofblocks-app-${CI_ENVIRONMENT_SLUG}
-    url: test.dev.gameofblocks.io   
+    url: https://$CI_ENVIRONMENT_SLUG-.dev.gameofblocks.io
   before_script:
     - apk add -u gettext
   script:
