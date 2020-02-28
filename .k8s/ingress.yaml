@@ -11,12 +11,12 @@ metadata:
 spec:
   tls:
   - hosts:
-    - __CI_BUILD_REF_SLUG__-gameofblocks-app.edenmal.net
+    - __CI_BUILD_REF_SLUG__.dev.gameofblocks.io
     # the secret used here is an unsigned wildcard cert for demo purposes
     # use your own or comment this out
     secretName: tls-wildcard-demo
   rules:
-  - host: __CI_BUILD_REF_SLUG__-gameofblocks-app.edenmal.net
+  - host: __CI_BUILD_REF_SLUG__.dev.gameofblocks.io
     http:
       paths:
       - path: /

@@ -23,6 +23,8 @@ spec:
       - name: app
         image: __CI_REGISTRY_IMAGE__:__VERSION__
         imagePullPolicy: Always
+        imagePullSecrets:
+          - name: regcred
         ports:
         - name: http-metrics
           protocol: TCP
