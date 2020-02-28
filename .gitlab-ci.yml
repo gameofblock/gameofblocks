@@ -140,17 +140,28 @@ Register app image:
 
 ############### Deploy APP ###############################
 
-Deploy app:
+# Deploy app:
+#   stage: "Deploy"
+#   image: alpine/helm
+#   services:
+#   - docker:dind
+#   variables:
+#     CONTEXT: app
+#     IMAGE_TAG: $CI_COMMIT_SHA
+#     PORT: 80
+#   before_script:
+#     - source ./.gitlab/env.sh
+#     - HOST=${FRONTEND_HOST}
+#   script:
+#     - helm install helm-chart --generate-name
+
+# Deployment step
+deploy:
   stage: "Deploy"
-  image: alpine/helm
-  services:
-  - docker:dind
-  variables:
-    CONTEXT: app
-    IMAGE_TAG: $CI_COMMIT_SHA
-    PORT: 80
-  before_script:
-    - source ./.gitlab/env.sh
-    - HOST=${FRONTEND_HOST}
+  image: alpine/helm:latest
   script:
-    - helm install helm-chart --generate-name
+    - helm init --client-only
+    - helm --namespace $NAMESPACE upgrade -i $REPO_NAME --set image.tag=$TAG,env=$ENV,image.repository=$REPO_REGISTRY_URL $PATH_TO_VALUES
+  tags:
+    - k8s
+    - dev
