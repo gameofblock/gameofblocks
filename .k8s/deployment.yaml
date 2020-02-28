@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: presentation-gitlab-k8s-__CI_ENVIRONMENT_SLUG__
+  name: gameofblocks-app-__CI_ENVIRONMENT_SLUG__
   labels:
-    app: presentation-gitlab-k8s
+    app: gameofblocks-app
     ref: __CI_ENVIRONMENT_SLUG__
     track: stable
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: presentation-gitlab-k8s
+      app: gameofblocks-app
       ref: __CI_ENVIRONMENT_SLUG__
   template:
     metadata:
       labels:
-        app: presentation-gitlab-k8s
+        app: gameofblocks-app
         ref: __CI_ENVIRONMENT_SLUG__
         track: stable
     spec:

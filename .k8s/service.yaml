@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: presentation-gitlab-k8s-__CI_BUILD_REF_SLUG__
-  namespace: presentation-gitlab-k8s
+  name: gameofblocks-app-__CI_BUILD_REF_SLUG__
+  namespace: gameofblocks-app
   labels:
     app: __CI_BUILD_REF_SLUG__
   annotations:

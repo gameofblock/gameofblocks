@@ -1,8 +1,8 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: presentation-gitlab-k8s-__CI_BUILD_REF_SLUG__
-  namespace: presentation-gitlab-k8s
+  name: gameofblocks-app-__CI_BUILD_REF_SLUG__
+  namespace: gameofblocks-app
   labels:
     app: __CI_BUILD_REF_SLUG__
   annotations:
@@ -11,15 +11,15 @@ metadata:
 spec:
   tls:
   - hosts:
-    - __CI_BUILD_REF_SLUG__-presentation-gitlab-k8s.edenmal.net
+    - __CI_BUILD_REF_SLUG__-gameofblocks-app.edenmal.net
     # the secret used here is an unsigned wildcard cert for demo purposes
     # use your own or comment this out
     secretName: tls-wildcard-demo
   rules:
-  - host: __CI_BUILD_REF_SLUG__-presentation-gitlab-k8s.edenmal.net
+  - host: __CI_BUILD_REF_SLUG__-gameofblocks-app.edenmal.net
     http:
       paths:
       - path: /
         backend:
-          serviceName: presentation-gitlab-k8s-__CI_BUILD_REF_SLUG__
+          serviceName: gameofblocks-app-__CI_BUILD_REF_SLUG__
           servicePort: 8000
