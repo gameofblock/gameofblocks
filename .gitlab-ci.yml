@@ -161,6 +161,7 @@ deploy:
   image: alpine/helm:latest
   script:
     - helm version
+    - helm repo add stable https://kubernetes-charts.storage.googleapis.com
     - helm repo update
     - helm install pg-test stable/postgresql
     # - helm init --client-only
