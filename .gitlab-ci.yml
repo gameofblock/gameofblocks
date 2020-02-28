@@ -148,7 +148,9 @@ deploy-k8s:
   stage: "Deploy"
   environment: 
     name: gameofblocks-app-${CI_ENVIRONMENT_SLUG}
-    url: test.dev.gameofblocks.io     
+    url: test.dev.gameofblocks.io   
+  before_script:
+    - apk add -u gettext      
   script:
     - kubectl version
     - cd .k8s/

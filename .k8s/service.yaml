@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gameofblocks-app-__CI_BUILD_REF_SLUG__
+  name: gameofblocks-app-${CI_COMMIT_REF_SLUG}
   namespace: gameofblocks
   labels:
-    app: __CI_BUILD_REF_SLUG__
+    app: ${CI_COMMIT_REF_SLUG}
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8000"
@@ -17,4 +17,4 @@ spec:
       port: 8000
       protocol: TCP
   selector:
-    app: __CI_BUILD_REF_SLUG__
+    app: ${CI_COMMIT_REF_SLUG}
