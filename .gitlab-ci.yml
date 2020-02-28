@@ -161,9 +161,11 @@ deploy-k8s:
     - echo "${K8S_NAMESPACE}"
     - echo "${CI_REGISTRY_IMAGE}"
     - echo "${CI_COMMIT_REF_NAME}"
+    
     - echo "${KUBECONFIG}"
     - echo "${KUBE_NAMESPACE}"
     - echo "${KUBE_TOKEN}"
+
     - envsubst < deployment.yaml > ci-deployment.yaml
     - envsubst < service.yaml > ci-service.yaml
     - envsubst < ingress.yaml > ci-ingress.yaml
