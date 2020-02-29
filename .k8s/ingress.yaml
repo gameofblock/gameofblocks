@@ -24,4 +24,4 @@ spec:
       - path: /
         backend:
           serviceName: gameofblocks-__CI_ENVIRONMENT_SLUG__
-          servicePort: 3000
+          servicePort: 80
