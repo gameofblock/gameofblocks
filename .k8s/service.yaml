@@ -16,7 +16,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 80
   selector:
     app: gameofblocks
     ref: __CI_ENVIRONMENT_SLUG__

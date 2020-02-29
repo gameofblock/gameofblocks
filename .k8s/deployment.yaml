@@ -29,16 +29,16 @@ spec:
         ports:
         - name: http-metrics
           protocol: TCP
-          containerPort: 8080
+          containerPort: 80
         livenessProbe:
           httpGet:
-            path: /health
+            path: /
             port: 80
           initialDelaySeconds: 3
           timeoutSeconds: 2
         readinessProbe:
           httpGet:
-            path: /health
+            path: /
             port: 80
           initialDelaySeconds: 3
           timeoutSeconds: 2
