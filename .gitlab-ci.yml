@@ -195,9 +195,6 @@ deploy_review:
     - echo $CI_BUILD_REF_NAME
     - echo "$CI_ENVIRONMENT_SLUG/app:$CI_COMMIT_SHA"
     - echo $CI_REGISTRY
-    - echo $CI_DEPLOY_USER
-    - echo $CI_DEPLOY_PASSWORD
-    - echo $GITLAB_USER_EMAIL
     - echo $CI_COMMIT_SHA
     - cd .k8s/
     - sed -i "s~__CI_REGISTRY_IMAGE__~${CI_REGISTRY_IMAGE}~" deployment.yaml
