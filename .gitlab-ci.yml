@@ -194,6 +194,8 @@ deploy_review:
     - echo $CI_REGISTRY_IMAGE
     - echo $VERSION
     - echo $CI_COMMIT_SHA
+    - echo $CI_COMMIT_TAG
+    - echo $CI_COMMIT_REF_SLUG
     - cd .k8s/
     - sed -i "s~__CI_REGISTRY_IMAGE__~${CI_REGISTRY_IMAGE}~" deployment.yaml
     - sed -i "s~__CI_ENVIRONMENT_SLUG__~${CI_ENVIRONMENT_SLUG}~" deployment.yaml ingress.yaml service.yaml
