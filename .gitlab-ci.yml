@@ -193,12 +193,12 @@ deploy_review:
   script:
     - kubectl version
     - echo $CI_BUILD_REF_NAME
-    - echo "$CI_REGISTRY/app:$CI_COMMIT_SHA"
+    - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
     - echo $CI_REGISTRY
     - echo $CI_REGISTRY_IMAGE
     - echo $CI_COMMIT_SHA
     - cd .k8s/
-    - sed -i "s~__CI_REGISTRY__~${CI_REGISTRY}~" deployment.yaml
+    - sed -i "s~__CI_REGISTRY_IMAGE__~${CI_REGISTRY_IMAGE}~" deployment.yaml
     - sed -i "s~__CI_ENVIRONMENT_SLUG__~${CI_ENVIRONMENT_SLUG}~" deployment.yaml ingress.yaml service.yaml
     - sed -i "s~__CI_COMMIT_SHA__~${CI_COMMIT_SHA}~" deployment.yaml ingress.yaml service.yaml
     - |
