@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: __CI_REGISTRY_IMAGE__/app:__VERSION__
+        image: __CI_REGISTRY_IMAGE__/app:__CI_COMMIT_SHA__
         imagePullPolicy: Always
         ports:
         - name: http-metrics
