@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gameofblocks-__CI_ENVIRONMENT_SLUG__
+  namespace: gameofblocks-__CI_ENVIRONMENT_SLUG__
+  labels:
+    app: gameofblocks
+    ref: __CI_ENVIRONMENT_SLUG__
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8000"
+    prometheus.io/scheme: "http"
+    prometheus.io/path: "/metrics"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: gameofblocks
+    ref: __CI_ENVIRONMENT_SLUG__

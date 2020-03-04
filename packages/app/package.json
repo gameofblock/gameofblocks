@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p 80"
   },
   "dependencies": {
     "@rebass/forms": "4.0.6",
@@ -12,7 +12,9 @@
     "apollo-boost": "0.4.7",
     "apollo-link-context": "1.0.19",
     "apollo-link-http": "1.5.16",
+    "dotenv": "^8.2.0",
     "formik": "2.1.4",
+    "graphql": "^14.6.0",
     "isomorphic-unfetch": "3.0.0",
     "js-cookie": "2.2.1",
     "jwt-decode": "2.2.0",
