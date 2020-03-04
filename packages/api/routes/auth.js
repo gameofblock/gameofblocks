@@ -1,3 +1,4 @@
+import validator from "koa-yup-validator";
 import Router from "koa-router";
 import rasha from "rasha";
 import uuid from "uuid-random";
@@ -7,6 +8,11 @@ import passport from "../config/passport";
 import * as jwtConfig from "../config/jwt";
 import { generateToken } from "../utils/hasura";
 import { sendPasswordRecoveryEmail } from "../services/mail";
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  signupSchema
+} from "../schemas/auth";
 
 const authenticate = (ctx, user, err, status, info) => {
   if (!user) {
@@ -49,22 +55,26 @@ function manageErrors(err, ctx) {
   ctx.body = body;
 }
 
-router.post("/auth/forgot-password", async ctx => {
-  const { email } = ctx.request.body;
-  ctx.set("Content-Type", "application/json");
+router.post(
+  "/auth/forgot-password",
+  validator(forgotPasswordSchema),
+  async ctx => {
+    const { email } = ctx.request.body;
+    ctx.set("Content-Type", "application/json");
 
-  const token = uuid();
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
+    const token = uuid();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
-  try {
-    await userRepository.updateResetPassword(email, token, tomorrow);
-    await sendPasswordRecoveryEmail(email, token);
-    ctx.status = 200;
-  } catch (err) {
-    manageErrors(err, ctx);
+    try {
+      await userRepository.updateResetPassword(email, token, tomorrow);
+      await sendPasswordRecoveryEmail(email, token);
+      ctx.status = 200;
+    } catch (err) {
+      manageErrors(err, ctx);
+    }
   }
-});
+);
 
 /**
  * GET /jwk
@@ -88,7 +98,7 @@ router.get("/auth/jwk", async ctx => {
  * POST /login
  * Sign in using username and password and returns JWT
  */
-router.post("/auth/login", async ctx => {
+router.post("/auth/login", validator(loginSchema), async ctx => {
   return passport.authenticate("local", (err, user, info, status) => {
     authenticate(ctx, user, err, status, info);
   })(ctx);
@@ -98,7 +108,7 @@ router.post("/auth/login", async ctx => {
  * POST /signup
  * Create a new local account
  */
-router.post("/auth/signup", async ctx => {
+router.post("/auth/signup", validator(signupSchema), async ctx => {
   try {
     const { username, password } = ctx.request.body;
     await userRepository.create(username, password);
