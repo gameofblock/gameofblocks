@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
-import { Box, Flex, Text } from 'rebass';
-import { useQuery, useMutation } from 'react-apollo';
+import { Flex, Text } from 'rebass';
+import { useQuery } from 'react-apollo';
 
 import { GAMES } from '../../queries/game';
 import { QueryProps } from './types';
@@ -16,11 +16,11 @@ const Games = () => {
 
       {!loading &&
         data &&
-        data.game.map(({ id, max_players }) => (
+        data.game.map(({ id, max_players: maxPlayers }) => (
           <Flex key={id}>
             <Text>{`GAME ${id}`}</Text>
             <Text fontWeight='bold' ml={40}>
-              0 / {max_players}
+              0 / {maxPlayers}
             </Text>
           </Flex>
         ))}
