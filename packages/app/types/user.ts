@@ -3,6 +3,7 @@ export interface UserBase {
   username: string;
   password: string;
   created_at: Date;
+  active: boolean;
 }
 
 export type User = UserBase
