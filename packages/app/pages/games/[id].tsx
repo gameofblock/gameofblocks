@@ -15,7 +15,7 @@ const Game = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const { loading, data } = useQuery<QueryProps>(GAME, {
+  const { data } = useQuery<QueryProps>(GAME, {
     variables: {
       id
     }

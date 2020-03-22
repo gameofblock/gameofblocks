@@ -1,11 +1,11 @@
-import { Fragment } from 'react';
-import { Flex, Text } from 'rebass';
+import React, { Fragment, FunctionComponent } from 'react';
 import { useQuery } from 'react-apollo';
+import { Text, Flex } from 'rebass';
 
 import { GAMES } from '../../queries/game';
 import { QueryProps } from './types';
 
-const Games = () => {
+const Games: FunctionComponent = () => {
   const { loading, data } = useQuery<QueryProps>(GAMES);
 
   return (

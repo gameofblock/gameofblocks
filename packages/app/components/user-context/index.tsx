@@ -1,15 +1,15 @@
 import { useQuery } from '@apollo/react-hooks';
 import React, { createContext, Fragment, FunctionComponent } from 'react';
+import { Text } from 'rebass';
 
-import { UserIdentifier } from './type';
+import { UserIdentifier, QueryProps } from './types';
 import { CURRENT_USER } from '../../queries/user';
 
 export const Context = createContext({});
 
 const UserProvider: FunctionComponent<UserIdentifier> = props => {
-  const { role, userId, children } = props;
-
-  const { data, error } = useQuery(CURRENT_USER, {
+  const { userId, children } = props;
+  const { data } = useQuery<QueryProps>(CURRENT_USER, {
     variables: {
       userId
     },
@@ -17,11 +17,10 @@ const UserProvider: FunctionComponent<UserIdentifier> = props => {
   });
 
   if (!data) {
-    return <Fragment>loading</Fragment>;
+    return <Text>loading</Text>;
   }
 
   const [currentUser] = data.user;
-
   return <Context.Provider value={null}>{children}</Context.Provider>;
 };
 

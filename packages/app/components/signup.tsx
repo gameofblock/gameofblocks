@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
 import { Box, Button } from 'rebass';
 import { Label, Input } from '@rebass/forms';
@@ -8,9 +9,14 @@ import { login } from '../util/auth';
 // TODO
 const url = `http://localhost:1337/auth/signup`;
 
+interface SignupFormValues {
+  password: string;
+  username: string;
+}
+
 const Signup = () => {
   return (
-    <Formik
+    <Formik<SignupFormValues>
       initialValues={{ username: '', password: '' }}
       onSubmit={async values => {
         const response = await fetch(url, {
