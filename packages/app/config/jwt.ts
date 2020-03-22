@@ -1,14 +1,23 @@
 import fs from 'fs';
-import fnv from "fnv-plus";
+import fnv from 'fnv-plus';
 
-// TODO: why does rsaPemToJwk work with a file but not with a variable?
-export const key = (
-  process.env.AUTH_PRIVATE_KEY || fs.readFileSync("private.pem").toString()
-).replace(/\\n/g, "\n");
+export interface JWTConfig {
+  privateKey: string;
+  publicKey: string;
+  kid: string;
+}
 
-export const publicKey = (
-  process.env.AUTH_PUBLIC_KEY || fs.readFileSync("public.pem").toString()
-).replace(/\\n/g, "\n");
+export async function getConfig(): Promise<JWTConfig> {
+  const privatePemKey = fs.readFileSync('private.pem').toString();
+  const publicPemKey = fs.readFileSync('public.pem').toString();
+  // Key Identifier – Acts as an ‘alias’ for the key
 
-// Key Identifier – Acts as an ‘alias’ for the key
-export const kid = process.env.AUTH_KEY_ID || fnv.hash(this.publicKey, 128).hex();
+  const publicKey = publicPemKey.replace(/\\n/g, '\n');
+  const kid = process.env.AUTH_KEY_ID || fnv.hash(publicKey, 128).hex();
+
+  return {
+    privateKey: privatePemKey.replace(/\\n/g, '\n'),
+    publicKey,
+    kid
+  };
+}

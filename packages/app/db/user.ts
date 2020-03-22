@@ -49,7 +49,7 @@ export async function updateResetPassword(
   expires: Date
 ) {
   const text = `
-  UPDATE public.user
+  UPDATE user
   SET reset_password_token = $2, reset_password_expires = $3
   WHERE email = $1
 `;

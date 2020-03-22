@@ -1,9 +1,18 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import uuid from 'uuid-random';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import { updateResetPassword } from '../../db/user';
 import { sendPasswordRecoveryEmail } from '../../services/mail';
 
-export default async (req, res) => {
+export interface ForgotPasswordResponse {
+  sended: boolean;
+}
+
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse<ForgotPasswordResponse>
+) => {
   if (req.method === 'POST') {
     const { email } = req.body;
 
@@ -13,6 +22,7 @@ export default async (req, res) => {
 
     await updateResetPassword(email, token, tomorrow);
     await sendPasswordRecoveryEmail(email, token);
-    res.status(200);
+
+    res.status(200).json({ sended: true });
   }
 };

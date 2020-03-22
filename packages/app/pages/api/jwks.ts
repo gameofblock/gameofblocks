@@ -1,9 +1,32 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import rasha from 'rasha';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-import { publicKey } from '../../config/jwt';
+import { getConfig } from '../../config/jwt';
 
-export default async (req, res) => {
+export interface JWTResponse {
+  keys: {
+    alg: string;
+    kid: string;
+    use: string;
+    kty: string;
+    n: string;
+    e: string;
+    d: string;
+    p: string;
+    q: string;
+    dp: string;
+    dq: string;
+    qi: string;
+  }[];
+}
+
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse<JWTResponse>
+) => {
   if (req.method === 'GET') {
+    const { publicKey } = await getConfig();
     const jwkProperties = await rasha.import({
       pem: publicKey,
       public: true
