@@ -38,19 +38,18 @@ passport.use(
 
 passport.use(
   new BearerStrategy(async (token, done) => {
-    // try {
-    //   const user = await findByToken(token);
-    //   if (!user) {
-    //     done('Invalid token');
-    //   } else if (user.active) {
-    //     done('User is inactive');
-    //   } else {
-    //     done(null, user);
-    //   }
-    // } catch (err) {
-    //   done(err);
-    // }
-
+    try {
+      const user = await findByToken(token);
+      if (!user) {
+        done('Invalid token');
+      } else if (user.active) {
+        done('User is inactive');
+      } else {
+        done(null, user);
+      }
+    } catch (err) {
+      done(err);
+    }
     done(null, null);
   })
 );

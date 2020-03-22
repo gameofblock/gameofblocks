@@ -25,13 +25,13 @@ const login = async (req, res, next) => {
   switch (req.method) {
     case 'POST': {
       passport.authenticate('local', (err, user) => {
-        // if (err) {
-        //   return handleResponse(res, 400, { error: err });
-        // }
-        // if (user) {
-        //   handleResponse(res, 200, user.getUser());
-        // }
-        // return user;
+        if (err) {
+          return handleResponse(res, 400, { error: err });
+        }
+        if (user) {
+          handleResponse(res, 200, user.getUser());
+        }
+        return user;
       })(req, res, next);
 
       break;
