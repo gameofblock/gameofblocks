@@ -7,7 +7,7 @@ const passport = require('passport');
 const cors = require('cors');
 const expressPinoLogger = require('express-pino-logger');
 
-const logger = require('./util/logger');
+const logger = require('./utils/logger');
 
 const port = parseInt(process.env.PORT);
 const dev = process.env.NODE_ENV !== 'production';
@@ -17,11 +17,11 @@ const handler = app.getRequestHandler();
 app.prepare().then(() => {
   express()
     .use(cors())
-    .use(
-      expressPinoLogger({
-        logger
-      })
-    )
+    // .use(
+    //   expressPinoLogger({
+    //     logger
+    //   })
+    // )
     .use(bodyParser.json({ type: 'application/*+json' }))
     .use(passport.initialize())
     .use(passport.session())

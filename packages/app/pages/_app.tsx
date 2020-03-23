@@ -7,7 +7,7 @@ import theme from '@rebass/preset';
 
 import { Provider as UserProvider } from '../components/user-context';
 import withApolloClient from '../components/hocs/with-apollo-client';
-import { formatUserFromToken } from '../util';
+import { formatUserFromToken } from '../utils';
 
 interface ComponentProps {
   apolloClient?: any;

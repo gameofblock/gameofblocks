@@ -5,19 +5,21 @@ import { Box, Text, Button } from 'rebass';
 import { Label, Input, Select, Textarea, Radio, Checkbox } from '@rebass/forms';
 import { Formik } from 'formik';
 
-import { login } from '../util/auth';
+import { login } from '../utils/auth';
 
 interface SigninFormValues {
   password: string;
   username: string;
 }
 
+const url = `${process.env.API_URL}/api/auth/login`
+
 const Signin = () => {
   return (
     <Formik<SigninFormValues>
       initialValues={{ username: '', password: '' }}
       onSubmit={async values => {
-        const response = await fetch(`http://localhost:1337/auth/login`, {
+        const response = await fetch(url, {
           body: JSON.stringify({
             password: values.password,
             username: values.username

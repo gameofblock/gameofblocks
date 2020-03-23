@@ -4,10 +4,9 @@ import { Box, Button } from 'rebass';
 import { Label, Input } from '@rebass/forms';
 import { Formik } from 'formik';
 
-import { login } from '../util/auth';
+import { login } from '../utils/auth';
 
-// TODO
-const url = `http://localhost:1337/auth/signup`;
+const url = `${process.env.API_URL}/api/auth/signup`;
 
 interface SignupFormValues {
   password: string;

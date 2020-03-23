@@ -3,18 +3,18 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import bcrypt from 'bcryptjs';
 
-import logger from '../util/logger';
+import logger from '../utils/logger';
 import { findByUsername, findByToken } from '../db/user';
 
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'email',
+      usernameField: 'username',
       passwordField: 'password'
     },
     async (username, password, done) => {
       try {
-        logger.info(`Tentative de connexion de ${username}`);
+        logger.info(`Login attempt (username: ${username})`);
         const user = await findByUsername(username);
         if (!user) {
           done('Unknown user');
