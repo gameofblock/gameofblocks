@@ -2,7 +2,7 @@
 import rasha from 'rasha';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getConfig } from '../../config/jwt';
+import { getConfig } from '../../../config/jwt';
 
 export interface JWTResponse {
   keys: {

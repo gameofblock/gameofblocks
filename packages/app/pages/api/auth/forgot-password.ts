@@ -2,8 +2,8 @@
 import uuid from 'uuid-random';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { updateResetPassword } from '../../db/user';
-import { sendPasswordRecoveryEmail } from '../../services/mail';
+import { updateResetPassword } from '../../../db/user';
+import { sendPasswordRecoveryEmail } from '../../../services/mail';
 
 export interface ForgotPasswordResponse {
   sended: boolean;
