@@ -2,11 +2,13 @@
 import uuid from 'uuid-random';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { updateResetPassword } from '../../../db/user';
+import { updateResetPassword, findByEmail } from '../../../db/user';
 import { sendPasswordRecoveryEmail } from '../../../services/mail';
 
 export interface ForgotPasswordResponse {
   sended: boolean;
+  error?: string;
+  sandboxEnable?: boolean;
 }
 
 export default async (
@@ -20,9 +22,20 @@ export default async (
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    await updateResetPassword(email, token, tomorrow);
-    await sendPasswordRecoveryEmail(email, token);
+    try {
+      const user = await findByEmail(email);
+      if (!user) {
+        throw new Error('email is not valid');
+      }
 
-    res.status(200).json({ sended: true });
+      await updateResetPassword(email, token, tomorrow);
+      const { sandboxEnable } = await sendPasswordRecoveryEmail(email, token);
+      res.status(200).json({ sended: true, sandboxEnable });
+    } catch (err) {
+      res.status(500).json({
+        sended: false,
+        error: !err || !err.message ? '' : err.message
+      });
+    }
   }
 };

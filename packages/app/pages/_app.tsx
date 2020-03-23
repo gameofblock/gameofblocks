@@ -6,7 +6,7 @@ import { ThemeProvider } from 'theme-ui';
 import theme from '@rebass/preset';
 
 import { Provider as UserProvider } from '../components/user-context';
-import withApolloClient from '../components/hocs/with-apollo-client';
+import withApolloClient from '../hocs/with-apollo-client';
 import { formatUserFromToken } from '../utils';
 
 interface ComponentProps {

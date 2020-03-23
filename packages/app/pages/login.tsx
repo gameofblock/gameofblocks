@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from 'rebass';
 
-import Signin from '../components/signin';
+import Signin from '../components/Signin';
 
 const Login = () => {
   return (

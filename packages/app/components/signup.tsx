@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Button } from 'rebass';
 import { Label, Input } from '@rebass/forms';
 import { Formik } from 'formik';
+import fetch from 'unfetch';
 
 import { login } from '../utils/auth';
 

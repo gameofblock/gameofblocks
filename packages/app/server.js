@@ -15,13 +15,18 @@ const app = next({ dev });
 const handler = app.getRequestHandler();
 
 app.prepare().then(() => {
-  express()
-    .use(cors())
-    // .use(
-    //   expressPinoLogger({
-    //     logger
-    //   })
-    // )
+  const server = express();
+  server.use(cors());
+
+  if (process.env.HTTP_LOGGER === "1") {
+    server.use(
+      expressPinoLogger({
+        logger
+      })
+    );
+  }
+
+  server
     .use(bodyParser.json({ type: 'application/*+json' }))
     .use(passport.initialize())
     .use(passport.session())

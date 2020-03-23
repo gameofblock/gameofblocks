@@ -3,7 +3,7 @@ import { useQuery } from 'react-apollo';
 
 import { GAMES } from '../../queries/game';
 import OpenGames from '../../components/open-games';
-import { withAuthSync } from '../../components/hocs/with-auth-sync';
+import { withAuthSync } from '../../hocs/with-auth-sync';
 
 const Games = () => {
   return (

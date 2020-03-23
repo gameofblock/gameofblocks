@@ -4,6 +4,7 @@ export interface UserBase {
   password: string;
   created_at: Date;
   active: boolean;
+  email: string;
 }
 
 export type User = UserBase

@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Box } from 'rebass';
 
-import Signup from '../components/signup';
+import Signup from '../components/Signup';
 
 const SignupPage = () => (
   <div className='container'>

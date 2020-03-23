@@ -10,7 +10,7 @@ export async function create(
   const salt = await bcrypt.genSalt();
   const pwd = await bcrypt.hash(password, salt);
   const text =
-    'INSERT INTO public.user (username, password) VALUES($1, $2) RETURNING id, username, password, created_at, active';
+    'INSERT INTO public.user (username, password) VALUES($1, $2) RETURNING id, username, password, created_at, active, email';
   const response = await pool.query<UserBase>(text, [username, pwd]);
   const [user] = response.rows;
   return user;
@@ -18,7 +18,7 @@ export async function create(
 
 export async function findByUsername(username: string): Promise<UserBase> {
   const text = `
-    SELECT u.id, u.username, u.password, u.created_at, u.active
+    SELECT u.id, u.username, u.password, u.created_at, u.active, u.email
     FROM public.user AS u WHERE username = $1 LIMIT 1
   `;
   const response = await pool.query<UserBase>(text, [username]);
@@ -26,9 +26,19 @@ export async function findByUsername(username: string): Promise<UserBase> {
   return user;
 }
 
+export async function findByEmail(email: string): Promise<UserBase> {
+  const text = `
+    SELECT u.id, u.username, u.password, u.created_at, u.active, u.email
+    FROM public.user AS u WHERE email = $1 LIMIT 1
+  `;
+  const response = await pool.query<UserBase>(text, [email]);
+  const [user] = response.rows;
+  return user;
+}
+
 export async function findByToken(token: string): Promise<UserBase> {
   const text = `
-    SELECT u.id, u.username, u.password, u.created_at, u.active
+    SELECT u.id, u.username, u.password, u.created_at, u.active, u.email
     FROM public.user AS u WHERE token = $1 LIMIT 1
   `;
   const response = await pool.query<UserBase>(text, [token]);
@@ -38,7 +48,7 @@ export async function findByToken(token: string): Promise<UserBase> {
 
 export async function findById(id: string): Promise<UserBase> {
   const text = `
-    SELECT u.id, u.username, u.password, u.created_at, u.active
+    SELECT u.id, u.username, u.password, u.created_at, u.active, u.email
     FROM public.user AS u WHERE id = $1 LIMIT 1
   `;
   const response = await pool.query<UserBase>(text, [id]);
