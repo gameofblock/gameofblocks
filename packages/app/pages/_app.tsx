@@ -1,57 +1,67 @@
-import jwtDecode from 'jwt-decode';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import App from 'next/app';
 import React from 'react';
-import { ApolloProvider } from 'react-apollo';
 import { ThemeProvider } from 'theme-ui';
 import theme from '@rebass/preset';
+import withApollo from 'next-with-apollo';
+import getConfig from 'next/config';
+import { ApolloProvider } from '@apollo/react-hooks';
 
-import { Provider as UserProvider } from '../components/user-context';
-import withApolloClient from '../hocs/with-apollo-client';
-import { formatUserFromToken } from '../utils';
+import initApolloClient from '../utils/init-apollo';
 
 interface ComponentProps {
-  apolloClient?: any;
+  apollo?: any;
 }
 
-class MyApp extends App<ComponentProps> {
-  static async getInitialProps(appContext) {
-    const { Component, ctx } = appContext;
+interface ComponentState {
+  user?: any;
+}
 
-    let pageProps = {};
-
-    try {
-      if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-      }
-    } catch (e) {
-      //throw e; // you can also skip re-throwing and set property on pageProps
+class GOBApp extends App<ComponentProps, {}, ComponentState> {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps: { user?: any } = {};
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
     }
+    if (ctx.req && ctx.req.session.passport) {
+      pageProps.user = ctx.req.session.passport.user;
+    }
+    return { pageProps };
+  }
 
-    return {
-      pageProps
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: props.pageProps.user
     };
   }
 
   render() {
-    const { Component, pageProps, apolloClient } = this.props;
+    const { Component, pageProps, apollo } = this.props;
+    console.log('=> pageProps', pageProps);
     const { token } = pageProps;
-    
-    const currentUser = token ? jwtDecode(token) : null;
-    const data = { currentUser: formatUserFromToken(currentUser) };
-    const user = formatUserFromToken(currentUser);
 
-    apolloClient.cache.writeData({ data });
+    const props = {
+      ...pageProps,
+      user: this.state.user
+    };
+
+    // const currentUser = token ? jwtDecode(token) : null;
+    // const data = { currentUser: formatUserFromToken(currentUser) };
+    // const user = formatUserFromToken(currentUser);
+    // apolloClient.cache.writeData({ data });
+
+    const domain = process.env.AUTH0_DOMAIN;
+    const clientId = process.env.AUTH0_CLIENT_ID;
 
     return (
-      <ApolloProvider client={apolloClient}>
+      <ApolloProvider client={apollo}>
         <ThemeProvider theme={theme}>
-          <UserProvider user={user}>
-            <Component {...pageProps} />
-          </UserProvider>
+          <Component {...props} />
         </ThemeProvider>
       </ApolloProvider>
     );
   }
 }
 
-export default withApolloClient(MyApp);
+export default withApollo(({ initialState, ctx }) => initApolloClient(initialState, ctx))(GOBApp);
