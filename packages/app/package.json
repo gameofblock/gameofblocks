@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.3.8",
-    "@types/react": "16.9.25",
+    "@types/react": "16.9.27",
     "@types/node": "^13.9.2",
     "@types/passport-http-bearer": "^1.0.34",
     "@types/passport-local": "^1.0.33",
