@@ -1,19 +1,12 @@
 import jwtDecode from 'jwt-decode';
 import App from 'next/app';
 import React from 'react';
-import { ApolloProvider } from 'react-apollo';
-import { ThemeProvider } from 'theme-ui';
-import theme from '@rebass/preset';
-
-import { Provider as UserProvider } from '../components/user-context';
-import withApolloClient from '../components/hocs/with-apollo-client';
-import { formatUserFromToken } from '../util';
 
 interface ComponentProps {
   apolloClient?: any;
 }
 
-class MyApp extends App<ComponentProps> {
+class GameOfBlocks extends App<ComponentProps> {
   static async getInitialProps(appContext) {
     const { Component, ctx } = appContext;
 
@@ -33,25 +26,11 @@ class MyApp extends App<ComponentProps> {
   }
 
   render() {
-    const { Component, pageProps, apolloClient } = this.props;
-    const { token } = pageProps;
-    
-    const currentUser = token ? jwtDecode(token) : null;
-    const data = { currentUser: formatUserFromToken(currentUser) };
-    const user = formatUserFromToken(currentUser);
-
-    apolloClient.cache.writeData({ data });
-
+    const { Component, pageProps } = this.props;
     return (
-      <ApolloProvider client={apolloClient}>
-        <ThemeProvider theme={theme}>
-          <UserProvider user={user}>
-            <Component {...pageProps} />
-          </UserProvider>
-        </ThemeProvider>
-      </ApolloProvider>
+      <Component {...pageProps} />
     );
   }
 }
 
-export default withApolloClient(MyApp);
+export default GameOfBlocks;
