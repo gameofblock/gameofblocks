@@ -1,14 +1,15 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
+import { NextPage } from 'next';
 import Head from 'next/head';
 
-const Home: FunctionComponent = () => {
+const Home: NextPage = () => {
   return (
     <div className="container">
       <Head>
         <title>Create Next App test 3</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>hello 2</main>
+      <main>gameofblocks</main>
       <footer />
     </div>
   );
