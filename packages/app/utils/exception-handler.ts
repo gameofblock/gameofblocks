@@ -1,6 +1,6 @@
 import { errorHandler } from './error-handler';
 
-function ExceptionHandler(): void {
+function ExceptionHandler(): Promise<void> {
   process.on('unhandledRejection', (reason) => {
     // I just caught an unhandled promise rejection,
     // since we already have fallback handler for unhandled errors (see below),
