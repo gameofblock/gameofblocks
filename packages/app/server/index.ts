@@ -11,31 +11,35 @@ const handle = app.getRequestHandler();
 const port = process.env.PORT || 3000;
 
 (async (): Promise<void> => {
-  await app.prepare();
-  const server = express();
+  try {
+    await app.prepare();
+    const server = express();
 
-  if (process.env.HTTP_LOGGER === '1') {
-    server.use(
-      expressPinoLogger({
-        logger,
-      })
-    );
-  }
-
-  server.use(
-    async (err: Error, req: Request, res: Response, next: NextFunction) => {
-      const isOperationalError = await errorHandler.handleError(err);
-      if (!isOperationalError) {
-        next(err);
-      }
+    if (process.env.HTTP_LOGGER === '1') {
+      server.use(
+        expressPinoLogger({
+          logger,
+        })
+      );
     }
-  );
-
-  server.get('*', (req: Request, res: Response) => handle(req, res));
-
-  http.createServer(server).listen(port, () => {
-    logger.info(
-      `App is running at http://localhost:${port} in ${process.env.NODE_ENV} mode`
+    server.use(
+      async (err: Error, req: Request, res: Response, next: NextFunction) => {
+        const isOperationalError = await errorHandler.handleError(err);
+        if (!isOperationalError) {
+          next(err);
+        }
+      }
     );
-  });
+
+    server.get('*', (req: Request, res: Response) => handle(req, res));
+
+    http.createServer(server).listen(port, () => {
+      logger.info(
+        `App is running at http://localhost:${port} in ${process.env.NODE_ENV} mode`
+      );
+    });
+  } catch (err) {
+    errorHandler.handleError(err);
+    process.exit(1);
+  }
 })();
