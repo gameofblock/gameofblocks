@@ -12,7 +12,8 @@
   "scripts": {
     "build": "lerna run build",
     "dev": "lerna run dev --parallel",
-    "start": "lerna run start --parallel"
+    "start": "lerna run start --parallel",
+    "lint": "lerna run lint"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
