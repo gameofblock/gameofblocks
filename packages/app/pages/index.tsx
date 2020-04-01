@@ -8,7 +8,7 @@ const Home: FunctionComponent = () => {
         <title>Create Next App test 3</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>hello 2</main>
+      <main>gameofblocks</main>
       <footer />
     </div>
   );
