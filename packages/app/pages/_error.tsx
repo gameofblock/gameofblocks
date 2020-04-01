@@ -1,11 +1,11 @@
-import { NextPageContext } from 'next';
+import { NextPageContext, NextPage } from 'next';
 import React from 'react';
 
-interface Props {
+interface ErrorProps {
   statusCode: number;
 }
 
-const Error = ({ statusCode }: Props): FunctionComponent => {
+const Error: NextPage<ErrorProps> = ({ statusCode }: ErrorProps) => {
   return (
     <p>
       {statusCode
@@ -15,7 +15,7 @@ const Error = ({ statusCode }: Props): FunctionComponent => {
   );
 };
 
-Error.getInitialProps = ({ res, err }: NextPageContext): Props => {
+Error.getInitialProps = ({ res, err }: NextPageContext): ErrorProps => {
   const errCode = err ? err.statusCode : 404;
   const statusCode = res ? res.statusCode : errCode;
   return { statusCode };
