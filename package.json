@@ -10,6 +10,7 @@
   "description": "gameofblocks",
   "main": "index.js",
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "dev": "lerna run dev --parallel",
     "start": "lerna run start --parallel",
