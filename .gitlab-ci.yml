@@ -126,9 +126,12 @@ Register app image:
     - .base_register_stage
     - .register_stage
   dependencies:
+    - Install app
+    - Install env
     - Build @gameofblocks/app
   needs:
     - Install app
+    - Install env
     - Build @gameofblocks/app
   before_script:
     - cp yarn.lock packages/app/yarn.lock
