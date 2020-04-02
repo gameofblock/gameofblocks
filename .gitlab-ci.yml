@@ -134,7 +134,7 @@ Register app image:
     - Install env
     - Build @gameofblocks/app
   before_script:
-    - cp -r ./node_modules packages/app
+    - cp -r ./packages/env packages/app/packages
     - cp yarn.lock packages/app/yarn.lock
   variables:
     CONTEXT: packages/app
