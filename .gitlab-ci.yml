@@ -59,6 +59,11 @@ Install app:
   variables:
     CONTEXT: app
 
+Install env:
+  extends: .base_yarn_workspace_install
+  variables:
+    CONTEXT: env
+
 ################################################################################################
 ###################################                    #########################################
 ###################################     BUILD IMAGE    #########################################
@@ -71,8 +76,10 @@ Build @gameofblocks/app:
     INVALID_GIT_FILES_CHANGES: 'true'
   dependencies:
     - Install app
+    - Install env
   needs:
     - Install app
+    - Install env
   image: node:12-alpine
   script:
     - yarn workspace @gameofblocks/app build
