@@ -27,13 +27,25 @@ stages:
   extends: .prepare_stage
   image: node:13-alpine
   interruptible: true
+  cache:
+    key: '$CI_JOB_NAME-$CI_COMMIT_REF_SLUG'
+    paths:
+      - $CI_PROJECT_DIR/.cache
   script:
     - '[[ type jq ]] || apk add jq=~1'
     - apk add --no-cache --virtual .gyp make python gcc postgresql-dev g++
-    - "{ rm package.json; jq 'del(.dependencies) | del(.devDependencies)' > package.json; } < package.json"
-
-    - yarn config set cache-folder $CI_PROJECT_DIR/.yarn
+    - find packages -maxdepth 1 -type d -not -name ${CONTEXT} | tail -n +2 |
+      xargs -I {} sh -c "[[ -f "{}/package.json" ]] || exit 0 ; {
+      rm {}/package.json ;
+      jq 'del(.dependencies) | del(.devDependencies)' > {}/package.json
+      ; } < {}/package.json"
+    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
     - yarn --frozen-lockfile
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - node_modules
+      - packages/app/node_modules
 
 ################################################################################################
 ###################################               ##############################################
@@ -41,24 +53,10 @@ stages:
 ###################################               ##############################################
 ################################################################################################
 
-# Install api:
-#   extends: .base_yarn_workspace_install
-#   variables:
-#     CONTEXT: api
-#   before_script:
-#     - find packages -maxdepth 1 -type d -not -name api -not -name knex | tail -n +2 | xargs rm -rf
-#   artifacts:
-#     expire_in: 1 day
-#     paths:
-#       - node_modules
-#       - packages/api/node_modules
-
 Install app:
   extends: .base_yarn_workspace_install
   variables:
     CONTEXT: app
-  before_script:
-    - find packages -maxdepth 1 -type d -not -name app | tail -n +2 | xargs rm -rf
   artifacts:
     expire_in: 1 day
     paths:
@@ -86,6 +84,7 @@ Build @gameofblocks/app:
     expire_in: 1 day
     paths:
       - packages/app/.next
+      - packages/app/dist
 
 ################################################################################################
 ###################################                    #########################################
