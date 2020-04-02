@@ -133,47 +133,13 @@ Register app image:
     - Install env
     - Build @gameofblocks/app
   before_script:
+    - cp -r ./node_modules packages/app/node_modules
     - cp yarn.lock packages/app/yarn.lock
   variables:
     CONTEXT: packages/app
     IMAGE_NAME: $CI_REGISTRY_IMAGE/app
 
 ############### Deploy APP ###############################
-
-# deploy-k8s:
-#   image:
-#     name: lachlanevenson/k8s-kubectl:latest
-#     entrypoint: ["/bin/sh", "-c"]
-#   stage: "Deploy"
-#   only:
-#     - branches
-#   except:
-#     - tags
-#   environment:
-#     name: gameofblocks-app-${K8S_NAMESPACE}
-#     url: https://$K8S_NAMESPACE-.dev.gameofblocks.io
-#   before_script:
-#     - apk add -u gettext
-#     - source ./.gitlab/ci/env.sh
-#   script:
-#     - kubectl version
-#     - cd .k8s/
-#     - echo "${K8S_NAMESPACE}"
-#     - echo "${CI_REGISTRY_IMAGE}"
-#     - echo "${CI_COMMIT_REF_NAME}"
-
-#     - echo "${KUBECONFIG}"
-#     - echo "${KUBE_NAMESPACE}"
-#     - echo "${KUBE_TOKEN}"
-
-#     - envsubst < deployment.yaml > ci-deployment.yaml
-#     - envsubst < service.yaml > ci-service.yaml
-#     - envsubst < ingress.yaml > ci-ingress.yaml
-#     - kubectl apply -f ci-deployment.yaml
-#     - kubectl apply -f ci-service.yaml
-#     - kubectl apply -f ci-ingress.yaml
-#     - kubectl rollout status -f deployment.yaml
-#     - kubectl get all,ing -l ref=${K8S_NAMESPACE}
 
 deploy_review:
   image:
