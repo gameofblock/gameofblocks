@@ -138,6 +138,7 @@ Register app image:
     - cp -r ./packages/env/ packages/app/packages/env
     - cp lerna.json packages/app/lerna.json
     - cp yarn.lock packages/app/yarn.lock
+
   variables:
     CONTEXT: packages/app
     IMAGE_NAME: $CI_REGISTRY_IMAGE/app
