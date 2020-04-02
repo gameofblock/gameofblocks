@@ -41,7 +41,6 @@ stages:
       ; } < {}/package.json"
     - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
     - yarn --frozen-lockfile
-    - yarn lerna bootstrap
   artifacts:
     expire_in: 1 day
     paths:
