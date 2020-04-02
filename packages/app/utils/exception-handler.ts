@@ -1,4 +1,4 @@
-import { errorHandler } from './error-handler';
+import { handleError } from './error-handler';
 
 function ExceptionHandler(): void {
   process.on('unhandledRejection', (reason) => {
@@ -8,9 +8,7 @@ function ExceptionHandler(): void {
     throw reason;
   });
 
-  process.on('uncaughtException', (error) => {
-    errorHandler.handleError(error);
-  });
+  process.on('uncaughtException', (error) => handleError(error));
 }
 const exceptionHandler = new ExceptionHandler();
 
