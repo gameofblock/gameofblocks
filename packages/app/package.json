@@ -12,6 +12,7 @@
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
+    "@gameofblocks/env": "^1.0.0",
     "@rebass/forms": "4.0.6",
     "@rebass/preset": "4.0.5",
     "@sendgrid/helpers": "^6.5.5",
@@ -43,8 +44,7 @@
     "rebass": "4.0.7",
     "theme-ui": "0.3.1",
     "uid-safe": "^2.1.5",
-    "unfetch": "4.1.0",
-    "@gameofblocks/env": "1.0.0"
+    "unfetch": "4.1.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.4",
