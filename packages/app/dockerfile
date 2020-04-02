@@ -6,7 +6,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY package.json yarn.lock /app/
-COPY ./package/env /app/packages/env
+COPY ./packages/env /app/packages/env
 
 RUN yarn --production --frozen-lockfile --no-cache
 
