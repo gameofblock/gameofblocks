@@ -57,11 +57,6 @@ Install app:
   extends: .base_yarn_workspace_install
   variables:
     CONTEXT: app
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - node_modules
-      - packages/app/node_modules
 
 ################################################################################################
 ###################################                    #########################################
