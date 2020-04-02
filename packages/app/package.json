@@ -11,8 +11,10 @@
     "lint": "eslint . --ext .ts,.tsx --ignore-pattern '**/*.d.ts'",
     "lint:fix": "yarn lint --fix"
   },
+  "peerDependencies": {
+    "@gameofblocks/env": "^1.0.0"
+  },
   "dependencies": {
-    "@gameofblocks/env": "^1.0.0",
     "@rebass/forms": "4.0.6",
     "@rebass/preset": "4.0.5",
     "@sendgrid/helpers": "^6.5.5",
