@@ -136,6 +136,7 @@ Register app image:
   before_script:
     - mkdir ./packages/app/packages
     - cp -r ./packages/env/ packages/app/packages/env
+    - cp lerna.json packages/app/lerna.json
     - cp yarn.lock packages/app/yarn.lock
   variables:
     CONTEXT: packages/app
