@@ -8,19 +8,19 @@ variables:
   DOCKER_TLS_CERTDIR: ''
   GIT_STRATEGY: fetch
   GIT_DEPTH: 5
-  
+
   # Globals
-  DOCKER_VERSION: "18"
-  PYTHON_VERSION: "3.6-alpine"
+  DOCKER_VERSION: '18'
+  PYTHON_VERSION: '3.6-alpine'
 
 stages:
-- "Prepare"
-- "Build Image"
-- "Registration"
-- "Deploy"
+  - 'Prepare'
+  - 'Build Image'
+  - 'Registration'
+  - 'Deploy'
 
 .prepare_stage:
-  stage: "Prepare"
+  stage: 'Prepare'
   dependencies: []
 
 .base_yarn_workspace_install:
@@ -28,7 +28,7 @@ stages:
   image: node:13-alpine
   interruptible: true
   script:
-    - "[[ type jq ]] || apk add jq=~1"
+    - '[[ type jq ]] || apk add jq=~1'
     - apk add --no-cache --virtual .gyp make python gcc postgresql-dev g++
     - "{ rm package.json; jq 'del(.dependencies) | del(.devDependencies)' > package.json; } < package.json"
 
@@ -40,7 +40,6 @@ stages:
 ###################################     PREPARE   ##############################################
 ###################################               ##############################################
 ################################################################################################
-
 
 # Install api:
 #   extends: .base_yarn_workspace_install
@@ -65,6 +64,7 @@ Install app:
     paths:
       - node_modules
       - packages/app/node_modules
+      - packages/env/node_modules
 
 ################################################################################################
 ###################################                    #########################################
@@ -73,9 +73,9 @@ Install app:
 ################################################################################################
 
 Build @gameofblocks/app:
-  stage: "Build Image"
+  stage: 'Build Image'
   variables:
-    INVALID_GIT_FILES_CHANGES: "true"
+    INVALID_GIT_FILES_CHANGES: 'true'
   dependencies:
     - Install app
   needs:
@@ -104,8 +104,6 @@ Build @gameofblocks/app:
   services:
     - docker:19-dind
 
-
-
 .base_stage:
   except:
     variables:
@@ -118,7 +116,7 @@ Build @gameofblocks/app:
 
 .register_stage:
   extends: .base_stage
-  stage: "Registration"
+  stage: 'Registration'
   interruptible: true
   dependencies: []
 
@@ -137,7 +135,6 @@ Register app image:
     CONTEXT: packages/app
     IMAGE_NAME: $CI_REGISTRY_IMAGE/app
 
-
 ############### Deploy APP ###############################
 
 # deploy-k8s:
@@ -149,7 +146,7 @@ Register app image:
 #     - branches
 #   except:
 #     - tags
-#   environment: 
+#   environment:
 #     name: gameofblocks-app-${K8S_NAMESPACE}
 #     url: https://$K8S_NAMESPACE-.dev.gameofblocks.io
 #   before_script:
@@ -161,7 +158,7 @@ Register app image:
 #     - echo "${K8S_NAMESPACE}"
 #     - echo "${CI_REGISTRY_IMAGE}"
 #     - echo "${CI_COMMIT_REF_NAME}"
-    
+
 #     - echo "${KUBECONFIG}"
 #     - echo "${KUBE_NAMESPACE}"
 #     - echo "${KUBE_TOKEN}"
@@ -178,8 +175,8 @@ Register app image:
 deploy_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ["/bin/sh", "-c"]
-  stage: "Deploy"
+    entrypoint: ['/bin/sh', '-c']
+  stage: 'Deploy'
   only:
     - branches
   except:
@@ -189,7 +186,7 @@ deploy_review:
     url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
   before_script:
     - apk add -u gettext
-    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -    
+    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
   script:
     - kubectl version
     - echo $CI_BUILD_REF_NAME
