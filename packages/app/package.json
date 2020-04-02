@@ -42,7 +42,8 @@
     "rebass": "4.0.7",
     "theme-ui": "0.3.1",
     "uid-safe": "^2.1.5",
-    "unfetch": "4.1.0"
+    "unfetch": "4.1.0",
+    "@gameofblocks/env": "1.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.4",
