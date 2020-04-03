@@ -174,5 +174,5 @@ deploy_review:
     - kubectl apply -f /tmp/deployment.yaml
     - kubectl apply -f /tmp/service.yaml || true
     - kubectl apply -f /tmp/ingress.yaml
-    - kubectl rollout status -f deployment.yaml
+    - kubectl rollout status -f /tmp/deployment.yaml
     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
