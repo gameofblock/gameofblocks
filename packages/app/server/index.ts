@@ -21,6 +21,7 @@ const port = process.env.PORT || 3000;
 
 (async (): Promise<void> => {
   try {
+    console.log(env);
     await app.prepare();
     const server = express();
 

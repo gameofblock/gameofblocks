@@ -26,6 +26,13 @@ spec:
         - name: app
           image: __CI_REGISTRY_IMAGE__/app:__CI_COMMIT_SHA__
           imagePullPolicy: Always
+          env:
+            - name: AUTH0_DOMAIN
+              value: 'Hello from the environment'
+            - name: AUTH0_CLIENT_ID
+              value: 'Such a sweet sorrow'
+            - name: AUTH0_CLIENT_SECRET
+              value: 'Such a sweet sorrow'
           ports:
             - name: http-metrics
               protocol: TCP
