@@ -5,6 +5,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+RUN apk add jq
 RUN npm i lerna -g --loglevel notice
 RUN npm install --loglevel notice
 
