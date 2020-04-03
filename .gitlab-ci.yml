@@ -134,11 +134,7 @@ Register app image:
     - Install app
     - Install env
     - Build @gameofblocks/app
-  before_script:
-    - cp yarn.lock packages/app/yarn.lock
-    - cp --dereference --recursive node_modules/* packages/app/node_modules/
   variables:
-    CONTEXT: packages/app
     IMAGE_NAME: $CI_REGISTRY_IMAGE/app
 
 ############### Deploy APP ###############################
