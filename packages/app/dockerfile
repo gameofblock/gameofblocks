@@ -5,12 +5,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN LS
-RUN yarn --production --frozen-lockfile --no-cache
+COPY package.json yarn.lock /app/
 
-COPY ./package/app/next.config.js /app/
-COPY ./package/app/public/ /app/public
-COPY ./package/app/.next /app/.next
-COPY ./package/app/dist /app/dist
+COPY ./next.config.js /app/
+COPY ./public/ /app/public
+COPY .next /app/.next
+COPY ./dist /app/dist
 
 ENTRYPOINT ["yarn", "start"]
