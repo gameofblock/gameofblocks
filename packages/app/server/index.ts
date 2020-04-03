@@ -8,6 +8,7 @@ import session from 'express-session';
 import cors from 'cors';
 import passport from 'passport';
 import Auth0Strategy from 'passport-auth0';
+import MemoryStore from 'memorystore';
 
 import { logger } from '../utils/logger';
 import { handleError } from '../utils/error-handler';
@@ -25,14 +26,21 @@ const port = process.env.PORT || 3000;
     await app.prepare();
     const server = express();
 
+    const SessionMemoryStore = MemoryStore(session);
+    const MAX_AGE = 86400000; // prune expired entries every 24h
+
     const sessionConfig = {
       secret: uid.sync(18),
       cookie: {
-        maxAge: 86400 * 1000,
+        maxAge: MAX_AGE,
       },
+      store: new SessionMemoryStore({
+        checkPeriod: MAX_AGE,
+      }),
       resave: false,
       saveUninitialized: true,
     };
+
     server.use(session(sessionConfig));
     server.use(cors());
 
