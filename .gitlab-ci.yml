@@ -134,8 +134,10 @@ Register app image:
     - Install app
     - Install env
     - Build @gameofblocks/app
+  before_script:
+    - cp packages/app/dockerfile ./dockerfile
   variables:
-    CONTEXT: packages/app
+    CONTEXT: ./
     IMAGE_NAME: $CI_REGISTRY_IMAGE/app
 
 ############### Deploy APP ###############################
