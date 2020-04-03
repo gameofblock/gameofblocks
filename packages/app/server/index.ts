@@ -17,7 +17,7 @@ import authRoutes from './auth-routes';
 const dev = env.NODE_ENV !== 'production';
 const app = nextJs({ dev });
 const handle = app.getRequestHandler();
-const port = process.env.PORT || 3000;
+const port = process.env.APP_PORT || 3000;
 
 (async (): Promise<void> => {
   try {
