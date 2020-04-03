@@ -11,7 +11,7 @@ COPY ./packages/env /app/packages/env
 RUN yarn --production --frozen-lockfile --no-cache
 
 COPY ./packages/app/next.config.js /app/
-COPY ./packages/app//public/ /app/public
+COPY ./packages/app/public/ /app/public
 COPY ./packages/app/.next /app/.next
 COPY ./packages/app/dist /app/dist
 
