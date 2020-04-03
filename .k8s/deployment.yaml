@@ -35,6 +35,8 @@ spec:
               value: ${AUTH0_CLIENT_SECRET}
             - name: AUTH0_CALLBACK_URL
               value: 'http://test.tototo'
+            - name: APP_PORT
+              value: ${APP_PORT}
           ports:
             - name: http-metrics
               protocol: TCP
