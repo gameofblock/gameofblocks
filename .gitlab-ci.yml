@@ -136,6 +136,9 @@ Register app image:
     - Build @gameofblocks/app
   before_script:
     - cp yarn.lock packages/app/yarn.lock
+    - cp lerna.json packages/app/lerna.json
+    - mkdir packages/app/packages
+    - cp -r packages/env packages/app/packages/env
   variables:
     CONTEXT: packages/app
     IMAGE_NAME: $CI_REGISTRY_IMAGE/app

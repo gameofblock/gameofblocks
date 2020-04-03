@@ -5,7 +5,7 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "packages/*"
+    "packagestest/*"
   ],
   "description": "gameofblocks",
   "main": "index.js",
