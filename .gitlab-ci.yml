@@ -168,9 +168,9 @@ deploy_review:
     - echo $CI_REGISTRY_IMAGE
     - echo $CI_COMMIT_SHA
     - cd .k8s/
-    - envsubst < deployment.yml
-    - envsubst < ingress.yml
-    - envsubst < service.yml
+    - envsubst < deployment.yaml
+    - envsubst < ingress.yaml
+    - envsubst < service.yaml
     - kubectl apply -f deployment.yaml
     - kubectl apply -f service.yaml || true
     - kubectl apply -f ingress.yaml
