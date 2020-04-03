@@ -31,17 +31,18 @@ stages:
     key: '$CI_JOB_NAME-$CI_COMMIT_REF_SLUG'
     paths:
       - $CI_PROJECT_DIR/.cache
-  script:
+  before_script:
     - '[[ type jq ]] || apk add jq=~1'
-    - apk add --no-cache --virtual .gyp make python gcc postgresql-dev g++
     - find packages -maxdepth 1 -type d -not -name ${CONTEXT} | tail -n +2 |
       xargs -I {} sh -c "[[ -f "{}/package.json" ]] || exit 0 ; {
       rm {}/package.json ;
       jq 'del(.dependencies) | del(.devDependencies)' > {}/package.json
       ; } < {}/package.json"
+  script:
+    - '[[ type jq ]] || apk add jq=~1'
+    - "{ rm package.json; jq 'del(.dependencies) | del(.devDependencies)' > package.json; } < package.json"
     - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
-    - yarn --frozen-lockfile
-    - yarn lerna bootstrap
+    - yarn --frozen-lockfile --prefer-offline
   artifacts:
     expire_in: 1 day
     paths:
@@ -134,11 +135,8 @@ Register app image:
     - Install env
     - Build @gameofblocks/app
   before_script:
-    - mkdir ./packages/app/packages
-    - cp -r ./packages/env/ packages/app/packages/env
-    - cp lerna.json packages/app/lerna.json
     - cp yarn.lock packages/app/yarn.lock
-
+    - cp --dereference --recursive node_modules/* packages/app/node_modules/
   variables:
     CONTEXT: packages/app
     IMAGE_NAME: $CI_REGISTRY_IMAGE/app

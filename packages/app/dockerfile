@@ -8,10 +8,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY package.json yarn.lock /app/
-COPY ./packages/env /app/packages/env
-COPY lerna.json /app/
-
-RUN lerna bootstrap
+COPY ./node_modules /app/node_modules
 
 COPY ./next.config.js /app/
 COPY ./public/ /app/public
