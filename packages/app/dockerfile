@@ -5,7 +5,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN LS
+RUN ls
 COPY package.json yarn.lock /app/
 
 COPY ./next.config.js /app/
