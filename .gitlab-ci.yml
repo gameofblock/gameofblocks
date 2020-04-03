@@ -159,6 +159,7 @@ deploy_review:
     url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
   before_script:
     - apk add -u gettext
+    - apk add -u sponge
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
   script:
     - kubectl version
@@ -168,9 +169,9 @@ deploy_review:
     - echo $CI_REGISTRY_IMAGE
     - echo $CI_COMMIT_SHA
     - cd .k8s/
-    - envsubst < deployment.yaml
-    - envsubst < ingress.yaml
-    - envsubst < service.yaml
+    - envsubst < deployment.yaml | sponge "deployment.yaml"
+    - envsubst < ingress.yaml | sponge "ingress.yaml"
+    - envsubst < service.yaml | sponge "service.yaml"
     - kubectl apply -f deployment.yaml
     - kubectl apply -f service.yaml || true
     - kubectl apply -f ingress.yaml
