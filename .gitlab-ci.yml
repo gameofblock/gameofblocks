@@ -168,11 +168,11 @@ deploy_review:
     - echo $CI_REGISTRY_IMAGE
     - echo $CI_COMMIT_SHA
     - cd .k8s/
-    - envsubst < deployment.yaml | sponge "deployment.yaml"
-    - envsubst < ingress.yaml | sponge "ingress.yaml"
-    - envsubst < service.yaml | sponge "service.yaml"
-    - kubectl apply -f deployment.yaml
-    - kubectl apply -f service.yaml || true
-    - kubectl apply -f ingress.yaml
+    - envsubst < deployment.yaml > "/tmp/deployment.yaml"
+    - envsubst < ingress.yaml > "/tmp/ingress.yaml"
+    - envsubst < service.yaml > "/tmp/service.yaml"
+    - kubectl apply -f /tmp/deployment.yaml
+    - kubectl apply -f /tmp/service.yaml || true
+    - kubectl apply -f /tmp/ingress.yaml
     - kubectl rollout status -f deployment.yaml
     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
