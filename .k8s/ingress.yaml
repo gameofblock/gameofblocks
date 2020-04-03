@@ -2,24 +2,24 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: gameofblocks-__CI_ENVIRONMENT_SLUG__
-  namespace: gameofblocks-__CI_ENVIRONMENT_SLUG__
+  name: gameofblocks-${CI_ENVIRONMENT_SLUG}
+  namespace: gameofblocks-${CI_ENVIRONMENT_SLUG}
   labels:
     app: gameofblocks
-    ref: __CI_ENVIRONMENT_SLUG__
+    ref: ${CI_ENVIRONMENT_SLUG}
   annotations:
-    kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.class: 'nginx'
 spec:
   tls:
-  - hosts:
-    - __CI_ENVIRONMENT_SLUG__.dev.gameofblocks.io
-    secretName: __CI_ENVIRONMENT_SLUG__.dev.gameofblocks.io
+    - hosts:
+        - ${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
+      secretName: ${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
   rules:
-  - host: __CI_ENVIRONMENT_SLUG__.dev.gameofblocks.io
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: gameofblocks-__CI_ENVIRONMENT_SLUG__
-          servicePort: 80
+    - host: ${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: gameofblocks-${CI_ENVIRONMENT_SLUG}
+              servicePort: 80
