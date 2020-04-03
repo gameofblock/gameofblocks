@@ -34,9 +34,11 @@ spec:
             - name: AUTH0_CLIENT_SECRET
               value: ${AUTH0_CLIENT_SECRET}
             - name: AUTH0_CALLBACK_URL
-              value: 'http://test.tototo'
+              value: '${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io/callback'
             - name: APP_PORT
               value: '${APP_PORT}'
+            - name: SENDGRID_API_KEY
+              value: ${SENDGRID_API_KEY}
           ports:
             - name: http-metrics
               protocol: TCP
