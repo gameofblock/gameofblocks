@@ -135,9 +135,9 @@ Register app image:
     - Install env
     - Build @gameofblocks/app
   before_script:
-    - cp packages/app/dockerfile ./dockerfile
+    - cp yarn.lock packages/app/yarn.lock
   variables:
-    CONTEXT: ./
+    CONTEXT: packages/app
     IMAGE_NAME: $CI_REGISTRY_IMAGE/app
 
 ############### Deploy APP ###############################
