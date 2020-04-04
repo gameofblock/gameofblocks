@@ -155,6 +155,7 @@ deploy_review:
   except:
     - tags
   environment:
+    on_stop: stop_review
     name: review/$CI_BUILD_REF_NAME
     url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
   before_script:
@@ -178,3 +179,21 @@ deploy_review:
     - kubectl apply -f /tmp/ingress.yaml
     - kubectl rollout status -f /tmp/deployment.yaml
     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
+
+############### Stop APP ###############################
+
+stop_review:
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ['/bin/sh', '-c']
+  stage: 'Deploy'
+  variables:
+    GIT_STRATEGY: none
+  when: manual
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    action: stop
+  script:
+    - kubectl version
+    - kubectl delete ing -l ref=${CI_ENVIRONMENT_SLUG}
+    - kubectl delete all -l ref=${CI_ENVIRONMENT_SLUG}
