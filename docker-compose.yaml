@@ -26,9 +26,9 @@ services:
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_DB
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_ADMIN_SECRET: $HASURA_SECRET
-      HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256","jwk_url": "$DOCKER_HOST_URL:$API_PORT/auth/jwk"}'
+      HASURA_GRAPHQL_JWT_SECRET: $HASURA_JWT_SECRET
 
 volumes:
   gameofblocks-pgdata:
