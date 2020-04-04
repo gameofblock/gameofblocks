@@ -3,7 +3,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gameofblocks-${CI_ENVIRONMENT_SLUG}
-  namespace: gameofblocks-${CI_ENVIRONMENT_SLUG}
   labels:
     app: gameofblocks
     ref: ${CI_ENVIRONMENT_SLUG}

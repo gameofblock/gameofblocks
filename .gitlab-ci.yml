@@ -165,6 +165,7 @@ deploy_review:
     - echo $CI_BUILD_REF_NAME
     - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
     - echo $CI_REGISTRY
+    - echo $CI_COMMIT_REF_SLUG
     - echo https://${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
     - echo $CI_REGISTRY_IMAGE
     - echo $CI_COMMIT_SHA
