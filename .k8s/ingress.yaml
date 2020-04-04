@@ -13,7 +13,7 @@ spec:
   tls:
     - hosts:
         - ${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
-      secretName: ${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
+      secretName: gameofblocks.io
   rules:
     - host: ${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
       http:
