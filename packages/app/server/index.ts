@@ -21,7 +21,6 @@ const port = process.env.APP_PORT || 3000;
 
 (async (): Promise<void> => {
   try {
-    console.log(env);
     await app.prepare();
     const server = express();
 
@@ -59,7 +58,7 @@ const port = process.env.APP_PORT || 3000;
         clientSecret: env.AUTH0_CLIENT_SECRET,
         callbackURL: env.AUTH0_CALLBACK_URL,
       },
-      (profile, done) => {
+      (accessToken, refreshToken, extraParams, profile, done) => {
         return done(null, profile);
       }
     );
