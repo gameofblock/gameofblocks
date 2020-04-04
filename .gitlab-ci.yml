@@ -184,8 +184,14 @@ deploy_review:
 
 stop_review:
   stage: 'Deploy'
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ['/bin/sh', '-c']
   variables:
     GIT_STRATEGY: none
+  before_script:
+    - apk add -u gettext
+    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
   script:
     - echo "Remove review app"
     - kubctl delete ns gameofblocks-${CI_ENVIRONMENT_SLUG}
