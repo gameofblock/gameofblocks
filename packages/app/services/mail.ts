@@ -1,8 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import sgMail from '@sendgrid/mail';
 import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
+import env from '@gameofblocks/env';
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(env.SENDGRID_API_KEY);
 
 interface SentMailOptions {
   sandboxEnable: boolean;
@@ -18,7 +19,7 @@ export async function sendPasswordRecoveryEmail(
     throw new Error('email required');
   }
 
-  const sandboxEnable = process.env.SENDGRID_API_KEY === '';
+  const sandboxEnable = env.SENDGRID_API_KEY === '';
 
   const msg: MailDataRequired = {
     to: email,
