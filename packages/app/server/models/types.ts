@@ -6,8 +6,15 @@ export interface UserQueryVariables {
   authId: string;
 }
 
+export interface UserCreationVariables {
+  email: string;
+  picture: string;
+  authId: string;
+}
+
 export interface UserMutationResult {
   affected_rows: number;
+  returning: User[];
 }
 
 export interface User {

@@ -11,6 +11,15 @@ export const CREATE_USER = gql`
       }
     ) {
       affected_rows
+      returning {
+        id
+        active
+        auth_id
+        email
+        last_login
+        picture
+        username
+      }
     }
   }
 `;
