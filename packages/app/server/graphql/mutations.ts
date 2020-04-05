@@ -23,3 +23,18 @@ export const CREATE_USER = gql`
     }
   }
 `;
+
+export const UPDATE_LAST_LOGIN = gql`
+  mutation update_user_last_login($authId: String!, $lastLogin: timestamptz!) {
+    update_user(
+      where: { auth_id: { _eq: $authId } }
+      _set: { last_login: $lastLogin }
+    ) {
+      affected_rows
+      returning {
+        id
+        last_login
+      }
+    }
+  }
+`;

@@ -1,11 +1,12 @@
 import { client } from '../graphql/client';
 import { GET_USER } from '../graphql/queries';
-import { CREATE_USER } from '../graphql/mutations';
+import { CREATE_USER, UPDATE_LAST_LOGIN } from '../graphql/mutations';
 import {
   UserQueryResult,
   UserQueryVariables,
   UserMutationResult,
   UserCreationVariables,
+  UpdateLastLoginVariables,
   User,
 } from './types';
 
@@ -32,11 +33,23 @@ async function create(userToCreate: User): Promise<User> {
   return user;
 }
 
+async function updateLastLogin(authId: string): Promise<void> {
+  await client.mutate<{}, UpdateLastLoginVariables>({
+    mutation: UPDATE_LAST_LOGIN,
+    variables: {
+      authId,
+      lastLogin: new Date().toISOString(),
+    },
+  });
+}
+
 export async function loginUser(userToTest: User): Promise<User> {
   const { auth_id: authId } = userToTest;
   let user = await find(authId);
   if (!user) {
     user = await create(userToTest);
+  } else {
+    await updateLastLogin(authId);
   }
   return user;
 }

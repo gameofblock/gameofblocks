@@ -12,6 +12,11 @@ export interface UserCreationVariables {
   authId: string;
 }
 
+export interface UpdateLastLoginVariables {
+  authId: string;
+  lastLogin: string;
+}
+
 export interface UserMutationResult {
   affected_rows: number;
   returning: User[];
