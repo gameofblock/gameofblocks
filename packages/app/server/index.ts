@@ -12,7 +12,7 @@ import env from '@gameofblocks/env';
 
 import { logger } from '../utils/logger';
 import { handleError } from '../utils/error-handler';
-import authRoutes from './auth-routes';
+import authRoutes from './routes/auth';
 
 const dev = env.NODE_ENV !== 'production';
 const app = nextJs({ dev });
