@@ -1,11 +1,12 @@
-import express from 'express';
+import { Router } from 'express';
 import passport from 'passport';
 import bodyParser from 'body-parser';
 import env from '@gameofblocks/env';
 
-import { loginUser } from './user';
+import { logger } from '../../utils/logger';
+import { loginUser } from '../models/user';
 
-const router = express.Router();
+const router = Router();
 router.use(bodyParser.json());
 
 const { AUTH0_DOMAIN, AUTH0_CLIENT_ID, BASE_URL } = env;
@@ -30,6 +31,7 @@ router.get('/callback', (req, res, next) => {
 
     req.logIn(user, async (err) => {
       if (err) return next(err);
+      logger.info(user, 'Auhentication success');
 
       const {
         id,
