@@ -9,6 +9,7 @@ import {
   UpdateLastLoginVariables,
   User,
 } from './types';
+import { logger } from '../../utils/logger';
 
 async function find(authId: string): Promise<User> {
   const { data } = await client.query<UserQueryResult, UserQueryVariables>({
@@ -47,8 +48,10 @@ export async function loginUser(userToTest: User): Promise<User> {
   const { auth_id: authId } = userToTest;
   let user = await find(authId);
   if (!user) {
+    logger.info(`🚫 User ${authId} does not exist. User creation attempt...`);
     user = await create(userToTest);
   } else {
+    logger.info(`👋 User ${authId} logged in successfully`);
     await updateLastLogin(authId);
   }
   return user;

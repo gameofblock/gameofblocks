@@ -19,6 +19,20 @@ router.get(
   (req, res) => res.redirect('/')
 );
 
+router.get('/hasura', (req, res) => {
+  logger.info('🔒 Hasura webhook. Checking authentication...');
+
+  if (!req.isAuthenticated()) {
+    res.status(401);
+  } else {
+    res.status(200).json({
+      'X-Hasura-User-Id': '',
+      'X-Hasura-Role': 'user',
+    });
+  }
+  res.end();
+});
+
 router.get('/callback', (req, res, next) => {
   // eslint-disable-next-line consistent-return
   passport.authenticate('auth0', (error, user) => {
@@ -31,7 +45,8 @@ router.get('/callback', (req, res, next) => {
 
     req.logIn(user, async (err) => {
       if (err) return next(err);
-      logger.info(user, 'Auhentication success');
+
+      console.log('=> session', req.session);
 
       const {
         id,
