@@ -27,7 +27,7 @@ export async function loginUser(userToTest: User): Promise<User> {
   const { auth_id: authId } = userToTest;
   let user = await find(authId);
   if (!user) {
-    user = await create(user);
+    user = await create(userToTest);
   }
   return user;
 }
