@@ -3,8 +3,12 @@ import passport from 'passport';
 import bodyParser from 'body-parser';
 import env from '@gameofblocks/env';
 
+import { loginUser } from './user';
+
 const router = express.Router();
 router.use(bodyParser.json());
+
+const { AUTH0_DOMAIN, AUTH0_CLIENT_ID, BASE_URL } = env;
 
 router.get(
   '/login',
@@ -24,8 +28,16 @@ router.get('/callback', (req, res, next) => {
       return res.redirect('/login');
     }
 
-    req.logIn(user, (err) => {
+    req.logIn(user, async (err) => {
       if (err) return next(err);
+
+      const {
+        id,
+        _json: { email, picture },
+      } = user;
+
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      await loginUser({ auth_id: id, picture, email });
       return res.redirect('/');
     });
   })(req, res, next);
@@ -33,8 +45,6 @@ router.get('/callback', (req, res, next) => {
 
 router.get('/logout', (req, res) => {
   req.logout();
-
-  const { AUTH0_DOMAIN, AUTH0_CLIENT_ID, BASE_URL } = env;
   res.redirect(
     `https://${AUTH0_DOMAIN}/logout?client_id=${AUTH0_CLIENT_ID}&returnTo=${BASE_URL}`
   );
