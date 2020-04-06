@@ -20,6 +20,8 @@ router.get(
 );
 
 router.get('/hasura', (req, res) => {
+  console.log(req.session);
+
   logger.info('🔒 Hasura webhook. Checking authentication with session id...');
   if (!req.isAuthenticated()) {
     logger.info('🚫 Authentication is rejected');
