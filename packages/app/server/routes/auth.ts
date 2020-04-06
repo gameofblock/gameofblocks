@@ -20,11 +20,12 @@ router.get(
 );
 
 router.get('/hasura', (req, res) => {
-  logger.info('🔒 Hasura webhook. Checking authentication...');
-
+  logger.info('🔒 Hasura webhook. Checking authentication with session id...');
   if (!req.isAuthenticated()) {
+    logger.info('🚫 Authentication is rejected');
     res.status(401);
   } else {
+    logger.info('✅ Authentication is successful');
     res.status(200).json({
       'X-Hasura-User-Id': '',
       'X-Hasura-Role': 'user',
@@ -45,8 +46,6 @@ router.get('/callback', (req, res, next) => {
 
     req.logIn(user, async (err) => {
       if (err) return next(err);
-
-      console.log('=> session', req.session);
 
       const {
         id,
