@@ -17,9 +17,11 @@ export interface UpdateLastLoginVariables {
   lastLogin: string;
 }
 
-export interface UserMutationResult {
-  affected_rows: number;
-  returning: User[];
+export interface InsertUserMutationResult {
+  insert_user: {
+    affected_rows: number;
+    returning: User[];
+  };
 }
 
 export interface User {

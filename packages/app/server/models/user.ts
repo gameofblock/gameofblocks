@@ -4,7 +4,7 @@ import { CREATE_USER, UPDATE_LAST_LOGIN } from '../graphql/mutations';
 import {
   UserQueryResult,
   UserQueryVariables,
-  UserMutationResult,
+  InsertUserMutationResult,
   UserCreationVariables,
   UpdateLastLoginVariables,
   User,
@@ -23,14 +23,17 @@ async function find(authId: string): Promise<User> {
 async function create(userToCreate: User): Promise<User> {
   const { email, picture, auth_id: authId } = userToCreate;
   const { data } = await client.mutate<
-    UserMutationResult,
+    InsertUserMutationResult,
     UserCreationVariables
   >({
     mutation: CREATE_USER,
     variables: { email, picture, authId },
   });
 
-  const [user] = data.returning;
+  const {
+    insert_user: { returning },
+  } = data;
+  const [user] = returning;
   return user;
 }
 
