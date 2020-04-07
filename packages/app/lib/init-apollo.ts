@@ -5,7 +5,6 @@ import {
 } from 'apollo-boost';
 import { createHttpLink } from 'apollo-link-http';
 import fetch from 'isomorphic-unfetch';
-import nextCookies from 'next-cookies';
 import { InitApolloOptions } from 'next-with-apollo';
 
 const { GRAPHQL_SERVER_URI } = process.env;
@@ -17,16 +16,15 @@ function create(
 ): ApolloClient<NormalizedCacheObject> {
   const isBrowser = typeof window !== 'undefined';
 
-  const enchancedFetch = (url, init): Promise<Response> => {
-    const cookies = nextCookies(options.ctx);
-    return fetch(url, {
+  const enchancedFetch = async (url, init): Promise<Response> => {
+    const response = await fetch(url, {
       ...init,
-      credentials: 'include',
       headers: {
         ...init.headers,
-        Cookie: `${cookies.toString()};`,
+        Cookie: options.ctx.req.headers.cookie,
       },
     });
+    return response;
   };
 
   return new ApolloClient({
