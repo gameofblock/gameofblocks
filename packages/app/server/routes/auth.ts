@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import env from '@gameofblocks/env';
 
 import { logger } from '../../utils/logger';
-import { loginUser } from '../models/user';
+import { loginUser, find } from '../models/user';
 
 const router = Router();
 router.use(bodyParser.json());
@@ -19,19 +19,27 @@ router.get(
   (req, res) => res.redirect('/')
 );
 
-router.get('/hasura', (req, res) => {
-  console.log(req.session);
-
+router.get('/hasura', async (req, res) => {
   logger.info('🔒 Hasura webhook. Checking authentication with session id...');
   if (!req.isAuthenticated()) {
     logger.info('🚫 Authentication is rejected');
     res.status(401);
   } else {
     logger.info('✅ Authentication is successful');
-    res.status(200).json({
-      'X-Hasura-User-Id': '',
-      'X-Hasura-Role': 'user',
-    });
+    if (req.user) {
+      // TODO(remiroyc): find a better way to type req.user.
+      // @types/password defines an empty interface for User.
+      const { id } = req.user as { id: string };
+      const user = await find(id);
+      res.status(200).json({
+        'X-Hasura-User-Id': user.id,
+        'X-Hasura-Role': 'user',
+      });
+    } else {
+      res.status(200).json({
+        'X-Hasura-Role': 'anonymous',
+      });
+    }
   }
   res.end();
 });

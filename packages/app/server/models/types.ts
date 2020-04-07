@@ -24,7 +24,14 @@ export interface InsertUserMutationResult {
   };
 }
 
+export interface Auth0User {
+  auth_id: string;
+  email: string;
+  picture: string;
+}
+
 export interface User {
+  id: string;
   auth_id: string;
   email: string;
   picture: string;
