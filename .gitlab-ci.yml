@@ -152,6 +152,11 @@ deploy_review:
   stage: 'Deploy'
   only:
     - branches
+  variables:
+    CURL_HEADERS: '-H "Content-Type: application/json" -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}"'
+    CURL_BODY: '{"name": "${CI_ENVIRONMENT_SLUG}"}'
+    CURL_URL: "https://api.digitalocean.com/v2/databases/e6abcc13-1711-4424-a8d0-1d78bd12afff/dbs"
+    CURL_REQUEST: '-X POST $CURL_HEADERS --data '${CURL_BODY}' "${CURL_URL}"'
   except:
     - tags
   environment:
@@ -162,8 +167,6 @@ deploy_review:
     - apk add -u gettext
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
   script:
-    - snap install doctl
-    - doctl auth init --access-token $DIGITAL_OCEAN_TOKEN
     - kubectl version
     - echo $CI_BUILD_REF_NAME
     - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
@@ -172,6 +175,11 @@ deploy_review:
     - echo https://${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
     - echo $CI_REGISTRY_IMAGE
     - echo $CI_COMMIT_SHA
+    - echo $DIGITAL_OCEAN_TOKEN
+    - echo $CURL_HEADERS
+    - echo $CURL_BODY
+    - echo $CURL_REQUEST
+    - curl $CURL_REQUEST
     - cd .k8s/app
     - envsubst < deployment.yaml > "/tmp/deployment.yaml"
     - envsubst < ingress.yaml > "/tmp/ingress.yaml"
