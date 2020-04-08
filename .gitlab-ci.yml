@@ -162,6 +162,8 @@ deploy_review:
     - apk add -u gettext
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
   script:
+    - snap install doctl
+    - doctl auth init --access-token $DIGITAL_OCEAN_TOKEN
     - kubectl version
     - echo $CI_BUILD_REF_NAME
     - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
