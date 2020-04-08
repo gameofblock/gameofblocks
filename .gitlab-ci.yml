@@ -170,7 +170,7 @@ deploy_review:
     - echo https://${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
     - echo $CI_REGISTRY_IMAGE
     - echo $CI_COMMIT_SHA
-    - cd .k8s/
+    - cd .k8s/app
     - envsubst < deployment.yaml > "/tmp/deployment.yaml"
     - envsubst < ingress.yaml > "/tmp/ingress.yaml"
     - envsubst < service.yaml > "/tmp/service.yaml"
