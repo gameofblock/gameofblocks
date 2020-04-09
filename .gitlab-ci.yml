@@ -255,7 +255,7 @@ stop_review:
     GIT_STRATEGY: none
   when: manual
   environment:
-    name: review/$CI_BUILD_REF_NAME
+    name: review/$CI_BUILD_REF_NAME-app
     action: stop
   script:
     - kubectl version
