@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hasura-gameofblocks-${CI_ENVIRONMENT_SLUG}
+  labels:
+    app: hasura-gameofblocks
+    ref: hasura-${CI_ENVIRONMENT_SLUG}
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '8000'
+    prometheus.io/scheme: 'http'
+    prometheus.io/path: '/metrics'
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: hasura-gameofblocks
+    ref: hasura-${CI_ENVIRONMENT_SLUG}

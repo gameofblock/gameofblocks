@@ -200,24 +200,6 @@ deploy_review_app:
     - kubectl rollout status -f /tmp/deployment.yaml
     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
 
-############### Stop APP ###############################
-
-stop_review:
-  image:
-    name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ['/bin/sh', '-c']
-  stage: 'Deploy'
-  variables:
-    GIT_STRATEGY: none
-  when: manual
-  environment:
-    name: review/$CI_BUILD_REF_NAME
-    action: stop
-  script:
-    - kubectl version
-    - kubectl delete ing -l ref=${CI_ENVIRONMENT_SLUG}
-    - kubectl delete all -l ref=${CI_ENVIRONMENT_SLUG}
-
 ############### Deploy Hasura ###############################
 
 deploy_review_hasura:
@@ -239,7 +221,6 @@ deploy_review_hasura:
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
     - |-
       curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}" -d '{"name": "'"$CI_COMMIT_REF_SLUG"'"}' "https://api.digitalocean.com/v2/databases/${DATA_BASE_ID}/dbs"
-
   script:
     - kubectl version
     - echo $CI_BUILD_REF_NAME
@@ -253,7 +234,7 @@ deploy_review_hasura:
     - echo $CURL_HEADERS
     - echo $CURL_BODY
     - echo $CURL_REQUEST
-    - cd .k8s/app
+    - cd .k8s/hasura
     - envsubst < deployment.yaml > "/tmp/deployment.yaml"
     - envsubst < ingress.yaml > "/tmp/ingress.yaml"
     - envsubst < service.yaml > "/tmp/service.yaml"
@@ -262,3 +243,21 @@ deploy_review_hasura:
     - kubectl apply -f /tmp/ingress.yaml
     - kubectl rollout status -f /tmp/deployment.yaml
     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
+
+############### Stop APP ###############################
+
+stop_review:
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ['/bin/sh', '-c']
+  stage: 'Deploy'
+  variables:
+    GIT_STRATEGY: none
+  when: manual
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    action: stop
+  script:
+    - kubectl version
+    - kubectl delete ing -l ref=${CI_ENVIRONMENT_SLUG}
+    - kubectl delete all -l ref=${CI_ENVIRONMENT_SLUG}

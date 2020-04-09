@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hasura-gameofblocks-${CI_ENVIRONMENT_SLUG}
+  labels:
+    app: hasura-gameofblocks
+    ref: hasura-${CI_ENVIRONMENT_SLUG}
+    track: stable
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hasura-gameofblocks
+      ref: hasura-${CI_ENVIRONMENT_SLUG}
+  template:
+    metadata:
+      labels:
+        app: hasura-gameofblocks
+        ref: hasura-${CI_ENVIRONMENT_SLUG}
+        track: stable
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: app
+          image: ${CI_REGISTRY_IMAGE}/hasura:${CI_COMMIT_SHA}
+          imagePullPolicy: Always
+          env:
+            - name: AUTH0_DOMAIN
+              value: ${AUTH0_DOMAIN}
+            - name: AUTH0_CLIENT_ID
+              value: ${AUTH0_CLIENT_ID}
+            - name: AUTH0_CLIENT_SECRET
+              value: ${AUTH0_CLIENT_SECRET}
+            - name: AUTH0_CALLBACK_URL
+              value: '${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io/callback'
+            - name: APP_PORT
+              value: '${APP_PORT}'
+            - name: SENDGRID_API_KEY
+              value: ${SENDGRID_API_KEY}
+          ports:
+            - name: http-metrics
+              protocol: TCP
+              containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            timeoutSeconds: 2
