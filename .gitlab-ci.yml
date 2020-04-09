@@ -1,3 +1,6 @@
+include:
+  - local: .gitlab/ci/base_register_stage.yml
+
 variables:
   # CI variables
   DOCKER_DRIVER: overlay2
@@ -11,15 +14,154 @@ variables:
   PYTHON_VERSION: '3.6-alpine'
 
 stages:
-  - test
+  - 'Prepare'
+  - 'Build Image'
+  - 'Registration'
+  - 'Deploy'
 
-test:
+.prepare_stage:
+  stage: 'Prepare'
+  dependencies: []
+
+.base_yarn_workspace_install:
+  extends: .prepare_stage
+  image: node:13-alpine
+  interruptible: true
+  cache:
+    key: '$CI_JOB_NAME-$CI_COMMIT_REF_SLUG'
+    paths:
+      - $CI_PROJECT_DIR/.cache
+  before_script:
+    - '[[ type jq ]] || apk add jq=~1'
+    - find packages -maxdepth 1 -type d -not -name ${CONTEXT} | tail -n +2 |
+      xargs -I {} sh -c "[[ -f "{}/package.json" ]] || exit 0 ; {
+      rm {}/package.json ;
+      jq 'del(.dependencies) | del(.devDependencies)' > {}/package.json
+      ; } < {}/package.json"
+  script:
+    - '[[ type jq ]] || apk add jq=~1'
+    - "{ rm package.json; jq 'del(.dependencies) | del(.devDependencies)' > package.json; } < package.json"
+    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
+    - yarn --frozen-lockfile --prefer-offline
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - node_modules
+      - packages/${CONTEXT}/node_modules
+
+################################################################################################
+###################################               ##############################################
+###################################     PREPARE   ##############################################
+###################################               ##############################################
+################################################################################################
+
+Install app:
+  extends: .base_yarn_workspace_install
+  variables:
+    CONTEXT: app
+
+Install env:
+  extends: .base_yarn_workspace_install
+  variables:
+    CONTEXT: env
+
+################################################################################################
+###################################                    #########################################
+###################################     BUILD IMAGE    #########################################
+###################################                    #########################################
+################################################################################################
+
+Build @gameofblocks/app:
+  stage: 'Build Image'
+  variables:
+    INVALID_GIT_FILES_CHANGES: 'true'
+  dependencies:
+    - Install app
+    - Install env
+  needs:
+    - Install app
+    - Install env
+  image: node:12-alpine
+  script:
+    - yarn workspace @gameofblocks/app build
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - packages/app/.next
+      - packages/app/dist
+
+################################################################################################
+###################################                    #########################################
+###################################     REGISTRATION   #########################################
+###################################                    #########################################
+################################################################################################
+
+#
+# docker image registration
+# these base jobs can be reused to build and publish your docker images
+#
+
+.base_docker_image_stage:
+  image: docker:19
+  services:
+    - docker:19-dind
+
+.base_stage:
+  except:
+    variables:
+      # Don't run when running e2e tests
+      - $E2E_TEST
+      # Don't run when deploying in production an existing image
+      - $PRODUCTION
+      # Don't run when tagging a commit
+      - $RELEASE
+
+.register_stage:
+  extends: .base_stage
+  stage: 'Registration'
+  interruptible: true
+  dependencies: []
+
+Register app image:
+  extends:
+    - .base_register_stage
+    - .register_stage
+  dependencies:
+    - Install app
+    - Install env
+    - Build @gameofblocks/app
+  needs:
+    - Install app
+    - Install env
+    - Build @gameofblocks/app
+  before_script:
+    - cp yarn.lock packages/app/yarn.lock
+    - cp lerna.json packages/app/lerna.json
+    - mkdir packages/app/packages
+    - cp -r packages/env packages/app/packages/env
+  variables:
+    CONTEXT: packages/app
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/app
+
+############### Deploy APP ###############################
+
+deploy_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ['/bin/sh', '-c']
-  stage: test
+  stage: 'Deploy'
+  only:
+    - branches
+  except:
+    - tags
+  environment:
+    on_stop: stop_review
+    name: review/$CI_BUILD_REF_NAME
+    url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
   before_script:
+    - apk add -u gettext
     - apk add --update -t deps curl
+    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
   script:
     - kubectl version
     - echo $CI_BUILD_REF_NAME
@@ -35,3 +177,30 @@ test:
     - echo $CURL_REQUEST
     - |-
       curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}" -d '{"name": "'"$CI_COMMIT_REF_SLUG"'"}' "https://api.digitalocean.com/v2/databases/${DATA_BASE_ID}/dbs"
+    - cd .k8s/app
+    - envsubst < deployment.yaml > "/tmp/deployment.yaml"
+    - envsubst < ingress.yaml > "/tmp/ingress.yaml"
+    - envsubst < service.yaml > "/tmp/service.yaml"
+    - kubectl apply -f /tmp/deployment.yaml
+    - kubectl apply -f /tmp/service.yaml || true
+    - kubectl apply -f /tmp/ingress.yaml
+    - kubectl rollout status -f /tmp/deployment.yaml
+    - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
+
+############### Stop APP ###############################
+
+stop_review:
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ['/bin/sh', '-c']
+  stage: 'Deploy'
+  variables:
+    GIT_STRATEGY: none
+  when: manual
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    action: stop
+  script:
+    - kubectl version
+    - kubectl delete ing -l ref=${CI_ENVIRONMENT_SLUG}
+    - kubectl delete all -l ref=${CI_ENVIRONMENT_SLUG}
