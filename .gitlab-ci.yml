@@ -171,7 +171,7 @@ deploy_review_app:
     - tags
   environment:
     on_stop: stop_review
-    name: review/$CI_BUILD_REF_NAME
+    name: review/$CI_BUILD_REF_NAME-app
     url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
   before_script:
     - apk add -u gettext
@@ -213,7 +213,7 @@ deploy_review_hasura:
     - tags
   environment:
     on_stop: stop_review
-    name: review/$CI_BUILD_REF_NAME
+    name: review/$CI_BUILD_REF_NAME-hasura
     url: https://hasura-$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
   before_script:
     - apk add -u gettext
