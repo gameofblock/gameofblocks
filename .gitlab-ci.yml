@@ -212,7 +212,6 @@ deploy_review_hasura:
   except:
     - tags
   environment:
-    on_stop: stop_review
     name: review/$CI_BUILD_REF_NAME-hasura
     url: https://hasura-$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
   before_script:
