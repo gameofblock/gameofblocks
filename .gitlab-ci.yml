@@ -14,7 +14,7 @@ variables:
   PYTHON_VERSION: '3.6-alpine'
 
 stages:
-  - 'Create db'
+  - test
   # - 'Prepare'
   # - 'Build Image'
   # - 'Registration'
@@ -49,37 +49,6 @@ stages:
     paths:
       - node_modules
       - packages/${CONTEXT}/node_modules
-
-############### Deploy APP ###############################
-
-deploy_review:
-  image:
-    name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ['/bin/sh', '-c']
-  stage: 'Create db'
-  only:
-    - branches
-  except:
-    - tags
-  environment:
-    on_stop: stop_review
-    name: review/$CI_BUILD_REF_NAME
-    url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
-  script:
-    - kubectl version
-    - echo $CI_BUILD_REF_NAME
-    - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
-    - echo $CI_REGISTRY
-    - echo $CI_COMMIT_REF_SLUG
-    - echo https://${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
-    - echo $CI_REGISTRY_IMAGE
-    - echo $CI_COMMIT_SHA
-    - echo $DIGITAL_OCEAN_TOKEN
-    - echo $CURL_HEADERS
-    - echo $CURL_BODY
-    - echo $CURL_REQUEST
-    - |-
-      curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}" -d '{"name": "test"}' "https://api.digitalocean.com/v2/databases/${DATA_BASE_ID}/dbs"
 
 ################################################################################################
 ###################################               ##############################################
@@ -242,3 +211,26 @@ stop_review:
     - kubectl version
     - kubectl delete ing -l ref=${CI_ENVIRONMENT_SLUG}
     - kubectl delete all -l ref=${CI_ENVIRONMENT_SLUG}
+
+############### Deploy APP ###############################
+
+test:
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ['/bin/sh', '-c']
+  stage: 'test'
+  script:
+    - kubectl version
+    - echo $CI_BUILD_REF_NAME
+    - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
+    - echo $CI_REGISTRY
+    - echo $CI_COMMIT_REF_SLUG
+    - echo https://${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
+    - echo $CI_REGISTRY_IMAGE
+    - echo $CI_COMMIT_SHA
+    - echo $DIGITAL_OCEAN_TOKEN
+    - echo $CURL_HEADERS
+    - echo $CURL_BODY
+    - echo $CURL_REQUEST
+    - |-
+      curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}" -d '{"name": "test"}' "https://api.digitalocean.com/v2/databases/${DATA_BASE_ID}/dbs"
