@@ -17,7 +17,7 @@ test:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ['/bin/sh', '-c']
-  stage: 'test'
+  stage: test
   script:
     - kubectl version
     - echo $CI_BUILD_REF_NAME
