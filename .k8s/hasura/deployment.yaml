@@ -32,7 +32,7 @@ spec:
             - name: HASURA_GRAPHQL_PG_CONNECTIONS
               value: '6'
             - name: HASURA_GRAPHQL_DATABASE_URL
-              value: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@gameofblocks-do-user-6394442-0.a.db.ondigitalocean.com:25060/${$CI_COMMIT_REF_SLUG}?sslmode=require
+              value: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@gameofblocks-do-user-6394442-0.a.db.ondigitalocean.com:25060/${CI_COMMIT_REF_SLUG}?sslmode=require
             - name: HASURA_GRAPHQL_ADMIN_SECRET
               value: ${HASURA_SECRET}
             - name: HASURA_GRAPHQL_ENABLE_CONSOLE
