@@ -18,6 +18,8 @@ test:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ['/bin/sh', '-c']
   stage: test
+  before_script:
+    - apk add --update -t deps curl
   script:
     - kubectl version
     - echo $CI_BUILD_REF_NAME
