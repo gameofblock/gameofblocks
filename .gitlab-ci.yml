@@ -154,9 +154,10 @@ deploy_review:
     - branches
   variables:
     CURL_HEADERS: '-H "Content-Type: application/json" -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}"'
-    CURL_BODY: '{"name": "${CI_ENVIRONMENT_SLUG}"}'
-    CURL_URL: "https://api.digitalocean.com/v2/databases/e6abcc13-1711-4424-a8d0-1d78bd12afff/dbs"
-    CURL_REQUEST: '-X POST $CURL_HEADERS --data '${CURL_BODY}' "${CURL_URL}"'
+    BODY_DATA: '{"name": "${CI_ENVIRONMENT_SLUG}"}'
+    CURL_BODY: "--data '${BODY_DATA}'"
+    CURL_URL: "'https://api.digitalocean.com/v2/databases/e6abcc13-1711-4424-a8d0-1d78bd12afff/dbs'"
+    CURL_REQUEST: "-X POST ${CURL_HEADERS} ${CURL_BODY_F} ${CURL_URL}"
   except:
     - tags
   environment:
