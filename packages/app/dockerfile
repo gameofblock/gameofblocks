@@ -7,7 +7,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN apk add jq
 RUN npm i lerna -g --loglevel notice
-RUN npm install --loglevel notice
 
 COPY lerna.json package.json yarn.lock /app/
 RUN echo "`jq '.workspaces=["packages/*"]' package.json`" > package.json.tmp && mv -f package.json.tmp package.json
