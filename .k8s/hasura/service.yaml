@@ -15,7 +15,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 80
+      targetPort: 8080
   selector:
     app: hasura-gameofblocks
     ref: hasura-${CI_ENVIRONMENT_SLUG}
