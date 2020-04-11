@@ -1,0 +1,24 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hasura-gameofblocks-${CI_ENVIRONMENT_SLUG}
+  labels:
+    app: hasura-gameofblocks
+    ref: hasura-${CI_ENVIRONMENT_SLUG}
+  annotations:
+    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.class: 'nginx'
+spec:
+  tls:
+    - hosts:
+        - hasura-${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
+      secretName: gameofblocks.io
+  rules:
+    - host: hasura-${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hasura-gameofblocks-${CI_ENVIRONMENT_SLUG}
+              servicePort: 80
