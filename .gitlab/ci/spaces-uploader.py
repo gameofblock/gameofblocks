@@ -36,3 +36,5 @@ for f in files:
     transfer.upload_file(f, name_of_space, file_to_import)
     # This makes the file you are have specifically uploaded public by default. 
     response = client.put_object_acl(ACL='public-read', Bucket=name_of_space, Key=file_to_import)
+
+print(len(files) + " files uploaded")
