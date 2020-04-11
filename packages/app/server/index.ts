@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import nextJs from 'next';
-import http from 'http';
+import { createServer } from 'http';
 import expressPinoLogger from 'express-pino-logger';
 import uid from 'uid-safe';
 import session from 'express-session';
@@ -16,8 +16,9 @@ import authRoutes from './routes/auth';
 
 const dev = env.NODE_ENV !== 'production';
 const app = nextJs({ dev });
-const handle = app.getRequestHandler();
 const port = process.env.APP_PORT || 3000;
+
+const handle = app.getRequestHandler();
 
 (async (): Promise<void> => {
   try {
@@ -73,7 +74,7 @@ const port = process.env.APP_PORT || 3000;
     server.use(passport.session());
     server.use(authRoutes);
 
-    server.get('*', (req: Request, res: Response) => handle(req, res));
+    server.all('*', (req, res) => handle(req, res));
 
     server.use(
       async (err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -84,7 +85,7 @@ const port = process.env.APP_PORT || 3000;
       }
     );
 
-    http.createServer(server).listen(port, () => {
+    createServer(server).listen(port, () => {
       logger.info(
         `App is running at http://localhost:${port} in ${process.env.NODE_ENV} mode`
       );
