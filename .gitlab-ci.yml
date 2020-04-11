@@ -246,6 +246,7 @@ deploy_review_hasura:
 upload_to_cdn:
   image: 
     name: python:latest
+    entrypoint: ['/bin/sh', '-c']
   stage: 'Deploy'
   environment:
     name: review/$CI_BUILD_REF_NAME
