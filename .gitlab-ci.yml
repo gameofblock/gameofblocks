@@ -160,88 +160,88 @@ Register_hasura_image:
 
 ############### Deploy APP ###############################
 
-deploy_review_app:
-  image:
-    name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ['/bin/sh', '-c']
-  stage: 'Deploy'
-  only:
-    - branches
-  except:
-    - tags
-  environment:
-    on_stop: stop_review
-    name: review/$CI_BUILD_REF_NAME-app
-    url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
-  before_script:
-    - apk add -u gettext
-    - apk add --update -t deps curl
-    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
-  script:
-    - kubectl version
-    - echo $CI_BUILD_REF_NAME
-    - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
-    - echo $CI_REGISTRY
-    - echo $CI_COMMIT_REF_SLUG
-    - echo https://${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
-    - echo $CI_REGISTRY_IMAGE
-    - echo $CI_COMMIT_SHA
-    - echo $DIGITAL_OCEAN_TOKEN
-    - echo $CURL_HEADERS
-    - echo $CURL_BODY
-    - echo $CURL_REQUEST
-    - cd .k8s/app
-    - envsubst < deployment.yaml > "/tmp/deployment.yaml"
-    - envsubst < ingress.yaml > "/tmp/ingress.yaml"
-    - envsubst < service.yaml > "/tmp/service.yaml"
-    - kubectl apply -f /tmp/deployment.yaml
-    - kubectl apply -f /tmp/service.yaml || true
-    - kubectl apply -f /tmp/ingress.yaml
-    - kubectl rollout status -f /tmp/deployment.yaml
-    - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
+# deploy_review_app:
+#   image:
+#     name: lachlanevenson/k8s-kubectl:latest
+#     entrypoint: ['/bin/sh', '-c']
+#   stage: 'Deploy'
+#   only:
+#     - branches
+#   except:
+#     - tags
+#   environment:
+#     on_stop: stop_review
+#     name: review/$CI_BUILD_REF_NAME-app
+#     url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
+#   before_script:
+#     - apk add -u gettext
+#     - apk add --update -t deps curl
+#     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
+#   script:
+#     - kubectl version
+#     - echo $CI_BUILD_REF_NAME
+#     - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
+#     - echo $CI_REGISTRY
+#     - echo $CI_COMMIT_REF_SLUG
+#     - echo https://${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
+#     - echo $CI_REGISTRY_IMAGE
+#     - echo $CI_COMMIT_SHA
+#     - echo $DIGITAL_OCEAN_TOKEN
+#     - echo $CURL_HEADERS
+#     - echo $CURL_BODY
+#     - echo $CURL_REQUEST
+#     - cd .k8s/app
+#     - envsubst < deployment.yaml > "/tmp/deployment.yaml"
+#     - envsubst < ingress.yaml > "/tmp/ingress.yaml"
+#     - envsubst < service.yaml > "/tmp/service.yaml"
+#     - kubectl apply -f /tmp/deployment.yaml
+#     - kubectl apply -f /tmp/service.yaml || true
+#     - kubectl apply -f /tmp/ingress.yaml
+#     - kubectl rollout status -f /tmp/deployment.yaml
+#     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
 
 ############### Deploy Hasura ###############################
 
-deploy_review_hasura:
-  image:
-    name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ['/bin/sh', '-c']
-  stage: 'Deploy'
-  only:
-    - branches
-  except:
-    - tags
-  environment:
-    name: review/$CI_BUILD_REF_NAME-hasura
-    url: https://hasura-$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
-  before_script:
-    - apk add -u gettext
-    - apk add --update -t deps curl
-    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
-    - |-
-      curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}" -d '{"name": "'"$CI_COMMIT_REF_SLUG"'"}' "https://api.digitalocean.com/v2/databases/${DATA_BASE_ID}/dbs"
-  script:
-    - kubectl version
-    - echo $CI_BUILD_REF_NAME
-    - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
-    - echo $CI_REGISTRY
-    - echo $CI_COMMIT_REF_SLUG
-    - echo https://hasura-${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
-    - echo $CI_REGISTRY_IMAGE
-    - echo $CI_COMMIT_SHA
-    - echo $DIGITAL_OCEAN_TOKEN
-    - echo $CURL_HEADERS
-    - echo $CURL_BODY
-    - echo $CURL_REQUEST
-    - cd .k8s/hasura
-    - envsubst < deployment.yaml > "/tmp/deployment.yaml"
-    - envsubst < ingress.yaml > "/tmp/ingress.yaml"
-    - envsubst < service.yaml > "/tmp/service.yaml"
-    - kubectl apply -f /tmp/deployment.yaml
-    - kubectl apply -f /tmp/service.yaml || true
-    - kubectl apply -f /tmp/ingress.yaml
-    - kubectl rollout status -f /tmp/deployment.yaml
-    - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
+# deploy_review_hasura:
+#   image:
+#     name: lachlanevenson/k8s-kubectl:latest
+#     entrypoint: ['/bin/sh', '-c']
+#   stage: 'Deploy'
+#   only:
+#     - branches
+#   except:
+#     - tags
+#   environment:
+#     name: review/$CI_BUILD_REF_NAME-hasura
+#     url: https://hasura-$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
+#   before_script:
+#     - apk add -u gettext
+#     - apk add --update -t deps curl
+#     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
+#     - |-
+#       curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}" -d '{"name": "'"$CI_COMMIT_REF_SLUG"'"}' "https://api.digitalocean.com/v2/databases/${DATA_BASE_ID}/dbs"
+#   script:
+#     - kubectl version
+#     - echo $CI_BUILD_REF_NAME
+#     - echo "$CI_REGISTRY_IMAGE/app:$CI_COMMIT_SHA"
+#     - echo $CI_REGISTRY
+#     - echo $CI_COMMIT_REF_SLUG
+#     - echo https://hasura-${CI_ENVIRONMENT_SLUG}.dev.gameofblocks.io
+#     - echo $CI_REGISTRY_IMAGE
+#     - echo $CI_COMMIT_SHA
+#     - echo $DIGITAL_OCEAN_TOKEN
+#     - echo $CURL_HEADERS
+#     - echo $CURL_BODY
+#     - echo $CURL_REQUEST
+#     - cd .k8s/hasura
+#     - envsubst < deployment.yaml > "/tmp/deployment.yaml"
+#     - envsubst < ingress.yaml > "/tmp/ingress.yaml"
+#     - envsubst < service.yaml > "/tmp/service.yaml"
+#     - kubectl apply -f /tmp/deployment.yaml
+#     - kubectl apply -f /tmp/service.yaml || true
+#     - kubectl apply -f /tmp/ingress.yaml
+#     - kubectl rollout status -f /tmp/deployment.yaml
+#     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
 
 upload_to_cdn:
   image: 
@@ -255,24 +255,26 @@ upload_to_cdn:
     - branches
   except:
     - tags
+  before_script:
+    - pip install boto3
   script:
-    - cd .gitlab
+    - cd .gitlab/ci
     - python spaces-uploader.py
 
 ############### Stop APP ###############################
 
-stop_review:
-  image:
-    name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ['/bin/sh', '-c']
-  stage: 'Deploy'
-  variables:
-    GIT_STRATEGY: none
-  when: manual
-  environment:
-    name: review/$CI_BUILD_REF_NAME-app
-    action: stop
-  script:
-    - kubectl version
-    - kubectl delete ing -l ref=${CI_ENVIRONMENT_SLUG}
-    - kubectl delete all -l ref=${CI_ENVIRONMENT_SLUG}
+# stop_review:
+#   image:
+#     name: lachlanevenson/k8s-kubectl:latest
+#     entrypoint: ['/bin/sh', '-c']
+#   stage: 'Deploy'
+#   variables:
+#     GIT_STRATEGY: none
+#   when: manual
+#   environment:
+#     name: review/$CI_BUILD_REF_NAME-app
+#     action: stop
+#   script:
+#     - kubectl version
+#     - kubectl delete ing -l ref=${CI_ENVIRONMENT_SLUG}
+#     - kubectl delete all -l ref=${CI_ENVIRONMENT_SLUG}
