@@ -259,6 +259,7 @@ upload_to_cdn:
     - pip install boto3
   script:
     - cd .gitlab/ci
+    - echo $SPACES_KEY_ID
     - python spaces-uploader.py
 
 ############### Stop APP ###############################

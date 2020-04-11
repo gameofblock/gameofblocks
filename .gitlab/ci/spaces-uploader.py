@@ -1,14 +1,15 @@
 # https://medium.com/@brianobilo/uploading-files-to-digital-ocean-spaces-using-api-keys-and-boto3-1f24242f6cd7
-
+import os
 import boto3
 from boto3 import session
 from botocore.client import Config
 from boto3.s3.transfer import S3Transfer
 
 #Use the API Keys you generated at Digital Ocean
-ACCESS_ID = 'xxxxxxxxxxxxxxxxxxx'
-SECRET_KEY = 'xxxxxxxxxxxxxxxxxxx'
+ACCESS_ID = os.environ['SPACES_KEY_ID']
+SECRET_KEY = os.environ['SPACES_SECRET_ACCESS_KEY']
 
+print(ACCESS_ID)
 
 # # Initiate session
 # session = session.Session()
