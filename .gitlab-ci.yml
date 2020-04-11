@@ -243,6 +243,21 @@ deploy_review_hasura:
     - kubectl rollout status -f /tmp/deployment.yaml
     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
 
+upload_to_cdn:
+  image: 
+    name: python:latest
+  stage: 'Deploy'
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    url: https://$CI_ENVIRONMENT_SLUG.dev.gameofblocks.io
+  only:
+    - branches
+  except:
+    - tags
+  script:
+    - cd .gitlab
+    - python spaces-uploader.py
+
 ############### Stop APP ###############################
 
 stop_review:
