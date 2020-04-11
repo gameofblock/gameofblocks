@@ -52,7 +52,7 @@
     "@types/express": "4.17.6",
     "@types/jest": "25.2.1",
     "@types/jsonwebtoken": "8.3.9",
-    "@types/node": "13.11.0",
+    "@types/node": "13.11.1",
     "@types/passport-http-bearer": "1.0.35",
     "@types/passport-local": "1.0.33",
     "@types/pg": "7.14.3",
