@@ -1,18 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 
-import { USER } from './queries';
-
-interface QueryProps {
-  user: {
-    picture: string;
-    email: string;
-    last_login: string;
-  }[];
-}
+import { USER, UserQueryProps } from './queries';
 
 export const Profile: FunctionComponent = () => {
-  const { data, error, loading } = useQuery<QueryProps>(USER);
+  const { data, error, loading } = useQuery<UserQueryProps>(USER);
   if (error) {
     return <div>{error.message}</div>;
   }

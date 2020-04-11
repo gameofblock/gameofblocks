@@ -6,22 +6,22 @@ export interface UserQueryVariables {
   authId: string;
 }
 
-export interface UserCreationVariables {
+export interface CreateUserVariables {
   email: string;
   picture: string;
   authId: string;
 }
 
-export interface UpdateLastLoginVariables {
-  authId: string;
-  lastLogin: string;
-}
-
-export interface InsertUserMutationResult {
+export interface CreateUserMutationResult {
   insert_user: {
     affected_rows: number;
     returning: User[];
   };
+}
+
+export interface UpdateLastLoginVariables {
+  authId: string;
+  lastLogin: string;
 }
 
 export interface Auth0User {
