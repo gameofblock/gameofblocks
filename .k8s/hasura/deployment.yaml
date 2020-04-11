@@ -37,6 +37,8 @@ spec:
               value: ${HASURA_SECRET}
             - name: HASURA_GRAPHQL_ENABLE_CONSOLE
               value: 'true'
+            - name: HASURA_GRAPHQL_AUTH_HOOK
+              value: gameofblocks-${CI_ENVIRONMENT_SLUG}/hasura
           ports:
             - name: http-metrics
               protocol: TCP
