@@ -243,6 +243,23 @@ deploy_review_hasura:
     - kubectl rollout status -f /tmp/deployment.yaml
     - kubectl get deploy,svc,ing,pod -l app="$(echo ${CI_PROJECT_NAME} | tr "." "-")",ref="${CI_ENVIRONMENT_SLUG}"
 
+upload_to_cdn:
+  image: 
+    name: python:latest
+    entrypoint: ['/bin/sh', '-c']
+  stage: 'Deploy'
+  environment:
+    name: production
+    url: https://gameofblocks.io
+  only:
+    - master
+  before_script:
+    - pip install boto3
+  script:
+    - cd .gitlab/ci
+    - echo $SPACES_KEY_ID
+    - python spaces-uploader.py
+
 ############### Stop APP ###############################
 
 stop_review:
