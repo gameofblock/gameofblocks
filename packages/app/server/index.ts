@@ -3,16 +3,16 @@ import nextJs from 'next';
 import { createServer } from 'http';
 import expressPinoLogger from 'express-pino-logger';
 import uid from 'uid-safe';
-import session from 'express-session';
 import cors from 'cors';
 import passport from 'passport';
 import Auth0Strategy from 'passport-auth0';
-import MemoryStore from 'memorystore';
 import env from '@gameofblocks/env';
+import session from 'express-session';
 
 import { logger } from '../utils/logger';
 import { handleError } from '../utils/error-handler';
 import authRoutes from './routes/auth';
+import store, { MAX_AGE } from './session-store';
 
 const dev = env.NODE_ENV !== 'production';
 const app = nextJs({ dev });
@@ -25,17 +25,12 @@ const handle = app.getRequestHandler();
     await app.prepare();
     const server = express();
 
-    const SessionMemoryStore = MemoryStore(session);
-    const MAX_AGE = 86400000; // prune expired entries every 24h
-
     const sessionConfig = {
       secret: uid.sync(18),
       cookie: {
         maxAge: MAX_AGE,
       },
-      store: new SessionMemoryStore({
-        checkPeriod: MAX_AGE,
-      }),
+      store,
       resave: false,
       saveUninitialized: true,
     };

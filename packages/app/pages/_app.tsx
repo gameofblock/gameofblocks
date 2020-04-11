@@ -1,13 +1,26 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { AppProps } from 'next/app';
-import { NextPage } from 'next';
+import { ApolloProvider } from 'react-apollo';
+import withApollo, { WithApolloProps } from 'next-with-apollo';
+import { initApollo } from '../lib/init-apollo';
 
-const GameOfBlocks: NextPage<AppProps> = ({
-  Component,
-  pageProps,
-}: AppProps) => {
-  return <Component {...pageProps} />;
-};
+interface MainComponentProps extends WithApolloProps<any>, AppProps {}
 
-export default GameOfBlocks;
+class GameOfBlocks extends React.Component<MainComponentProps> {
+  static async getInitialProps() {
+    return {};
+  }
+
+  render() {
+    const { Component, pageProps, apollo } = this.props;
+    return (
+      <ApolloProvider client={apollo}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    );
+  }
+}
+
+export default withApollo(initApollo)(GameOfBlocks);

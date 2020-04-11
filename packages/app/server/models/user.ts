@@ -4,13 +4,15 @@ import { CREATE_USER, UPDATE_LAST_LOGIN } from '../graphql/mutations';
 import {
   UserQueryResult,
   UserQueryVariables,
-  UserMutationResult,
-  UserCreationVariables,
+  CreateUserMutationResult,
+  CreateUserVariables,
   UpdateLastLoginVariables,
   User,
+  Auth0User,
 } from './types';
+import { logger } from '../../utils/logger';
 
-async function find(authId: string): Promise<User> {
+export async function find(authId: string): Promise<User> {
   const { data } = await client.query<UserQueryResult, UserQueryVariables>({
     query: GET_USER,
     variables: { authId },
@@ -19,17 +21,20 @@ async function find(authId: string): Promise<User> {
   return data ? data.user[0] : null;
 }
 
-async function create(userToCreate: User): Promise<User> {
+async function create(userToCreate: Auth0User): Promise<User> {
   const { email, picture, auth_id: authId } = userToCreate;
   const { data } = await client.mutate<
-    UserMutationResult,
-    UserCreationVariables
+    CreateUserMutationResult,
+    CreateUserVariables
   >({
     mutation: CREATE_USER,
     variables: { email, picture, authId },
   });
 
-  const [user] = data.returning;
+  const {
+    insert_user: { returning },
+  } = data;
+  const [user] = returning;
   return user;
 }
 
@@ -43,12 +48,14 @@ async function updateLastLogin(authId: string): Promise<void> {
   });
 }
 
-export async function loginUser(userToTest: User): Promise<User> {
-  const { auth_id: authId } = userToTest;
+export async function loginUser(auth0User: Auth0User): Promise<User> {
+  const { auth_id: authId } = auth0User;
   let user = await find(authId);
   if (!user) {
-    user = await create(userToTest);
+    logger.info(`🚫 User ${authId} does not exist. User creation attempt...`);
+    user = await create(auth0User);
   } else {
+    logger.info(`👋 User ${authId} logged in successfully`);
     await updateLastLogin(authId);
   }
   return user;
