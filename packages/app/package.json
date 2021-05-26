@@ -56,7 +56,7 @@
     "@types/node": "13.11.1",
     "@types/passport-http-bearer": "1.0.35",
     "@types/passport-local": "1.0.33",
-    "@types/pg": "7.14.3",
+    "@types/pg": "7.14.11",
     "@types/pino": "5.17.0",
     "@types/react": "16.9.34",
     "@types/react-dom": "16.9.6",
