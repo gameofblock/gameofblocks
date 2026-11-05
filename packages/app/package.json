@@ -25,7 +25,7 @@
     "cors": "2.8.5",
     "cross-fetch": "3.0.4",
     "dotenv": "8.2.0",
-    "express": "4.17.1",
+    "express": "4.20.0",
     "express-pino-logger": "4.0.0",
     "express-session": "1.17.0",
     "formik": "2.1.4",
